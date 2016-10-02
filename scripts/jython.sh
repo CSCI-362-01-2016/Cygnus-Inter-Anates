@@ -8,7 +8,6 @@
 # using jMusic 1.7.0 with Gervill and Java 6 - see http://stackoverflow.com/questions/7749172/why-java-midi-synth-on-mac-stop-playing-notes
 # also with imgscalr – Java Image Scaling Library
 java -Xmx4096m -Dsun.sound.useNewAudioEngine=true -Dpython.home="../project/bin" -classpath "../project:../project/src/jython2.5.3/jython.jar:../project/src/jython2.5.3/Lib:../project/src/jMusic1.7/inst:../project/src/jMusic1.7/jmusic.jar:../project/src/jsyn/jsyn.jar:../project/src/imgscalr-lib-4.2/imgscalr-lib-4.2.jar:../project/src/javaosc-core.jar${CLASSPATH}" "org.python.util.jython" "$@"
-
 # using jMusic 1.7.0 with Gervill and Java 6 - see http://stackoverflow.com/questions/7749172/why-java-midi-synth-on-mac-stop-playing-notes
 #java -Xmx4096m -Dsun.sound.useNewAudioEngine=true -Dpython.home="." -classpath "./library:./library/jython2.5.3/jython.jar:./library/jython2.5.3/Lib:./library/jMusic1.7/inst:./library/jMusic1.7/jmusic.jar:./library/jsyn/jsyn.jar:./library/javaosc-core.jar${CLASSPATH}" "org.python.util.jython" "$@"
 

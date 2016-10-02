@@ -7,8 +7,10 @@ import music
 class TestNoteToFreq(unittest.TestCase):
 
     def test(self):
-        self.assertEqual(music.noteToFreq(69), 440)
-        self.assertEqual(music.noteToFreq(71), 493.8833012561241)
+        self.assertEqual(music.noteToFreq(eval(self.midi)), eval(self.frequency))
 
 if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        TestNoteToFreq.frequency = sys.argv.pop()
+        TestNoteToFreq.midi = sys.argv.pop()
     unittest.main()
