@@ -1,6 +1,6 @@
-01
+03
 calculate the frequency value of a given midi pitch
 music.py
 noteToFreq()
-70
-440.0
+72
+523.25

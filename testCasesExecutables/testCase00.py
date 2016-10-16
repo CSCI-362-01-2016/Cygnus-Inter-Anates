@@ -14,7 +14,7 @@ class TestNoteToFreq(unittest.TestCase):
 
     def test(self):
         """Test test test"""
-        self.assertEqual(music.noteToFreq(self.midi), self.frequency)
+        self.assertAlmostEqual(music.noteToFreq(self.midi), self.frequency, 2)
 
     def shortDescription(self):
         return self.description
