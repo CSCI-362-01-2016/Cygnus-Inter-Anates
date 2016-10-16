@@ -1,23 +1,6 @@
-import unittest
 import os, sys
-sys.path.append(os.path.join(os.path.dirname(__file__), "../project/src"))
-import music
-
-
-class TestNoteToFreq(unittest.TestCase):
-
-    def __init__(self, testname, description, midi, frequency):
-        super(TestNoteToFreq, self).__init__(testname)
-        self.description = description
-        self.midi = midi
-        self.frequency = frequency
-
-    def test(self):
-        """Test test test"""
-        self.assertEqual(music.noteToFreq(self.midi), self.frequency)
-
-    def shortDescription(self):
-        return self.description
+import unittest
+sys.path.append(os.path.join(os.path.dirname(__file__), "../testCasesExecutables"))
 
 class CustomResults(unittest.TestResult):
     # code modified from http://code.activestate.com/recipes/578866-python-unittest-obtain-the-results-of-all-the-test/
@@ -45,21 +28,14 @@ class CustomResults(unittest.TestResult):
     def addSuccess(self, test):
         self.tests_run.append([test.shortDescription(), self.testsRun, 1])
 
-
 if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        frequency = eval(sys.argv.pop())
-        midi = eval(sys.argv.pop())
-        description = sys.argv.pop()
+
+    testCase00 = __import__("testCase00")
 
     suite = unittest.TestSuite()
-    suite.addTest(TestNoteToFreq('test', description, midi, frequency))
-    suite.addTest(TestNoteToFreq('test', "testing2", 69, 440))
-    suite.addTest(TestNoteToFreq('test', "testing3", 69, 441))
+    suite.addTest(testCase00.TestNoteToFreq('test', "test1", 69, 440))
     result = CustomResults()
     suite.run(result)
 
     print
     print result.getTestsReport()
-
-    #unittest.TextTestRunner(verbosity=2).run(suite)
