@@ -1,24 +1,23 @@
-import os, sys
 import unittest
-sys.path.append(os.path.join(os.path.dirname(__file__), "../testCasesExecutables"))
+import os, sys
+sys.path.append(os.path.join(os.path.dirname(__file__), "../project/src"))
+import music
 
 
-def parse():
-    fileContents = []
-    for i in os.listdir('../testCases'):
-        filename = str(i)
-        f = open('../testCases/'+filename, 'r')
-        currentContents = []
-        for line in f:
-            currentContents.append(line)
-        fileContents.append(currentContents)
+class TestNoteToFreq(unittest.TestCase):
 
-    print fileContents
+    def __init__(self, testname, description, midi, frequency):
+        super(TestNoteToFreq, self).__init__(testname)
+        self.description = description
+        self.midi = midi
+        self.frequency = frequency
 
-    suite = unittest.TestSuite()
+    def test(self):
+        """Test test test"""
+        self.assertEqual(music.noteToFreq(self.midi), self.frequency)
 
-    return suite
-
+    def shortDescription(self):
+        return self.description
 
 class CustomResults(unittest.TestResult):
     # code modified from http://code.activestate.com/recipes/578866-python-unittest-obtain-the-results-of-all-the-test/
@@ -46,16 +45,21 @@ class CustomResults(unittest.TestResult):
     def addSuccess(self, test):
         self.tests_run.append([test.shortDescription(), self.testsRun, 1])
 
-if __name__ == '__main__':
 
-    testCase00 = __import__("testCase00")
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        frequency = eval(sys.argv.pop())
+        midi = eval(sys.argv.pop())
+        description = sys.argv.pop()
 
     suite = unittest.TestSuite()
-    suite.addTest(testCase00.TestNoteToFreq('test', "test1", 69, 440))
+    suite.addTest(TestNoteToFreq('test', description, midi, frequency))
+    suite.addTest(TestNoteToFreq('test', "testing2", 69, 440))
+    suite.addTest(TestNoteToFreq('test', "testing3", 69, 441))
     result = CustomResults()
     suite.run(result)
 
     print
     print result.getTestsReport()
 
-    parse()
+    #unittest.TextTestRunner(verbosity=2).run(suite)
