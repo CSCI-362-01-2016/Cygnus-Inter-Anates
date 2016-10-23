@@ -3,4 +3,5 @@ calculate the frequency value of a given midi pitch
 music
 noteToFreq
 48
-Almost 130.81
+testalmostequals
+130.81

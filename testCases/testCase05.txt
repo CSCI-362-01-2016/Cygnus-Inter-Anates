@@ -3,4 +3,5 @@ calculate the frequency value of a given midi pitch
 music
 noteToFreq
 150
-Exception ValueError
+testexception
+ValueError
