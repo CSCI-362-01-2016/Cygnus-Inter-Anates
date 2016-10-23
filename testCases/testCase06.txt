@@ -1,6 +1,7 @@
 05
 calculate the frequency value of a given midi pitch
-music.py
-noteToFreq()
+music
+noteToFreq
 -1
-Exception ValueError
+testexception
+ValueError
