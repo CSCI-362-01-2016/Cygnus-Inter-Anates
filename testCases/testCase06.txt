@@ -4,4 +4,4 @@ music
 noteToFreq
 -1
 testexception
-ValueError
+Exception
