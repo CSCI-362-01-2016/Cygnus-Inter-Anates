@@ -112,6 +112,9 @@ class JythonMusicTestCase(unittest.TestCase):
     def testalmostequals(self):
         self.assertAlmostEqual(self.actualResults, self.outputValue, 2)
 
+    def testexception(self):
+        self.assertIsInstance(self.actualResults, self.outputValue)
+
     def shortDescription(self):
         return self.description
 

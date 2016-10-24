@@ -27,26 +27,26 @@
             <td>440.0</td>
         </tr>
         
-        <tr class="status:fail">
+        <tr class="status:success">
             <td>01</td>
             <td>calculate the frequency value of a given midi pitch</td>
             <td>music</td>
             <td>noteToFreq</td>
             <td>testalmostequals</td>
-            <td>[70]</td>
-            <td>440.0</td>
-            <td>466.163761518</td>
+            <td>[48]</td>
+            <td>130.81</td>
+            <td>130.81278265</td>
         </tr>
         
         <tr class="status:success">
             <td>02</td>
-            <td>Create range of floats</td>
+            <td>calculate the frequency value of a given midi pitch</td>
             <td>music</td>
-            <td>frange</td>
-            <td>testequals</td>
-            <td>[1.0, 5.0, 0.5]</td>
-            <td>[1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5]</td>
-            <td>[1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5]</td>
+            <td>noteToFreq</td>
+            <td>testalmostequals</td>
+            <td>[72]</td>
+            <td>523.25</td>
+            <td>523.251130601</td>
         </tr>
         
         <tr class="status:success">
@@ -55,9 +55,53 @@
             <td>music</td>
             <td>noteToFreq</td>
             <td>testalmostequals</td>
-            <td>[72]</td>
-            <td>523.25</td>
-            <td>523.251130601</td>
+            <td>[1]</td>
+            <td>8.66</td>
+            <td>8.66195721803</td>
+        </tr>
+        
+        <tr class="status:success">
+            <td>04</td>
+            <td>calculate the frequency value of a given midi pitch</td>
+            <td>music</td>
+            <td>noteToFreq</td>
+            <td>testalmostequals</td>
+            <td>[127]</td>
+            <td>12543.85</td>
+            <td>12543.8539514</td>
+        </tr>
+        
+        <tr class="status:error">
+            <td>05</td>
+            <td>calculate the frequency value of a given midi pitch</td>
+            <td>music</td>
+            <td>noteToFreq</td>
+            <td>testexception</td>
+            <td>[150]</td>
+            <td><type 'exceptions.ValueError'></td>
+            <td>47359.2861071</td>
+        </tr>
+        
+        <tr class="status:error">
+            <td>06</td>
+            <td>calculate the frequency value of a given midi pitch</td>
+            <td>music</td>
+            <td>noteToFreq</td>
+            <td>testexception</td>
+            <td>[-1]</td>
+            <td><type 'exceptions.Exception'></td>
+            <td>7.71692658213</td>
+        </tr>
+        
+        <tr class="status:success">
+            <td>07</td>
+            <td>Create range of floats</td>
+            <td>music</td>
+            <td>frange</td>
+            <td>testequals</td>
+            <td>[1.0, 5.0, 0.5]</td>
+            <td>[1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5]</td>
+            <td>[1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5]</td>
         </tr>
         
                 </table>
