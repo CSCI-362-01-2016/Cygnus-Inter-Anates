@@ -45,7 +45,7 @@ class SetupTests():
         for test in self.fileContents:
             suite.addTest(jythonMusicTestCase.JythonMusicTestCase(test[5].lower(), test[1], test[2], test[3], test[6], test[4], test[0]))
 
-        reportFile = open('../reports/report.html', 'w')
+        reportFile = open('../reports/testReport.html', 'w')
         result = jythonMusicTestCase.CustomResults(reportFile, reportFile)
         suite.run(result)
         result.getHTMLReport()
