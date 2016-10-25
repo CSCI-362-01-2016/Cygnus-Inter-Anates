@@ -25,7 +25,7 @@ class CustomResults(unittest.TestResult):
 
     def getHTMLReport(self):
         rowTemplate = """
-        <tr class="%(success)s">
+        <tr>
             <td>%(testNumber)s</td>
             <td>%(testDescription)s</td>
             <td>%(testModule)s</td>
@@ -34,6 +34,7 @@ class CustomResults(unittest.TestResult):
             <td>%(inputs)s</td>
             <td>%(expected)s</td>
             <td>%(actual)s</td>
+            <td class="%(success)s">%(success)s</td>
         </tr>
         """
 
@@ -111,7 +112,7 @@ class JythonMusicTestCase(unittest.TestCase):
         self.assertEqual(self.actualResults, self.outputValue)
 
     def testalmostequals(self):
-        self.assertAlmostEqual(self.actualResults, self.outputValue, 2)
+        self.assertAlmostEqual(self.actualResults, self.outputValue, 2) #Allow tester to set precision
 
     def testexception(self):
         self.assertIsInstance(self.actualResults, self.outputValue)
