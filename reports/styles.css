@@ -1,0 +1,11 @@
+.success {
+  color: #20FF01;
+}
+
+.fail {
+  color: #FF0000;
+}
+
+.error {
+  color: #FFA500;
+}
