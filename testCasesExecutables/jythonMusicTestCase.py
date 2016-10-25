@@ -25,7 +25,7 @@ class CustomResults(unittest.TestResult):
 
     def getHTMLReport(self):
         rowTemplate = """
-        <tr class="status:%(success)s">
+        <tr class="%(success)s">
             <td>%(testNumber)s</td>
             <td>%(testDescription)s</td>
             <td>%(testModule)s</td>
@@ -41,6 +41,7 @@ class CustomResults(unittest.TestResult):
         <html>
             <head>
                 <title>Test Results</title>
+                <link rel="stylesheet" href="styles.css"/>
             </head>
             <body>
                 <table>
