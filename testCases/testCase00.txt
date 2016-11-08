@@ -4,4 +4,4 @@ music
 noteToFreq
 69
 testalmostequals
-440.0
+440.00
