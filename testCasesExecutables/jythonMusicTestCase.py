@@ -128,7 +128,7 @@ class JythonMusicTestCase(unittest.TestCase):
         'testDescription': self.description,
         'testModule': self.testModule,
         'testFunction': self.testFunction,
-        'testName': self.testname,
+        'testName': self.testname[0],
         'inputs': self.inputs,
         'expected': self.outputValue,
         'actual': self.actualResults
