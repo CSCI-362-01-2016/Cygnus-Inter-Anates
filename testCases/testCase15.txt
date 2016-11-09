@@ -1,0 +1,7 @@
+15
+calculate the midi pith of a given frequency value
+music
+freqToNote
+440.0
+testequals
+69, 0
