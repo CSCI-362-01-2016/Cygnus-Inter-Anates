@@ -89,14 +89,16 @@ class CustomResults(unittest.TestResult):
 class JythonMusicTestCase(unittest.TestCase):
 
     def __init__(self, testname, description, testModule, testFunction, outputValue, inputs, testNumber=None):
-        super(JythonMusicTestCase, self).__init__(testname)
-        self.testname = testname
+        super(JythonMusicTestCase, self).__init__(testname[0])
+        self.testname = testname[0]
         self.description = description
         self.inputs = inputs
         self.testModule = testModule
         self.testFunction = testFunction
         self.outputValue = outputValue
         self.testNumber = testNumber
+        if testname[0] == "testalmostequals":
+            self.testalmostequalsprecison = testname[1]
         self.importModules()
         self.actualResults = getattr(getattr(self, self.testModule), self.testFunction)(*self.inputs)
 
@@ -112,7 +114,7 @@ class JythonMusicTestCase(unittest.TestCase):
         self.assertEqual(self.actualResults, self.outputValue)
 
     def testalmostequals(self):
-        self.assertAlmostEqual(self.actualResults, self.outputValue, 2) #Allow tester to set precision
+        self.assertAlmostEqual(self.actualResults, self.outputValue, self.testalmostequalsprecison) #Allow tester to set precision
 
     def testexception(self):
         self.assertIsInstance(self.actualResults, self.outputValue)
@@ -126,7 +128,7 @@ class JythonMusicTestCase(unittest.TestCase):
         'testDescription': self.description,
         'testModule': self.testModule,
         'testFunction': self.testFunction,
-        'testName': self.testname,
+        'testName': self.testname[0],
         'inputs': self.inputs,
         'expected': self.outputValue,
         'actual': self.actualResults

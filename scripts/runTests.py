@@ -23,7 +23,11 @@ def parse():
         fileContents[i][4] = testInput
 
         # equals, almostEquals
-        testType = fileContents[i][5]
+        if fileContents[i][5][:16] == 'testalmostequals':
+            testType = ["testalmostequals",eval(fileContents[i][5][17:])]
+        else:
+            testType = [fileContents[i][5]]
+        fileContents[i][5] = testType
 
         #Evaluate output, keep the same if it is a string
         try:
@@ -43,7 +47,8 @@ class SetupTests():
     def run(self):
         suite = unittest.TestSuite()
         for test in self.fileContents:
-            suite.addTest(jythonMusicTestCase.JythonMusicTestCase(test[5].lower(), test[1], test[2], test[3], test[6], test[4], test[0]))
+            test[5][0].lower()
+            suite.addTest(jythonMusicTestCase.JythonMusicTestCase(test[5], test[1], test[2], test[3], test[6], test[4], test[0]))
 
         reportFile = open('../reports/testReport.html', 'w')
         result = jythonMusicTestCase.CustomResults(reportFile, reportFile)
