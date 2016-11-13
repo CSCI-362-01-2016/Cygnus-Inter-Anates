@@ -1,0 +1,7 @@
+12
+calculate the color gradient given two colors and a step
+gui
+colorGradient
+[100,100,0], [100,100,0], 3
+testequals
+[[100,100,0],[100,100,0],[100,100,0]]
