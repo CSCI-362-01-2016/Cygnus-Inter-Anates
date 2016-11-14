@@ -1,0 +1,7 @@
+19
+calculate the midi pitch of a given frequency value
+music
+freqToNote
+2003.9
+testequals
+95, 1011
