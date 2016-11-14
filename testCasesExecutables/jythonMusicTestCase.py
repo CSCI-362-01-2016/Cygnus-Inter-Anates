@@ -133,7 +133,7 @@ class JythonMusicTestCase(unittest.TestCase):
         if self.testClass == None:
             self.actualResults = getattr(getattr(self, self.testModule), self.testFunction)(*self.inputs)
         else:
-            self.executableName = "testCase" + str(testNumber)
+            self.executableName = "testCase_" + str(testClass) + "_" + str(testFunction)
             setattr(self, self.executableName, __import__(self.executableName))
             self.actualResults = getattr(self, self.executableName).test(*self.inputs)
 

@@ -1,0 +1,7 @@
+22
+Get if the delay time interval (in milliseconds)
+timer Timer2
+getDelay
+1000
+testequals
+1000
