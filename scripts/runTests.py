@@ -16,6 +16,13 @@ def parse():
         fileContents.append(currentContents)
     for i in range(len(fileContents)):
         #Evaluate input, keep the same if it is a string
+        line2 = fileContents[i][2].split(" ")
+        if len(line2) == 1:
+            testModule = line2[0]
+        else:
+            testModule = line2[0]
+            fileContents[i].append(line2[1])
+        fileContents[i][2]
         try:
             testInput = eval('[' + fileContents[i][4] + ']')
         except:
@@ -48,8 +55,10 @@ class SetupTests():
         suite = unittest.TestSuite()
         for test in self.fileContents:
             test[5][0].lower()
-            suite.addTest(jythonMusicTestCase.JythonMusicTestCase(test[5], test[1], test[2], test[3], test[6], test[4], test[0]))
-
+            if len(test) == 7:
+                suite.addTest(jythonMusicTestCase.JythonMusicTestCase(test[5], test[1], test[2], test[3], test[6], test[4], test[0]))
+            else:
+                suite.addTest(jythonMusicTestCase.JythonMusicTestCase(test[5], test[1], test[2], test[3], test[6], test[4], test[0], test[7]))
         reportFile = open('../reports/testReport.html', 'w')
         result = jythonMusicTestCase.CustomResults(reportFile, reportFile)
         suite.run(result)

@@ -1,6 +1,6 @@
 import unittest
 import os, sys
-
+from types import *
 class Template:
 
     def __init__(self, template, dict):
@@ -86,9 +86,34 @@ class CustomResults(unittest.TestResult):
         self.tests_run.append(info)
 
 
+def initializeGeneralClass(base):
+    class GeneralClass(base):
+
+        def __init__(self, initArgs):
+            super(GeneralClass, self).__init__(*initArgs)
+
+        def test(self):
+            attrDict = {}
+            for key in dir(self):
+                if(hasattr(self, key)) and (not isinstance(getattr(self, key), FunctionType) and key == 'test'):
+                    print key + ": " + `getattr(self,key)`
+                    attrDict[key] = getattr(self,key)
+            return attrDict
+
+        def __eq__(self,other):
+            if instance(other, self.__class__):
+                return self.__dict__ == other.__dict__
+
+        def __ne__(self, other):
+            return not self.__eq__(other)
+
+
+    return GeneralClass
+
+
 class JythonMusicTestCase(unittest.TestCase):
 
-    def __init__(self, testname, description, testModule, testFunction, outputValue, inputs, testNumber=None):
+    def __init__(self, testname, description, testModule, testFunction, outputValue, inputs, testNumber=None, testClass = None):
         super(JythonMusicTestCase, self).__init__(testname[0])
         self.testname = testname[0]
         self.description = description
@@ -97,10 +122,21 @@ class JythonMusicTestCase(unittest.TestCase):
         self.testFunction = testFunction
         self.outputValue = outputValue
         self.testNumber = testNumber
+        self.testClass = testClass
         if testname[0] == "testalmostequals":
             self.testalmostequalsprecison = testname[1]
         self.importModules()
-        self.actualResults = getattr(getattr(self, self.testModule), self.testFunction)(*self.inputs)
+        # if self.testModule == 'music':
+        #     TestNoteClass = initializeGeneralClass(getattr(self, self.testModule).Note)
+        #     testNoteObj = TestNoteClass([getattr(self, self.testModule).A4, 4.0])
+        #     print testNoteObj.test()
+        if self.testClass == None:
+            self.actualResults = getattr(getattr(self, self.testModule), self.testFunction)(*self.inputs)
+        else:
+            self.executableName = "testCase" + str(testNumber)
+            setattr(self, self.executableName, __import__(self.executableName))
+            self.actualResults = getattr(self, self.executableName).test(*self.inputs)
+
 
     def importModules(self):
         sys.path.append(os.path.join(os.path.dirname(__file__), "../project/src"))
