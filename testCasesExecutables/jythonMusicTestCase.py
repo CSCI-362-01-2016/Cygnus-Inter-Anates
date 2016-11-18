@@ -131,12 +131,17 @@ class JythonMusicTestCase(unittest.TestCase):
         #     testNoteObj = TestNoteClass([getattr(self, self.testModule).A4, 4.0])
         #     print testNoteObj.test()
         if self.testClass == None:
-            self.actualResults = getattr(getattr(self, self.testModule), self.testFunction)(*self.inputs)
+            try:
+                self.actualResults = getattr(getattr(self, self.testModule), self.testFunction)(*self.inputs)
+            except Exception, e:
+                self.actualResults = type(e)
         else:
             self.executableName = "testCase_" + str(testClass) + "_" + str(testFunction)
             setattr(self, self.executableName, __import__(self.executableName))
-            self.actualResults = getattr(self, self.executableName).test(*self.inputs)
-
+            try:
+                self.actualResults = getattr(self, self.executableName).test(*self.inputs)
+            except Exception, e:
+                self.actualResults = type(e)
 
     def importModules(self):
         sys.path.append(os.path.join(os.path.dirname(__file__), "../project/src"))
@@ -153,7 +158,8 @@ class JythonMusicTestCase(unittest.TestCase):
         self.assertAlmostEqual(self.actualResults, self.outputValue, self.testalmostequalsprecison) #Allow tester to set precision
 
     def testexception(self):
-        self.assertIsInstance(self.actualResults, self.outputValue)
+        self.assertEqual(self.actualResults, self.outputValue)
+
 
     def shortDescription(self):
         return self.description
