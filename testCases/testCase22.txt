@@ -1,7 +1,7 @@
 22
-Get if the delay time interval (in milliseconds)
+Get if the timer repeats or not
 timer Timer2
-getDelay
-1000
+getRepeat
+True
 testequals
-1000
+True
