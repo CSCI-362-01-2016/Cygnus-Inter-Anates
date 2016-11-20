@@ -157,10 +157,6 @@ class JythonMusicTestCase(unittest.TestCase):
     def testalmostequals(self):
         self.assertAlmostEqual(self.actualResults, self.outputValue, self.testalmostequalsprecison) #Allow tester to set precision
 
-    def testexception(self):
-        self.assertEqual(self.actualResults, self.outputValue)
-
-
     def shortDescription(self):
         return self.description
 
