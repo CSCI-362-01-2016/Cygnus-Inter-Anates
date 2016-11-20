@@ -1,7 +1,7 @@
 15
-calculate the midi pitch of a given frequency value
-music
-freqToNote
-440.0
+calculate the color gradient given two colors and a step
+gui
+colorGradient
+[0,0,0], [255,255,255], 2
 testequals
-69, 0
+[[0,0,0],[127,127,127]]
