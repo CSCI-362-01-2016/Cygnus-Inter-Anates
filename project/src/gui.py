@@ -26,34 +26,34 @@
 # This library is based on Java's Swing GUI library.  It can be used to build
 # GUIs in jython.  The purpose of this library is to provide a cleaner, simpler,
 # easier-to-use alternative to Swing.  The gui.py library keeps simple things simple,
-# and makes complicated things possible.  
+# and makes complicated things possible.
 #
 # This package imports the Swing Java packages, and provides functions
 # for creating widgets and drawable objects.  Event handler functions are passed as parameters.
-# The concept of Java classes and listeners are hidden from the end-user (GUI programmer).  
+# The concept of Java classes and listeners are hidden from the end-user (GUI programmer).
 # Only event handling functions (callbacks) need to be defined.
 #
 # REVISIONS:
 #
 #   3.5     26-Dec-2015 (bm)  Added setX(), getX(), setY(), getY() functions to every object.
 #						Also, changed mouse events to translate / remap coordinates
-#                       for JPanel components, so, when a mouse event occurs with a GUI object's 
+#                       for JPanel components, so, when a mouse event occurs with a GUI object's
 #                       JPanel, the global (enclosing Display) coordinates are communicated (instead
-#                       of the internal JPanel coordinates, which were returned up until now).  
+#                       of the internal JPanel coordinates, which were returned up until now).
 #                       This translation / remapping makes things more natural for the end-user (programmer),
-#                       as it allows them to always work using global (enclosing Display) coordinates.  
+#                       as it allows them to always work using global (enclosing Display) coordinates.
 #
 #   3.4     01-Dec-2015 (bm)  Added Icon functions, setHeight(), setWidth(), getPixel(), setPixel(),
-#						getPixels(), and setPixels().  This is to introduce consistency with functions 
-#						available in Image library (see image.py). 
+#						getPixels(), and setPixels().  This is to introduce consistency with functions
+#						available in Image library (see image.py).
 #
 #   3.3     16-Feb-2015 (bm)  Added Display.close() function.  This will call onClose() callback
-#                       if provided. 
+#                       if provided.
 #
-#   3.2     19-Nov-2014 (bm)  Fixed bug in Icon resizing.  Now, we resize to best fit provided 
+#   3.2     19-Nov-2014 (bm)  Fixed bug in Icon resizing.  Now, we resize to best fit provided
 #                       dimensions (as opposed to maintaining image proportions at all costs).
 #                       Also fixed bug in cleaning up objects after JEM's stop button is pressed -
-#                       if list of active objects already exists, we do not redefine it - thus, we 
+#                       if list of active objects already exists, we do not redefine it - thus, we
 #                       do not lose older objects, and can still clean them up.
 #
 #   3.1     06-Nov-2014 (bm)  Added functionality to properly close displays and clean-up GUI objects
@@ -62,17 +62,17 @@
 #   3.0     01-Nov-2014 (bm)  Fixed Point() and drawPoint() to display properly.
 #
 #   2.99    23-Oct-2014 (bm)  Added Display.getItems() which returns a list of items currently
-#                       on the display.  Also, for convenience, modified colorGradient() to 
-#                       also work with java.awt.Color parameters, in which case it returns 
+#                       on the display.  Also, for convenience, modified colorGradient() to
+#                       also work with java.awt.Color parameters, in which case it returns
 #                       a list of java.awt.Color colors.
 #
 #   2.98    02-Oct-2014 (bm)  Updated Label() to be able to set/get foreground (text) color,
-#                       and background color.  
+#                       and background color.
 #
-#   2.97    28-Aug-2014 (bm)  Added Arc() graphics object and Display.drawArc() function.  
-#                       An arc specified by two diagonal corners, the start angle, and the end angle.  
-#                       Angles are interpreted such that 0 degrees is at the three o'clock position. 
-#                       A positive value indicates a counter-clockwise rotation while 
+#   2.97    28-Aug-2014 (bm)  Added Arc() graphics object and Display.drawArc() function.
+#                       An arc specified by two diagonal corners, the start angle, and the end angle.
+#                       Angles are interpreted such that 0 degrees is at the three o'clock position.
+#                       A positive value indicates a counter-clockwise rotation while
 #                       a negative value indicates a clockwise rotation.
 #
 #                       Also added antialiasing in the rendering of GUI objects.  Nice!
@@ -81,9 +81,9 @@
 #
 #   2.95    28-Jan-2014 (bm) Using the imgscalr Java library for resizing images.
 #
-#   2.94    22-Nov-2013 (dj)  Added Display.addOrder() function.  This adds layering 
-#                       capabilities to the standard add method.  The object is added to the 
-#                       display at the specified order. Layers are ordered from smallest to 
+#   2.94    22-Nov-2013 (dj)  Added Display.addOrder() function.  This adds layering
+#                       capabilities to the standard add method.  The object is added to the
+#                       display at the specified order. Layers are ordered from smallest to
 #                       largest where 0 is the closet to the front of the display.
 #
 #   2.93    02-Jun-2013 (bm) Adjusted Point() to be a circle with radius 0 (vs. 1).
@@ -97,11 +97,11 @@
 #   2.9     17-Apr-2013 (bm) Changed Checkbox callback function to accept one parameter, i.e.,
 #                       the state of the checkbox (True means checked, False means unchecked)
 #
-#   2.8     10-Apr-2013 (bm) Add +1 to JPanel size for lines, circles, etc.  Also, added 
-#                       getPosition() for all widgets, which returns a widget's (x, y) position, and 
+#   2.8     10-Apr-2013 (bm) Add +1 to JPanel size for lines, circles, etc.  Also, added
+#                       getPosition() for all widgets, which returns a widget's (x, y) position, and
 #                       setPosition(x, y) which the widget's position (and, if on a display, also
-#                       repositions the widget).  Also added display setPosition() and getPosition().  
-#                       Added initial x and y position coordinates in Display constructor. 
+#                       repositions the widget).  Also added display setPosition() and getPosition().
+#                       Added initial x and y position coordinates in Display constructor.
 #                       Finally, added Icon.rotate() - this however may crop rotated images.
 #
 #   2.7     07-Apr-2013 (bm) Various fixes, including making graphics object JPanels exactly the size
@@ -117,7 +117,7 @@
 #                       using sleep().  (The latter causes the Swing GUI event loop to sleep, locking
 #                       up the GUI.)
 #
-#   2.4     12-Mar-2013 (bm) After a Widget (e.g., button) event is handled, focus is returned to 
+#   2.4     12-Mar-2013 (bm) After a Widget (e.g., button) event is handled, focus is returned to
 #                       the parent display, so that more events (especially keyboard events) can be handled.
 #
 #   2.3     02-Mar-2013 (bm) Added thickness parameter in all graphics objects.  Also
@@ -136,7 +136,7 @@
 #                       graphics objects - user can always create another object to change these.
 #
 #   2.2     27-Feb-2013 (bm) Added Display helper functions to show/hide display coordinates
-#                       at mouse cursor (useful to discover coordinates of where to widgets 
+#                       at mouse cursor (useful to discover coordinates of where to widgets
 #                       when building a GUI).  They are Display.showMouseCoordinates(), and
 #                       Display.hideMouseCoordinates().
 #
@@ -167,10 +167,10 @@
 #                       of z-order list - add() at index 0.
 #
 #   1.86    07-Nov-2012 (bm) Changed Display() to use the default JFrame's content pane.
-#                       This seems to fix the problem with a "dead" display area 
+#                       This seems to fix the problem with a "dead" display area
 #                       at the bottom (lowest 20 pixels or so).
 #
-#   1.85    01-Nov-2012 (bm) Refactored common code of widgets and graphics objects 
+#   1.85    01-Nov-2012 (bm) Refactored common code of widgets and graphics objects
 #                       into class Widget().
 #
 #   1.84    31-Oct-2012 (dth) Fixed bug with resizing widgets and graphics objects.
@@ -192,9 +192,9 @@
 #                       before they get to us - but everything else, we now can handle).
 #
 #   1.7     19-Sep-2012 (bm) Drawable objects are now specified using absolute coordinates
-#                       (e.g., Line(x1, y1, x2, y2), etc. 
+#                       (e.g., Line(x1, y1, x2, y2), etc.
 #                       Also, fixed minor bug with resizing Image() using only height argument.
-#                       Also, fixed Display keyboard listener (now, keyboard events can be handled). 
+#                       Also, fixed Display keyboard listener (now, keyboard events can be handled).
 #
 #   1.6     14-Sep-2012 (bm) Added Display.setToolTipText() to use Display's internal JPanel.
 #                       Fixed Display.getHeight() bug to return the height specified in constructor.
@@ -208,24 +208,24 @@
 #
 #   1.2.2   01-Jun-2012 (dth) Fixed Image to be scalable.
 #
-#   1.2.1   21-May-2012 (dth) Added onClose.  Modified instantiating event listeners in shapes 
+#   1.2.1   21-May-2012 (dth) Added onClose.  Modified instantiating event listeners in shapes
 #                       to wait until a callback function is provided (to allow events to fall
 #                  through if not handled by the shape).
 #
 #   1.2     16-May-2012 (dth, keh) Implemented API changes.
 #
-#   1.1.1   14-May-2012 (dth) Modified mouse click to pass x and y coordinates of mouse to 
+#   1.1.1   14-May-2012 (dth) Modified mouse click to pass x and y coordinates of mouse to
 #                       user-defined function.
 #
 #
-# TODO: 
+# TODO:
 #
 # 0. Remove JButton, JPanel, etc. as a superclass for GUI widgets and graphics objects (i.e., make the
-#    JButton an attribute of the Button class, etc.).  
-#    Rationale:  If the end-user (programmer) accidentally redefines a JButton's functions (e.g., getX, etc.), 
-#    the end-code breaks in unpredictable ways (that are hard to trace - make no sense to the end-programmer). 
-#    The disadvantage is that we lose access to all inherited functions - we would know need to introduce 
-#    appropriate wrappers for all needed ones and it's hard to anticipate which may be needed by every end-programmer). 
+#    JButton an attribute of the Button class, etc.).
+#    Rationale:  If the end-user (programmer) accidentally redefines a JButton's functions (e.g., getX, etc.),
+#    the end-code breaks in unpredictable ways (that are hard to trace - make no sense to the end-programmer).
+#    The disadvantage is that we lose access to all inherited functions - we would know need to introduce
+#    appropriate wrappers for all needed ones and it's hard to anticipate which may be needed by every end-programmer).
 #
 # 1. Make it possible to draw text in various orientations.  Explore Java Graphics drawString().
 #    For now we use Label objects - also it's possible to use Icons (perhaps this is more enabling,
@@ -279,21 +279,21 @@ from timer import *    # import Timer class
 ###############################################################################
 # Color gradient
 #
-# A color gradient is a smooth color progression from one color to another, 
+# A color gradient is a smooth color progression from one color to another,
 # which creates the illusion of continuity between the two color extremes.
-# 
+#
 # The following auxiliary function may be used used to create a color gradient.
 # This function returns a list of RGB colors (i.e., a list of lists) starting with color1
 # (e.g., [0, 0, 0]) and ending (without including) color2 (e.g., [251, 147, 14], which is orange).
-# The number of steps equals the number of colors in the list returned.  
+# The number of steps equals the number of colors in the list returned.
 #
 # For example, the following creates a gradient list of 12 colors:
 #
-# >>> colorGradient([0, 0, 0], [251, 147, 14], 12)      
-# [[0, 0, 0], [20, 12, 1], [41, 24, 2], [62, 36, 3], [83, 49, 4], [104, 61, 5], [125, 73, 7], 
+# >>> colorGradient([0, 0, 0], [251, 147, 14], 12)
+# [[0, 0, 0], [20, 12, 1], [41, 24, 2], [62, 36, 3], [83, 49, 4], [104, 61, 5], [125, 73, 7],
 # [146, 85, 8], [167, 98, 9], [188, 110, 10], [209, 122, 11], [230, 134, 12]]
 #
-# Notice how the above excludes the final color (i.e.,  [251, 147, 14]).  This allows to 
+# Notice how the above excludes the final color (i.e.,  [251, 147, 14]).  This allows to
 # create composite gradients (without duplication of colors).  For example, the following
 #
 # black = [0, 0, 0]         # RGB values for black
@@ -302,8 +302,8 @@ from timer import *    # import Timer class
 #
 # cg = colorGradient(black, orange, 12) + colorGradient(orange, white, 12) + [white]
 #
-# creates a list of gradient colors from black to orange, and from orange to white.  
-# Notice how the final color, white, has to be included separately (using list concatenation).  
+# creates a list of gradient colors from black to orange, and from orange to white.
+# Notice how the final color, white, has to be included separately (using list concatenation).
 # Now, gc contains a total of 25 unique gradient colors.
 #
 # For convenience, colorGradient() also works with java.awt.Color parameters, in which case
@@ -312,32 +312,33 @@ from timer import *    # import Timer class
 
 def colorGradient(color1, color2, steps):
    """
-   Returns a list of RGB colors creating a "smooth" gradient between 'color1' 
+   Returns a list of RGB colors creating a "smooth" gradient between 'color1'
    and 'color2'.  The amount of smoothness is determined by 'steps', which specifies
    how many intermediate colors to create. The result includes 'color1' but not
-   'color2' to allow for connecting one gradient to another (without duplication 
+   'color2' to allow for connecting one gradient to another (without duplication
    of colors).
    """
    gradientList = []   # holds RGB lists of individual gradient colors
-   
+
    # check if using java.awt.Color
    if type(color1) == type(color2) and type(color2) == type(Color.RED):
-   
+
       # extract RGB values
       red1, green1, blue1 = color1.getRed(), color1.getGreen(), color1.getBlue()
       red2, green2, blue2 = color2.getRed(), color2.getGreen(), color2.getBlue()
-      
+
    else:  # assume RGB list
-   
+
       # extract RGB values
       red1, green1, blue1 = color1
       red2, green2, blue2 = color2
-   
+
    # find difference between color extremes
    differenceR = red2 - red1       # R component
+#   differenceR = red1 - red2       # R component
    differenceG = green2 - green1   # G component
    differenceB = blue2 - blue1     # B component
-   
+
    # interpolate RGB values between extremes
    for i in range(steps):
       gradientR = red1 + i * differenceR / steps
@@ -345,13 +346,13 @@ def colorGradient(color1, color2, steps):
       gradientB = blue1 + i * differenceB / steps
 
       gradientList.append( [gradientR, gradientG, gradientB] )
-   # now, gradient list contains all the intermediate colors, including color1 
+   # now, gradient list contains all the intermediate colors, including color1
    # but not color2
-   
+
    # if original in java.awt.Color, convert result accordingly
    if type(color1) == type(Color.RED):
       gradientList = [Color(x[0], x[1], x[2]) for x in gradientList]
-   
+
    return gradientList   # and return it
 
 
@@ -417,7 +418,7 @@ class CheckboxListener(ActionListener):
    def actionPerformed(self, event = None):
       """
       Call the eventFunction and return focus to the checkbox's parent display
-      """     
+      """
       checkboxValue = self.checkbox.isChecked()  # poll the checkbox
       self.eventFunction( checkboxValue )        # and pass its changed value to the event handler
       self.checkbox.display.display.requestFocusInWindow()  # give focus to parent display
@@ -443,7 +444,7 @@ class SliderListener(ChangeListener):
    def stateChanged(self, event = None):
       """
       Call the eventFunction and return focus to the slider's parent display
-      """     
+      """
       sliderValue = self.slider.getValue()   # poll the slider
       self.eventFunction( sliderValue )      # and pass its changed value to the event handler
       self.slider.display.display.requestFocusInWindow()  # give focus to parent display
@@ -477,7 +478,7 @@ class DropDownListListener(ActionListener):
 
 # TextFieldListener
 #
-# Listener for the TextField widget.  eventHandler is called when the user types 
+# Listener for the TextField widget.  eventHandler is called when the user types
 # the Enter key..  Extends Swing's ActionListener class.
 
 class TextFieldListener(ActionListener):
@@ -538,7 +539,7 @@ class MenuItemListener(ActionListener):
 SHIFT_KEY   = 0
 CONTROL_KEY = 1
 ALT_KEY     = 2
-META_KEY    = 3  
+META_KEY    = 3
 
 class KeyboardListener(KeyListener):
    """
@@ -559,14 +560,14 @@ class KeyboardListener(KeyListener):
    def nullFunctionCharacterOnly(self, character):
       """
       nullFunction does nothing, and accepts a character.
-      """   
+      """
       pass
 
 #   def nullFunctionCharacterPlusModifers(self, key, modifierKeysState):
 #      """
 #      nullFunction does nothing, and accepts a character, and the state of the four modifier keys,
 #      a list of four booleans, each for shiftDown, controlDown, altDown, metaDown in this order.
-#      """   
+#      """
 #      pass
 
    def keyTyped(self, keyEvent):
@@ -575,14 +576,14 @@ class KeyboardListener(KeyListener):
       """
 
 # From Java API documentation -- http://docs.oracle.com/javase/1.4.2/docs/api/java/awt/event/KeyEvent.html
-#      
+#
 #"Key typed" events are higher-level and generally do not depend on the platform or keyboard layout. They are generated when a Unicode character is entered, and are the preferred way to find out about character input. In the simplest case, a key typed event is produced by a single key press (e.g., 'a'). Often, however, characters are produced by series of key presses (e.g., 'shift' + 'a'), and the mapping from key pressed events to key typed events may be many-to-one or many-to-many. Key releases are not usually necessary to generate a key typed event, but there are some cases where the key typed event is not generated until a key is released (e.g., entering ASCII sequences via the Alt-Numpad method in Windows). No key typed events are generated for keys that don't generate Unicode characters (e.g., action keys, modifier keys, etc.). The getKeyChar method always returns a valid Unicode character or CHAR_UNDEFINED. For key pressed and key released events, the getKeyCode method returns the event's keyCode. For key typed events, the getKeyCode method always returns VK_UNDEFINED.
 #
 
       # Get which key was pressed
 
       eventID = keyEvent.getID()
-                    
+
       # Was a character typed?
 
       if eventID == KeyEvent.KEY_TYPED:
@@ -591,18 +592,18 @@ class KeyboardListener(KeyListener):
          character = keyEvent.getKeyChar()     # use this for key typed
          #keyCode = keyEvent.getKeyCode()
          #character = KeyEvent.getKeyText(keyCode).encode('utf8')
-      
-         #character = keyEvent.getKeyChar()         
+
+         #character = keyEvent.getKeyChar()
          #keyCode = keyEvent.getKeyCode()            # use this for key pressed
-         #character = KeyEvent.getKeyText(keyCode).encode('utf8')         
-         #character = "key code = " + chr(keyCode) #+ " (" + KeyEvent.getKeyText(keyCode) + ")"       
-         #character = chr(keyCode)      
+         #character = KeyEvent.getKeyText(keyCode).encode('utf8')
+         #character = "key code = " + chr(keyCode) #+ " (" + KeyEvent.getKeyText(keyCode) + ")"
+         #character = chr(keyCode)
 
          # also get state of modifier keys
          #shiftDown = keyEvent.isShiftDown()
          #controlDown = keyEvent.isControlDown()
          #altDown = keyEvent.isAltDown()
-         #metaDown = keyEvent.isMetaDown()        
+         #metaDown = keyEvent.isMetaDown()
 
          # Call the function to handle this, passing the character which was typed,
          # and the state of the four modifier keys, a list of four booleans.
@@ -616,32 +617,32 @@ class KeyboardListener(KeyListener):
       """
 
 # From Java API documentation -- http://docs.oracle.com/javase/1.4.2/docs/api/java/awt/event/KeyEvent.html
-#      
+#
 #"Key pressed" and "key released" events are lower-level and depend on the platform and keyboard layout. They are generated whenever a key is pressed or released, and are the only way to find out about keys that don't generate character input (e.g., action keys, modifier keys, etc.). The key being pressed or released is indicated by the getKeyCode method, which returns a virtual key code.
 #
 #Virtual key codes are used to report which keyboard key has been pressed, rather than a character generated by the combination of one or more keystrokes (such as "A", which comes from shift and "a").
 #
-#For example, pressing the Shift key will cause a KEY_PRESSED event with a VK_SHIFT keyCode, while pressing the 'a' key will result in a VK_A keyCode. After the 'a' key is released, a KEY_RELEASED event will be fired with VK_A. Separately, a KEY_TYPED event with a keyChar value of 'A' is generated.      
+#For example, pressing the Shift key will cause a KEY_PRESSED event with a VK_SHIFT keyCode, while pressing the 'a' key will result in a VK_A keyCode. After the 'a' key is released, a KEY_RELEASED event will be fired with VK_A. Separately, a KEY_TYPED event with a keyChar value of 'A' is generated.
 #
 
       # Get which key was pressed
 
       eventID = keyEvent.getID()
 
-      # Was a character pressed?  
+      # Was a character pressed?
 
       if eventID == KeyEvent.KEY_PRESSED:
-      
+
          # get the character pressed
          keyCode = keyEvent.getKeyCode()            # use this for key pressed
-         #character = chr(keyCode)      
-      
+         #character = chr(keyCode)
+
          # also get state of modifier keys
          #shiftDown = keyEvent.isShiftDown()
          #controlDown = keyEvent.isControlDown()
          #altDown = keyEvent.isAltDown()
          #metaDown = keyEvent.isMetaDown()
-        
+
          # Call the function to handle this, passing the character which was pressed,
          # and the state of the four modifier keys, a list of four booleans.
 
@@ -655,12 +656,12 @@ class KeyboardListener(KeyListener):
       """
 
 # From Java API documentation -- http://docs.oracle.com/javase/1.4.2/docs/api/java/awt/event/KeyEvent.html
-#      
+#
 #"Key pressed" and "key released" events are lower-level and depend on the platform and keyboard layout. They are generated whenever a key is pressed or released, and are the only way to find out about keys that don't generate character input (e.g., action keys, modifier keys, etc.). The key being pressed or released is indicated by the getKeyCode method, which returns a virtual key code.
 #
 #Virtual key codes are used to report which keyboard key has been pressed, rather than a character generated by the combination of one or more keystrokes (such as "A", which comes from shift and "a").
 #
-#For example, pressing the Shift key will cause a KEY_PRESSED event with a VK_SHIFT keyCode, while pressing the 'a' key will result in a VK_A keyCode. After the 'a' key is released, a KEY_RELEASED event will be fired with VK_A. Separately, a KEY_TYPED event with a keyChar value of 'A' is generated.      
+#For example, pressing the Shift key will cause a KEY_PRESSED event with a VK_SHIFT keyCode, while pressing the 'a' key will result in a VK_A keyCode. After the 'a' key is released, a KEY_RELEASED event will be fired with VK_A. Separately, a KEY_TYPED event with a keyChar value of 'A' is generated.
 #
 
       # Get which key was released
@@ -673,8 +674,8 @@ class KeyboardListener(KeyListener):
 
          # get the character released
          keyCode = keyEvent.getKeyCode()            # use this for key released
-         #character = chr(keyCode)       
-      
+         #character = chr(keyCode)
+
          # also get state of modifier keys
          #shiftDown = keyEvent.isShiftDown()
          #controlDown = keyEvent.isControlDown()
@@ -791,7 +792,7 @@ class MouseClickListener(MouseListener):
             self.popupMenu.show(mouseEvent.getComponent(), mouseEvent.getX(), mouseEvent.getY())
       else:
          self.clickFunction(x, y)
-         
+
       # NOTE:  Here we could give focus to the object (may be useful for display objects)
 
 
@@ -894,12 +895,12 @@ class DisplayListener(WindowListener):
 
    def windowOpened(self, event):
       pass
-      
+
 
 # ComponentChangeListener
 #
 # Used to automatically update components when resized or moved.
-# This is needed, since changing the component's position or size 
+# This is needed, since changing the component's position or size
 # does not automatically change the Java Swing representation of the
 # component's size or position
 
@@ -907,37 +908,37 @@ class ComponentChangeListener(ComponentListener):
    """
    Listener for when components change
    """
-   
+
    def __init__(self):
-      """     
-      """     
+      """
+      """
       pass
 
    def componentHidden(self, event):
       """
-      """     
+      """
       pass
 #      print "Component Hidden"
-     
+
    def componentMoved(self, event):
-      """     
+      """
       """
       pass
 #      print "Component Moved"
 
    def componentResized(self, event):
-      """     
+      """
      """
 #      print "Component Resized"
-     
+
       component = event.getComponent()
       x, y = component.position
       if component.display:
          cp = component.display.getParent().getParent().getParent()
          cp.reposition(component, x, y)
-     
+
    def componentShown(self, event):
-      """     
+      """
       """
       pass
  #     print "Component Shown"
@@ -946,7 +947,7 @@ class ComponentChangeListener(ComponentListener):
 ###############################################################################
 # Widget
 #
-# Class to encapsulate common functionality (mainly event handling) for 
+# Class to encapsulate common functionality (mainly event handling) for
 # widget objects.
 #
 
@@ -960,7 +961,7 @@ class Widget():
       Set up instance variables.
       """
       self.display = None
-      
+
       self.keyboardListener = None
       self.mouseClickListener = None
       self.mouseMovementListener = None
@@ -969,51 +970,51 @@ class Widget():
    def encloses(self, widget):
       """
       Determines whether or not this Widget encloses (contains) the specified Widget.
-      """      
+      """
       return self.getBounds().contains( widget.getBounds() )
 
    def intersects(self, widget):
       """
       Determines whether or not this Widget and the specified Widget intersect.
-      """      
+      """
       return self.getBounds().intersects( widget.getBounds() )
 
    def getX(self):
       """
       Returns the x coordinate of this Widget.
-      """      
+      """
       return self.position[0]
 
    def setX(self, x):
       """
       Set the x coordinate of this Widget.
-      """      
+      """
       self.setPosition(x, self.position[1])
 
    def getY(self):
       """
       Returns the y coordinate of this Widget.
-      """      
+      """
       return self.position[1]
 
    def setY(self, y):
       """
       Set the y coordinate of this Widget.
-      """      
+      """
       self.setPosition(self.position[0], y)
 
    def getPosition(self):
       """
       Returns the position of this Widget, i.e., the (x, y) tuple.
-      """      
+      """
       return self.position
 
    def setPosition(self, x, y):
       """
       Set the position of this Widget.
-      """      
+      """
       self.position = (x, y)
-      
+
       # if this widget is already on a display, also reposition it
       if self.display:
          self.display.move(self, x, y)
@@ -1028,7 +1029,7 @@ class Widget():
          self.addKeyListener(self.keyboardListener)
 
       self.keyboardListener.typedFunction = callbackFunction
-      
+
    def onKeyDown(self, callbackFunction):
       """
       Set up a callback function for when a key is pressed.
@@ -1169,7 +1170,7 @@ class Widget():
 ###############################################################################
 # Drawable
 #
-# Class to encapsulate common functionality (mainly color, fill, thickness) for 
+# Class to encapsulate common functionality (mainly color, fill, thickness) for
 # drawable gaphics objects.
 #
 
@@ -1186,14 +1187,14 @@ class Drawable():
       self.color = color
       self.fill = fill
       self.thickness = thickness
- 
+
    def setColor(self, color=None):
       """
       Change the color of the drawable object.  If no color provided, use dialog box to select.
       """
-      
+
       if color == None:
-         color = JColorChooser().showDialog(None, "Select a color", Color.ORANGE) 
+         color = JColorChooser().showDialog(None, "Select a color", Color.ORANGE)
          print color   # useful side-efect for discovering new colors
 
       self.color = color
@@ -1239,12 +1240,12 @@ class Drawable():
 
 
 # __ActiveDisplays__ is used to keep track which displays are active, so we can close them properly
-# and clean-up all contain GUI objects when JEM's Stop button is pressed 
+# and clean-up all contain GUI objects when JEM's Stop button is pressed
 
 try:
 
    __ActiveDisplays__          # if already defined (from an earlier run, do nothing, as it already contains material)
-   
+
 except:
 
    __ActiveDisplays__ = []     # first run - let's define it to hold active displays
@@ -1253,7 +1254,7 @@ except:
 ###############################################################################
 # Display
 #
-# Class for generating a GUI window.  A program may open several Displays.  
+# Class for generating a GUI window.  A program may open several Displays.
 # Extends Swing's JFrame class.
 #
 # Methods:
@@ -1267,7 +1268,7 @@ except:
 #   --height - The height (in pixels) of the Display window.
 #
 # show()
-#   Displays the window.  
+#   Displays the window.
 #
 # hide()
 #   Hide the window.
@@ -1293,52 +1294,52 @@ class Display():
 
       self.display = JFrame()        # create frame window
       self.display.setTitle(title)   # update the window title
-      
+
       if color:    # did they specify a background color?
          self.display.setBackground(color)
-      
+
       # create the container pane of the display (a JLabel inside a JFrame)
       container = JLabel()           # using JLabel (as opposed to JPanel) simplifes things
-      container.setPreferredSize( Dimension(width, height) )   # give it preferred dimensions      
+      container.setPreferredSize( Dimension(width, height) )   # give it preferred dimensions
 
       # place container pane inside JFrame
       self.display.setContentPane(container)             # place it inside the JFrame
       self.contentPane = self.display.getContentPane()   # but also keep a direct handle to it
-      
+
       # setup the menu area (always present, to simplify creation of menus by end-users)
       self.jMenuBar = JMenuBar()
       self.display.setJMenuBar( self.jMenuBar )
-      
+
       # finalize visual aspects of display and show it
       self.display.setResizable(False)    # jFrame size is fixed at creation
       self.display.pack()                 # adjust everything to fit properly inside the JFrame
       self.setPosition(x, y)              # place it at the desired location on screen (0, 0 is top-left)
       self.display.setVisible(True)       # show display to the world
-      
+
       # make sure the application does NOT exit when the window's closed
-      self.display.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE)   # clean up as much as possible 
+      self.display.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE)   # clean up as much as possible
       #self.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)   # this closes JEM - so, we don't want that
       #self.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE)
       #self.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE)  # this does really nothing...
-      
+
       # set up event listeners for display
       self.displayListener = DisplayListener(self)
       self.display.addWindowListener(self.displayListener)
 
       # Set up listeners
       self.keyboardListener = KeyboardListener()
-      # keyboard events are apparently being sent to JFrame 
-      self.display.addKeyListener(self.keyboardListener)     
+      # keyboard events are apparently being sent to JFrame
+      self.display.addKeyListener(self.keyboardListener)
       #self.contentPane.addKeyListener(self.keyboardListener)
       self.mouseClickListener = MouseClickListener(self.__remapCoordinates__)
       #self.mouseClickListener = MouseClickListener()
-      # mouse events are apparently being sent to JPanel 
+      # mouse events are apparently being sent to JPanel
       self.contentPane.addMouseListener(self.mouseClickListener)
       self.mouseMovementListener = MouseMovementListener(self.__remapCoordinates__)
       #self.mouseMovementListener = MouseMovementListener()
-      # mouse events are apparently being sent to JPanel 
+      # mouse events are apparently being sent to JPanel
       self.contentPane.addMouseMotionListener(self.mouseMovementListener)
-      
+
       # remember all items placed on display - used by removeAll()
       self.items = []
 
@@ -1349,7 +1350,7 @@ class Display():
    # NOTE: This function has been introduced to take care of remapping coordinates
    # for JPanel components, so when a mouse event occurs with a GUI object's JPanel
    # the global (enclosing Display) coordinates are communicated (instead of the internal
-   # JPanel coordinates, which are by default returned).  However, since Display also 
+   # JPanel coordinates, which are by default returned).  However, since Display also
    # uses the same internbal mechanism for handling mouse events (as normal GUI objects),
    # we need to introduce this dummy function here, so that everything will work as
    # defined by the MouseMotionListener API.
@@ -1363,7 +1364,7 @@ class Display():
       """Closes the display."""
       # first, call the onClose() callback function (if any - default is the null function)
       # this is done here because the next statement, self.display.dispose(), will NOT call it.  A fix.
-      self.displayListener.closeCallback()   
+      self.displayListener.closeCallback()
 
       self.display.dispose()
 
@@ -1384,7 +1385,7 @@ class Display():
 #      Place an object in the display, at coordinates by x and y.
 #      If the object already appears on another display it is removed from there, first.
 #      """
-#      
+#
 #      # If item appears in another display, remove it from there
 #      # (an alternatve would be to make a copy, but this could lead to complications,
 #      #  and it's harder).
@@ -1392,15 +1393,15 @@ class Display():
 #         item.display.remove(item)
 #
 #      # Put the object in the display (at beginning of z-order list - index 0)
-#      self.contentPane.add(item, 0)         
+#      self.contentPane.add(item, 0)
 #      item.display = self
-#      
+#
 #      self.items.append( item )  # remember that this item has been added - used by removeAll()
-#      
+#
 #      # if not position provided when placing
 #      if x == None or y == None:
 #         x, y = item.position            # get item's position
-#         
+#
 #      self.reposition(item, x, y)        # and place it in the correct location
 #
 #      # reposition() redraws the display, so no need to do it here too
@@ -1412,7 +1413,7 @@ class Display():
       Place an object in the display, at coordinates by x and y.
       If the object already appears on another display it is removed from there, first.
       """
-      
+
       # If item appears in another display, remove it from there
       # (an alternatve would be to make a copy, but this could lead to complications,
       #  and it's harder).
@@ -1420,15 +1421,15 @@ class Display():
          item.display.remove(item)
 
       # Put the object in the display (at specified z-order - 0 means in front)
-      self.contentPane.add(item, order)         
+      self.contentPane.add(item, order)
       item.display = self
-      
+
       self.items.append( item )  # remember that this item has been added - used by removeAll()
-      
+
       # if not position provided when placing
       if x == None or y == None:
          x, y = item.position            # get item's position
-         
+
       self.reposition(item, x, y)        # and place it in the correct location
 
       # reposition() redraws the display, so no need to do it here too
@@ -1438,7 +1439,7 @@ class Display():
    def addOrder(self, item, order, x=None, y=None):
       """
       Same as add() but adds layering, i.e., places an object in the display, at coordinates by x and y
-      at the order specified.  Layers are ordered from smallest to largest where 0 is the closest to the front. 
+      at the order specified.  Layers are ordered from smallest to largest where 0 is the closest to the front.
       If the object already appears on another display it is removed from there, first.
       """
       self.place(item, x, y, order)
@@ -1474,7 +1475,7 @@ class Display():
       # Redraw the display
       self.contentPane.revalidate()
       self.contentPane.repaint()
-      
+
    def move(self, item, x, y):
       """
       Same as reposition(), i.e., changes an object's location in the display
@@ -1491,28 +1492,28 @@ class Display():
       # Redraw the display
       self.contentPane.revalidate()
       self.contentPane.repaint()
- 
+
    def removeAll(self):
       """
       Remove all items from the display.
       """
       self.contentPane.removeAll()  # remove all items from the display
-      
+
       # Redraw the display (needed to clear out Widgets)
       self.contentPane.revalidate()
       self.contentPane.repaint()
- 
+
    def delete(self, item):
       """
       Same as remove(item).
       """
       self.remove(item)              # remove the item from the display
       #del item
-  
+
    # now, some other useful functions
    def setToolTipText(self, text):
       """
-      Sets the tooltip text of the Display's internal JPanel (since JFrame 
+      Sets the tooltip text of the Display's internal JPanel (since JFrame
       does NOT have tooltip capabilities.
       """
       self.contentPane.setToolTipText(text)
@@ -1521,9 +1522,9 @@ class Display():
       """
       Change the color of the display.  If no color provided, use dialog box to select.
       """
-      
+
       if color == None:
-         color = JColorChooser().showDialog(None, "Select a color", Color.ORANGE) 
+         color = JColorChooser().showDialog(None, "Select a color", Color.ORANGE)
          print color   # useful side-efect for discovering new colors
 
       self.display.setBackground(color)
@@ -1538,48 +1539,48 @@ class Display():
       """
       Sets the display size.
       """
-      # NOTE: 23 pixels of the height will be reserved for the fixed top-menu area 
+      # NOTE: 23 pixels of the height will be reserved for the fixed top-menu area
       # (regardless of whether we add any menus or not).  So let's add 23 to height.
-      self.display.setSize(width, height+23)      
+      self.display.setSize(width, height+23)
 
    def getHeight(self):
       """
       Returns the display height.
       """
-      return self.contentPane.getHeight()      
+      return self.contentPane.getHeight()
 
    def getWidth(self):
       """
       Returns the display width.
       """
-      return self.contentPane.getWidth()      
+      return self.contentPane.getWidth()
 
    def setTitle(self, title):
       """
       Sets the display title.
       """
-      self.display.setTitle(title)      
+      self.display.setTitle(title)
 
    def getTitle(self):
       """
       Returns the display title.
       """
-      return self.display.getTitle()      
+      return self.display.getTitle()
 
    def setPosition(self, x, y):
       """
       Set the position of this display.
-      """      
+      """
       self.display.setLocation(x, y)
 
    def getPosition(self):
       """
       Returns the position of this Widget, i.e., the (x, y) tuple.
-      """      
+      """
       x = int(self.display.getLocation().getX())
       y = int(self.display.getLocation().getY())
       return (x, y)
-      
+
    def addMenu(self, menu):
       """
       Add a menu to the menu bar
@@ -1595,94 +1596,94 @@ class Display():
       Add a popup menu to this display
       """
       self.mouseClickListener.popupMenu = menu.__toJPopupMenu__()
-      
+
    # drawing functions (for convenience)
    def drawLine(self, x1, y1, x2, y2, color=Color.BLACK, thickness=1):
       """
       Draw a line between the points (x1, y1) and (x2, y2) with given color and thickness.
-      
+
       Returns the line object (in case we want to move it or delete it later).
       """
       line = Line(x1, y1, x2, y2, color, thickness)   # create line
-      self.add(line)                                  # add it      
+      self.add(line)                                  # add it
       return line                                     # and return it
 
    def drawCircle(self, x, y, radius, color = Color.BLACK, fill = False, thickness=1):
       """
       Draw a circle at (x, y) with the given radius, color, fill, and thickness.
-      
+
       Returns the circle object (in case we want to move it or delete it later).
       """
       circle = Circle(x, y, radius, color, fill, thickness)   # create circle
-      self.add(circle)   # add it      
+      self.add(circle)   # add it
       return circle      # and return it
 
    def drawPoint(self, x, y, color = Color.BLACK, thickness=1):
       """
       Draw a point at (x, y) with the given color and thickness.
-      
+
       Returns the point object (in case we want to move it or delete it later).
       """
       point = Point(x, y, color, thickness)   # create point
-      self.add(point)   # add it      
+      self.add(point)   # add it
       return point      # and return it
 
    def drawOval(self, x1, y1, x2, y2, color = Color.BLACK, fill = False, thickness = 1):
       """
       Draw an oval using the coordinates of its enclosing rectangle with the given color,
       fill, and thickness.
-      
+
       Returns the oval object (in case we want to move it or delete it later).
       """
       oval = Oval(x1, y1, x2, y2, color, fill, thickness)   # create oval
-      self.add(oval)   # add it      
+      self.add(oval)   # add it
       return oval      # and return it
 
    def drawArc(self, x1, y1, x2, y2, startAngle, endAngle, color = Color.BLACK, fill = False, thickness = 1):
       """
       Draw an arc using the provided coordinates, arc angles, color, fill, and thickness.
-      
+
       Returns the arc object (in case we want to move it or delete it later).
       """
       arc = Arc(x1, y1, x2, y2, startAngle, endAngle, color, fill, thickness)   # create arc
-      self.add(arc)   # add it      
+      self.add(arc)   # add it
       return arc      # and return it
 
    def drawRectangle(self, x1, y1, x2, y2, color = Color.BLACK, fill = False, thickness = 1):
       """
       Draw a rectangle using the provided coordinates, color, fill, and thickness.
-      
+
       Returns the rectangle object (in case we want to move it or delete it later).
       """
       rec = Rectangle(x1, y1, x2, y2, color, fill, thickness)   # create rectangle
-      self.add(rec)   # add it      
+      self.add(rec)   # add it
       return rec      # and return it
 
    def drawPolygon(self, xPoints, yPoints, color = Color.BLACK, fill = False, thickness = 1):
       """
       Draw a polygon using the provided coordinates, color, fill, and thickness.
-      
+
       Returns the polygon object (in case we want to move it or delete it later).
       """
       poly = Polygon(xPoints, yPoints, color, fill, thickness)   # create polygon
-      self.add(poly)   # add it      
+      self.add(poly)   # add it
       return poly      # and return it
 
    def drawIcon(self, filename, x, y, width = None, height = None):
       """
       Draw an icon (image) from the provided external file (.jpg or .png) at the given coordinates (top-left).
       Also rescale according to provided width and height (if any).
-      
+
       Returns the icon object (in case we want to move it or delete it later).
       """
       icon = Icon(filename, width, height)   # load image (and rescale, if specified)
-      self.add(icon, x, y)   # add it at given coordinates    
+      self.add(icon, x, y)   # add it at given coordinates
       return icon            # and return it
 
    def drawImage(self, filename, x, y, width = None, height = None):
       """
       Same as drawIcon().
-      
+
       Returns the image object (in case we want to move it or delete it later).
       """
       return self.drawIcon(filename, x, y, width, height)
@@ -1691,7 +1692,7 @@ class Display():
       """
       Draw the text label on the display at the given coordinates (top-left) and with the provided
       color and font.
-      
+
       Returns the label object (in case we want to move it or delete it later).
       """
 
@@ -1702,19 +1703,19 @@ class Display():
       label = Label(text, LEFT, color)   # create label
       if font:                     # did they provide a font?
          label.setFont(font)          # yes, so set it
-      self.add(label, x, y)        # add it at given coordinates    
+      self.add(label, x, y)        # add it at given coordinates
       return label                 # and return it
 
    def drawText(self, text, x, y, color = Color.BLACK, font = None):
       """
       Same as drawLabel().
-      
+
       Returns the label object (in case we want to move it or delete it later).
       """
       return self.drawLabel(text, x, y, color, font)
 
 
-   # event handling functions   
+   # event handling functions
    def onKeyType(self, callbackFunction):
       """
       Set up a callback function for when a key is typed.
@@ -1779,24 +1780,24 @@ class Display():
    def onClose(self, callbackFunction):
       self.displayListener.closeCallback = callbackFunction
 
-   # define helper functions to show/hide display coordinates at mouse cursor 
+   # define helper functions to show/hide display coordinates at mouse cursor
    # (useful to discover coordinates of where to widgets when building a GUI)
    def showMouseCoordinates(self):
       """
       Shows mouse coordinates using the display tooltip.
-      """      
+      """
       # define function to update display tooltip when mouse coordinates change
       showCoordinatesFunction = lambda x, y: self.setToolTipText(str(x) + ", " + str(y))
-      
+
       # Here we remember the original callback function (if any), in order to restore it in hideMouseCoordinates()
-      try:  
-         # Have we been called before?  (If so do nothing - we have already stored the original mouse listener 
+      try:
+         # Have we been called before?  (If so do nothing - we have already stored the original mouse listener
          # move function.)
-         self.mouseMovementListener.originalFunction    
+         self.mouseMovementListener.originalFunction
       except AttributeError:
          # This is the first time we are called, so remember the current mouse listener move function
-         # to restore it later - in hideMouseCoordinates(). 
-         self.mouseMovementListener.originalFunction = self.mouseMovementListener.moveFunction  
+         # to restore it later - in hideMouseCoordinates().
+         self.mouseMovementListener.originalFunction = self.mouseMovementListener.moveFunction
 
       # set our own function to be called when mouse moves
       self.onMouseMove( showCoordinatesFunction )
@@ -1804,17 +1805,17 @@ class Display():
    def hideMouseCoordinates(self):
       """
       Stops showing mouse coordinates using the display tooltip.
-      """      
+      """
       # hide tool tip
       self.setToolTipText( None )
-      
-      try:  
+
+      try:
          # restore previous function to be called when mouse moves
          self.onMouseMove( self.mouseMovementListener.originalFunction )
       except AttributeError:
          # this will happen if they called us before ever calling showMouseCoordinates()
          pass   #  nothing to restore
-         
+
    def remapCoordinates(self, x, y):
       """
       Leave coordinates as is - we are a display (needed for mouse drag).
@@ -1834,17 +1835,17 @@ def __stopActiveDisplays__():
 
    # first, remove and clear all GUI objects contained in each display
    for display in __ActiveDisplays__:
-   
+
       # first, dispose all items in the display
       for guiObject in display.getItems():
          display.remove(guiObject)   # remove it from display
          del guiObject               # and delete it from Jython
-      
+
       # now dispose the display itself
       display.display.dispose()      # bye, bye
 
    # also empty list, so things can be garbage collected
-   __ActiveDisplays__ = []   # remove access to deleted items   
+   __ActiveDisplays__ = []   # remove access to deleted items
 
 # now, register function with JEM (if possible)
 try:
@@ -1852,7 +1853,7 @@ try:
     # if we are inside JEM, registerStopFunction() will be available
     registerStopFunction(__stopActiveDisplays__)   # tell JEM which function to call when the Stop button is pressed
 
-except:  # otherwise (if we get an error), we are NOT inside JEM 
+except:  # otherwise (if we get an error), we are NOT inside JEM
 
     pass    # so, do nothing.
 
@@ -1880,7 +1881,7 @@ class Menu:
    """
 
    def __init__(self, name):
-      """ 
+      """
       Create a new menu.
       """
       self.menuItems = []         # A list of menu items
@@ -1913,22 +1914,22 @@ class Menu:
       """
       # create Menu item and add it
       menuItem = MenuItem(item, eventFunction)
-      self.menuItems.append(menuItem)  
+      self.menuItems.append(menuItem)
 
    def addItemList(self, itemList = [""], eventFunctionList = [None]):
       """
       Add a list of items and corresponding callback functions to the menu.
-      """      
-      for i in range( len(itemList) ):    
+      """
+      for i in range( len(itemList) ):
          # create a Menu item and add it
          menuItem = MenuItem(itemList[i], eventFunctionList[i])
-         self.menuItems.append(menuItem)  
+         self.menuItems.append(menuItem)
 
    def addSubMenu(self, menu):
       """
       Add a (sub)menu as an item to the menu.
       """
-      self.menuItems.append(menu)  
+      self.menuItems.append(menu)
 
    def addSeparator(self):
       """
@@ -1939,11 +1940,11 @@ class Menu:
    # Deprecated in favor of new, simpler way (see addItem() and addItemList()).
    # Still useful, however, if we need to disable a single menu item (this way the end-programmer
    # maintains a handle to a particular menu item).
-   def addMenuItem(self, menuItem):   
+   def addMenuItem(self, menuItem):
       """
       Add an item to the menu.
       """
-      self.menuItems.append(menuItem)  
+      self.menuItems.append(menuItem)
 
    def __toJMenu__(self):
       """
@@ -2057,24 +2058,24 @@ class Label(JLabel, Widget):
       self.display = None
 
       self.setSize(self.getPreferredSize())
-      
+
       # remember default foreground and background color
       self.backgroundColor = backgroundColor
       self.foregroundColor = foregroundColor
-      
+
       # set colors, if necessary
       if self.backgroundColor != None:
          self.setBackgroundColor( self.backgroundColor )
       if self.foregroundColor != None:
-         self.setForegroundColor( self.foregroundColor )       
-         
+         self.setForegroundColor( self.foregroundColor )
+
    def setBackgroundColor(self, color=None):
       """
       Change the color of the label's background.  If no color provided, use dialog box to select.
       """
-      
+
       if color == None:
-         color = JColorChooser().showDialog(None, "Select a color", Color.ORANGE) 
+         color = JColorChooser().showDialog(None, "Select a color", Color.ORANGE)
          print color   # useful side-efect for discovering new colors
 
       # labels need to be opaque to show their background color, so, since we want show a background color
@@ -2087,22 +2088,22 @@ class Label(JLabel, Widget):
       """
       Returns the color of the label.
       """
-      
+
       # if background is not set, return the color of the display
       if self.backgroundColor == None and self.display != None:
          color = self.display.getColor()
       else:
          color = self.backgroundColor
-      
+
       return color
 
    def setForegroundColor(self, color=None):
       """
       Change the color of the label's text.  If no color provided, use dialog box to select.
       """
-      
+
       if color == None:
-         color = JColorChooser().showDialog(None, "Select a color", Color.ORANGE) 
+         color = JColorChooser().showDialog(None, "Select a color", Color.ORANGE)
          print color   # useful side-efect for discovering new colors
 
       self.foregroundColor = color    # remember it
@@ -2112,7 +2113,7 @@ class Label(JLabel, Widget):
       """
       Returns the color of the label's text.
       """
-      
+
       return self.foregroundColor
 
 
@@ -2228,9 +2229,9 @@ class Checkbox(JCheckBox, Widget):
 # Slider(orientation, lower, upper, start, eventHandler)
 #   Creates a new slider.
 #   --orientation - HORIZONTAL or VERTICAL.  By default, HORIZONTAL
-#   --lower - An integer representing the lowest value the slider may represent.  
+#   --lower - An integer representing the lowest value the slider may represent.
 #              By default, 0.
-#   --upper - An integer representing the highest value the slider may represent.  
+#   --upper - An integer representing the highest value the slider may represent.
 #             By default, 100.
 #             NOTE: lower and upper are inclusive.
 #   --start - The beginning position of the slider.  By default, 50.
@@ -2267,7 +2268,7 @@ class Slider(JSlider, Widget):
       # adjust start position
       if start == None:
          start = (upper + lower) / 2   # set slider half way, initially
-         
+
       JSlider.__init__(self, orientation, lower, upper, start)
       Widget.__init__(self)                     # set up listeners, etc.
 
@@ -2284,7 +2285,7 @@ class Slider(JSlider, Widget):
 ###############################################################################
 # DropDownList
 #
-# Class for adding a drop-down list of items, one of which can be selected.  
+# Class for adding a drop-down list of items, one of which can be selected.
 # Extends JComboBox.
 #
 # Methods:
@@ -2319,7 +2320,7 @@ class DropDownList(JComboBox, Widget):
       self.offset = (0,0)
       self.position = (0,0)
       self.display = None
-      
+
       self.__addItemList__(items)       # add provided items
 
       if eventHandler:
@@ -2415,7 +2416,7 @@ class TextField(JTextField, Widget):
 #   Returns the text contained in the text area (as a string).
 #
 # setLineWrap()
-#   Sets whether the text area will wrap lines or not.  If the setting is off, 
+#   Sets whether the text area will wrap lines or not.  If the setting is off,
 #   then a horizontal scroll bar will appear, as needed.
 ###############################################################################
 
@@ -2439,22 +2440,22 @@ class TextArea(JScrollPane, Widget):
       self.offset = (0,0)
       self.position = (0,0)
       self.display = None
-      
+
       self.textArea.setEditable(True)
       self.setLineWrap(True)                # wrap lines that are too long (no horizontal scroll bar)
       self.textArea.setWrapStyleWord(True)  # wrap lines at word boundaries rather than at character boundaries
 
    def setLineWrap(self, setting = True):
       """
-      Sets whether the text area will wrap lines or not.  If the setting is off, 
+      Sets whether the text area will wrap lines or not.  If the setting is off,
       then a horizontal scroll bar will appear, as needed.
       """
-      self.textArea.setLineWrap(setting) 
+      self.textArea.setLineWrap(setting)
 
    # NOTE:  No event handler is associated with this widget.  It is intended to be used in association with
    #        another widget (e.g., Button or MenuItem - to grab contents and redirect them elsewhere).
    # Therefore, we do not need to worry about doing anything special to give focus to the parent display
-   # for event handling.  This will be taken care by the event handler of the associated widget (e.g., Button 
+   # for event handling.  This will be taken care by the event handler of the associated widget (e.g., Button
    # or MenuItem).
 
 
@@ -2476,25 +2477,25 @@ def fixWorkingDirForJEM( filename ):
       only if filename is NOT an absolute path (in which case the user truly knows
       where they want to store it).
    """
-   
+
    try:
 
-      JEM_getMainFilePath   # check if function JEM_getMainFilePath() is defined (this happens only inside JEM) 
-      
+      JEM_getMainFilePath   # check if function JEM_getMainFilePath() is defined (this happens only inside JEM)
+
       # get working dir, if JEM is available
       workDir = JEM_getMainFilePath()
-      
-      # two cases for filename: 
-      # 
+
+      # two cases for filename:
+      #
       # 1. a relative filepath (e.g., just a filename, or "../filename")
       # 2. an absolute filepath
-      
-      if os.path.isabs( filename ):          # if an absolute path, the user knows what they are doing 
+
+      if os.path.isabs( filename ):          # if an absolute path, the user knows what they are doing
          return filename                     # ...so, do nothing
       else:                                  # else (if a relative pathname),
          return workDir + filename           # ...fix it
-   
-   except:   
+
+   except:
       # if JEM is not available, do nothing (e.g., music.py is being run outside of JEM)
       return filename
 
@@ -2526,32 +2527,32 @@ class Icon(JPanel, Widget):
 
       # JEM working directory fix (see above)
       filename = fixWorkingDirForJEM( filename )   # does nothing if not in JEM
-     
+
       # ***
       #print "fixWorkingDirForJEM( filename ) =", filename
 
       self.fileName = filename
-      self.offset = (0,0)                # How much to compensate 
+      self.offset = (0,0)                # How much to compensate
       self.position = (0,0)              # assume placement at a Display's origin
       self.display = None
-      
-      self.degrees = 0                   # used for icon rotation 
+
+      self.degrees = 0                   # used for icon rotation
 
       self.icon = ImageIO.read(File(filename))
       iconWidth = self.icon.getWidth(None)
       iconHeight = self.icon.getHeight(None)
-      
+
       # keep a deep copy of the image (useful for repeated scalings - we always scale from original
       # for higher quality)
       self.originalIcon = BufferedImage(self.icon.getWidth(), self.icon.getHeight(), self.icon.getType())
       self.originalIcon.setData( self.icon.getData() )
-            
-            
+
+
       # Does the user want to resize icon?
       if width == None and height == None:            # If not, use icon's width and height
          width = iconWidth
          height = iconHeight
-      
+
       elif width > 0 and height == None:              # only width given
 
          height = iconHeight * width / iconWidth    # scale height proportionally to width
@@ -2588,19 +2589,19 @@ class Icon(JPanel, Widget):
       #self.setPreferredSize(Dimension(width+1, height+1))
       self.setPreferredSize(Dimension(width, height))
       #self.setSize(width, height)
- 
+
 #   def copy(self):
 #
-#      
+#
 #   def __getCopy__(self):
 #      """
 #      Returns a deep copy of the icon.
 #      """
-#   
+#
 #      # create a deep copy of the image
 #      newIcon = BufferedImage(self.icon.getWidth(), self.icon.getHeight(), self.icon.getType())
 #      newIcon.setData( self.icon.getData() )
-#      
+#
 #      return newIcon
 
 
@@ -2610,7 +2611,7 @@ class Icon(JPanel, Widget):
       """
       iconWidth = self.icon.getWidth(None)
       iconHeight = self.icon.getHeight(None)
-      
+
       # for higher quality work from the original (useful in repeated scalings)
 
       # create the scaled icon
@@ -2622,7 +2623,7 @@ class Icon(JPanel, Widget):
       #                          width, height, Scalr.OP_ANTIALIAS)
       #scaledIcon = Scalr.resize(self.originalIcon, Scalr.Method.BALANCED, Scalr.Mode.AUTOMATIC,
       #                          width, height, Scalr.OP_ANTIALIAS)
-      
+
       # use this to adjust image dimensions as expected (all above, retain proportions of image)
       scaledIcon = Scalr.resize(self.originalIcon, Scalr.Method.BALANCED, Scalr.Mode.FIT_EXACT,
                                 width, height, Scalr.OP_ANTIALIAS)
@@ -2630,8 +2631,8 @@ class Icon(JPanel, Widget):
       return scaledIcon
 
    def getPixel(self, col, row):
-      """Returns a list of the RGB values for this pixel, e.g., [255, 0, 0].""" 
-      
+      """Returns a list of the RGB values for this pixel, e.g., [255, 0, 0]."""
+
       # Obsolete - convert the row so that row zero refers to the bottom row of pixels.
       #row = self.height - row - 1
 
@@ -2639,8 +2640,8 @@ class Icon(JPanel, Widget):
       return [color.getRed(), color.getGreen(), color.getBlue()]  # create list of RGB values (0-255)
 
    def setPixel(self, col, row, RGBlist):
-      """Sets this pixel's RGB values, e.g., [255, 0, 0].""" 
-      
+      """Sets this pixel's RGB values, e.g., [255, 0, 0]."""
+
       # Obsolete - convert the row so that row zero refers to the bottom row of pixels.
       #row = self.height - row - 1
 
@@ -2652,14 +2653,14 @@ class Icon(JPanel, Widget):
          self.display.display.repaint()
 
    def getPixels(self):
-      """Returns a 2D list of pixels (col, row) - each pixel is a list of RGB values, e.g., [255, 0, 0].""" 
-      
+      """Returns a 2D list of pixels (col, row) - each pixel is a list of RGB values, e.g., [255, 0, 0]."""
+
       pixels = []                      # initialize list of pixels
-      #for row in range(self.height-1, 0, -1):   # load pixels from image      
-      for row in range(0, self.getHeight()):   # load pixels from image      
+      #for row in range(self.height-1, 0, -1):   # load pixels from image
+      for row in range(0, self.getHeight()):   # load pixels from image
          pixels.append( [] )              # add another empty row
-         for col in range(self.getWidth()):    # populate row with pixels    
-            # RGBlist = self.getPixel(col, row)   # this works also (but slower)    
+         for col in range(self.getWidth()):    # populate row with pixels
+            # RGBlist = self.getPixel(col, row)   # this works also (but slower)
             color = Color(self.icon.getRGB(col, row))  # get pixel's color
             RGBlist = [color.getRed(), color.getGreen(), color.getBlue()]  # create list of RGB values (0-255)
             pixels[-1].append( RGBlist )   # add a pixel as (R, G, B) values (0-255, each)
@@ -2668,15 +2669,15 @@ class Icon(JPanel, Widget):
       return pixels
 
    def setPixels(self, pixels):
-      """Sets image to the provided 2D list of pixels (col, row) - each pixel is a list of RGB values, e.g., [255, 0, 0].""" 
-      
+      """Sets image to the provided 2D list of pixels (col, row) - each pixel is a list of RGB values, e.g., [255, 0, 0]."""
+
       height = len(pixels)        # get number of rows
       width  = len(pixels[0])     # get number of columns (assume all columns have same length
-      
-      #for row in range(self.height-1, 0, -1):   # iterate through all rows      
-      for row in range(0, height):   # iterate through all rows     
+
+      #for row in range(self.height-1, 0, -1):   # iterate through all rows
+      for row in range(0, height):   # iterate through all rows
          for col in range(width):    # iterate through every column on this row
-         
+
             RGBlist = pixels[row][col]
             #self.setPixel(col, row, RGBlist)   # this works also (but slower)
             color = Color(RGBlist[0], RGBlist[1], RGBlist[2])  # create color from RGB values
@@ -2693,7 +2694,7 @@ class Icon(JPanel, Widget):
 
       # The user wanted to resize the icon, so resize it
       self.icon = self.__resizeIcon__(width, height)
-      
+
       # Set the width of the panel to match that of the icon
       self.setPreferredSize(Dimension(width, height))
 
@@ -2720,7 +2721,7 @@ class Icon(JPanel, Widget):
       Returns the width of this icon.
       """
       return self.icon.getWidth(None)
-      
+
    def getHeight(self):
       """
       Returns the height of this icon.
@@ -2744,16 +2745,16 @@ class Icon(JPanel, Widget):
          xPosition, yPosition = self.position
          self.setBounds(xPosition, yPosition, width, height)
          self.display.display.repaint()
-         
+
 
 #   def __rotateIcon__(self, degrees):
 #      """
 #      Returns a rotated version of the icon.
 #      """
-#      
+#
 #      # Now, create the rotated icon.  See the following link:
 #      # http://stackoverflow.com/questions/4156518/rotate-an-image-in-java
-#     
+#
 #      angle = radians(degrees)
 #
 #      w = self.getWidth()
@@ -2762,7 +2763,7 @@ class Icon(JPanel, Widget):
 #      cosine = abs(cos(angle))
 #      neww = int( floor(w*cosine+h*sine) )
 #      newh = int( floor(h*cosine+w*sine) )
-#      
+#
 #      # Make a new icon
 #      rotatedIcon = BufferedImage(neww, newh, Transparency.TRANSLUCENT)
 #      # Grab something to draw on
@@ -2776,9 +2777,9 @@ class Icon(JPanel, Widget):
       """
       Rotates the image angle degrees.
       """
-      
+
       # Actually, we do not rotate self.image.  We rotate the rendering of it - see paint()
-      
+
       self.degrees = self.degrees + degrees  # accumulate rotation
 
 # NOTE:  Trying to resize JPanel so it doesn't crop rotated image - but it doesn't work
@@ -2789,7 +2790,7 @@ class Icon(JPanel, Widget):
 #      height = self.getHeight()
 #      sine = abs(sin(angle))
 #      cosine = abs(cos(angle))
-#      
+#
 #      # calculate rotated icon's width and height (given rotation angle)
 #      newWidth = int( floor( width*cosine + height*sine ) )
 #      newHeight = int( floor( height*cosine + width*sine ) )
@@ -2798,7 +2799,7 @@ class Icon(JPanel, Widget):
 
       if self.display:
          self.display.display.repaint()
-      
+
 
    def paint(self, graphics2DContext):
       """
@@ -2815,8 +2816,8 @@ class Icon(JPanel, Widget):
       # draw it!  (unforunately, this may crop icon)
       #graphics2DContext.drawImage(icon, 0, 0, None)
       graphics2DContext.drawImage(self.icon, 0, 0, None)
-      
-      Toolkit.getDefaultToolkit().sync()  # sync graphics for animation 
+
+      Toolkit.getDefaultToolkit().sync()  # sync graphics for animation
 
 #   def paint(self, graphicsContext):
 #      """
@@ -2824,8 +2825,8 @@ class Icon(JPanel, Widget):
 #      """
 #      # Draw it!
 #      graphicsContext.drawImage(self.icon, 0, 0, None)
-#      
-#      Toolkit.getDefaultToolkit().sync()  # sync graphics for animation 
+#
+#      Toolkit.getDefaultToolkit().sync()  # sync graphics for animation
 
 
 #   def paint(self, graphicsContext):
@@ -2835,7 +2836,7 @@ class Icon(JPanel, Widget):
 #
 #      # But first, do any needed rotation.  See the following link:
 #      # http://stackoverflow.com/questions/4156518/rotate-an-image-in-java
-#     
+#
 #      angle = radians(self.degrees)
 #
 #      # do preliminary stuff for efficiency
@@ -2843,15 +2844,15 @@ class Icon(JPanel, Widget):
 #      height = self.getHeight()
 #      sine = abs(sin(angle))
 #      cosine = abs(cos(angle))
-#      
+#
 #      # calculate rotated icon's width and height (given rotation angle)
 #      newWidth = int( floor( width*cosine + height*sine ) )
 #      newHeight = int( floor( height*cosine + width*sine ) )
-#      
+#
 #      # make a buffer to store a rotated copy of the original icon (we do NOT
 #      # modify self.icon, only its copy)
 #      rotatedIcon = BufferedImage(newWidth, newHeight, Transparency.TRANSLUCENT)
-#      
+#
 #      # create a temporary graphics context for drawing a rotated copy of self.icon
 #      # (Java docs warn against using default graphics context for this - hence the temp graphics context)
 #      g = rotatedIcon.createGraphics()
@@ -2861,8 +2862,8 @@ class Icon(JPanel, Widget):
 #
 #      # Draw it!
 #      graphicsContext.drawImage(rotatedIcon, 0, 0, None)
-#      
-#      Toolkit.getDefaultToolkit().sync()  # sync graphics for animation 
+#
+#      Toolkit.getDefaultToolkit().sync()  # sync graphics for animation
 
 
 ###############################################################################
@@ -2893,7 +2894,7 @@ class Line(JPanel, Widget, Drawable):
       # the JPanel tightly encloses the line.  This means the original line coordinates have to be mapped
       # the internal JPanel coordinates (0,0 is at top left), and also to the JPanel's position within
       # the display (when the Line object is eventually added to a display).
-       
+
       # handle various line orientations (different quadrants)
       dx = abs(x2-x1)
       dy = abs(y2-y1)
@@ -2905,7 +2906,7 @@ class Line(JPanel, Widget, Drawable):
       # will have an enclosing box that's parallel to the screen).
       x = min(x1, x2)    # get left-most line x coordinate
       y = min(y1, y2)    # get left-most line y coordinate
-      
+
       self.position = ( x-self.halfThick, y-self.halfThick )  # position of the JPanel in the display (when added)
       self.display = None
 
@@ -2915,17 +2916,17 @@ class Line(JPanel, Widget, Drawable):
       self.setSize( dx+self.thickness+1,  dy+self.thickness+1 )
       #self.setPreferredSize(Dimension( dx+self.thickness,  dy+self.thickness ))
       #self.setSize( dx+self.thickness,  dy+self.thickness )
-      
+
       # is line orientation (i.e., think of a clock hour-hand) is 6-9 o'clock or 9-12 o'clock?
-      if x1 > x2:  
+      if x1 > x2:
          self.startX_JPanel = dx
          self.endX_JPanel   = 0
       else:
          self.startX_JPanel = 0
          self.endX_JPanel = dx
-         
+
       # is line orientation (i.e., think of a clock hour-hand) is 9-12 o'clock or 12-3 o'clock?
-      if y1 > y2:  
+      if y1 > y2:
          self.startY_JPanel = dy
          self.endY_JPanel   = 0
       else:
@@ -2938,14 +2939,14 @@ class Line(JPanel, Widget, Drawable):
       """
 
       # set color and draw it
-      graphics2DContext.setPaint(self.color)   
+      graphics2DContext.setPaint(self.color)
       # using CAP_BUTT for line ends, to ensure that lines "line" up regardless of thickness
       # (see http://www.zetcode.com/gfx/java2d/basicdrawing/)
       graphics2DContext.setStroke( BasicStroke(self.thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND) )
       graphics2DContext.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
       graphics2DContext.drawLine(self.startX_JPanel+self.halfThick, self.startY_JPanel+self.halfThick, self.endX_JPanel+self.halfThick, self.endY_JPanel+self.halfThick)
-      
-      Toolkit.getDefaultToolkit().sync()  # sync graphics for animation 
+
+      Toolkit.getDefaultToolkit().sync()  # sync graphics for animation
 
 
 # Circle
@@ -2956,7 +2957,7 @@ class Circle(JPanel, Widget, Drawable):
    """
    A simple circle
    """
-   
+
    def __init__(self, x, y, radius, color = Color.BLACK, fill = False, thickness=1):
       """
       Create a new circle
@@ -2983,7 +2984,7 @@ class Circle(JPanel, Widget, Drawable):
       self.setSize( self.diameter+self.thickness+1, self.diameter+self.thickness+1)
       #self.setPreferredSize(Dimension( self.diameter+self.thickness, self.diameter+self.thickness))
       #self.setSize( self.diameter+self.thickness, self.diameter+self.thickness)
- 
+
 
    # NOTE: Here we overload the Widget __remapCoordinates__() function, since Circle objects have
    # their own special way to think of their position in an enclosing Display, i.e., NOT relative to
@@ -3003,14 +3004,14 @@ class Circle(JPanel, Widget, Drawable):
       """
 
       # set color, and draw it
-      graphics2DContext.setPaint(self.color)        
+      graphics2DContext.setPaint(self.color)
       graphics2DContext.setStroke( BasicStroke(self.thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND) )
       graphics2DContext.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
       graphics2DContext.drawOval(0+self.halfThick, 0+self.halfThick, self.diameter, self.diameter)
       if self.fill:    # do we need to fill the circle?
          graphics2DContext.fillOval(0+self.halfThick, 0+self.halfThick, self.diameter, self.diameter)
-      
-      Toolkit.getDefaultToolkit().sync()  # sync graphics for animation 
+
+      Toolkit.getDefaultToolkit().sync()  # sync graphics for animation
 
 
 # Point
@@ -3048,10 +3049,10 @@ class Oval(JPanel, Widget, Drawable):
       Drawable.__init__(self, color, fill, thickness)  # set up color, fill, thickness, etc.
 
       # NOTE: Oval will be draw inside a JPanel (a rectangle) that as big as the oval's enclosing box,
-      # i.e., the JPanel tightly encloses the oval.  This means the original oval coordinates have to be 
+      # i.e., the JPanel tightly encloses the oval.  This means the original oval coordinates have to be
       # mapped the internal JPanel coordinates (0,0 is at top left), and also to the JPanel's position within
       # the display (when the Oval object is eventually added to a display).
-       
+
       dx = abs(x2-x1)     # width
       dy = abs(y2-y1)     # height
       self.halfThick = self.thickness/2   # adjustment for drawing
@@ -3080,16 +3081,16 @@ class Oval(JPanel, Widget, Drawable):
       """
       Paint me on the display
       """
-      
+
       # set color, rounded ends, and draw it
-      graphics2DContext.setPaint(self.color)        
+      graphics2DContext.setPaint(self.color)
       graphics2DContext.setStroke( BasicStroke(self.thickness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND) )
       graphics2DContext.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
       graphics2DContext.drawOval(self.startX_JPanel, self.startY_JPanel, self.endX_JPanel, self.endY_JPanel)
       if self.fill:    # do we need to fill the rectangle?
          graphics2DContext.fillOval(self.startX_JPanel, self.startY_JPanel, self.endX_JPanel, self.endY_JPanel)
-      
-      Toolkit.getDefaultToolkit().sync()  # sync graphics for animation 
+
+      Toolkit.getDefaultToolkit().sync()  # sync graphics for animation
 
 
 # Rectangle
@@ -3105,7 +3106,7 @@ class Rectangle(JPanel, Widget, Drawable):
       """
       Create a new rectangle
        """
-     
+
       JPanel.__init__(self)
       Widget.__init__(self)                 # set up listeners, etc.
       Drawable.__init__(self, color, fill, thickness)  # set up color, fill, thickness, etc.
@@ -3114,7 +3115,7 @@ class Rectangle(JPanel, Widget, Drawable):
       # i.e., the JPanel tightly encloses the rectangle.  This means the original rectangle coordinates have
       # to be mapped the internal JPanel coordinates (0,0 is at top left), and also to the JPanel's position
       # within the display (when the Rectangle object is eventually added to a display).
-       
+
       dx = abs(x2-x1)     # width
       dy = abs(y2-y1)     # height
       self.halfThick = self.thickness/2   # adjustment for drawing
@@ -3145,24 +3146,24 @@ class Rectangle(JPanel, Widget, Drawable):
       """
 
       # set color, rounded ends, and draw it
-      graphics2DContext.setPaint(self.color)        
+      graphics2DContext.setPaint(self.color)
       graphics2DContext.setStroke( BasicStroke(self.thickness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND) )
       graphics2DContext.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
       graphics2DContext.drawRect(self.startX_JPanel, self.startY_JPanel, self.endX_JPanel, self.endY_JPanel)
       if self.fill:    # do we need to fill the rectangle?
          graphics2DContext.fillRect(self.startX_JPanel, self.startY_JPanel, self.endX_JPanel, self.endY_JPanel)
-      
-      Toolkit.getDefaultToolkit().sync()  # sync graphics for animation 
 
-         
+      Toolkit.getDefaultToolkit().sync()  # sync graphics for animation
+
+
 # Arc
 #
 # Creates an arc to be added to a display.
 
 class Arc(JPanel, Widget, Drawable):
    """
-   An arc specified by two diagonal corners, the start angle, and the end angle.  Angles are interpreted such that 0 degrees is 
-   at the three o'clock position. A positive value indicates a counter-clockwise rotation while 
+   An arc specified by two diagonal corners, the start angle, and the end angle.  Angles are interpreted such that 0 degrees is
+   at the three o'clock position. A positive value indicates a counter-clockwise rotation while
    a negative value indicates a clockwise rotation.
    """
 
@@ -3170,7 +3171,7 @@ class Arc(JPanel, Widget, Drawable):
       """
       Create a new arc
       """
-     
+
       JPanel.__init__(self)
       Widget.__init__(self)                 # set up listeners, etc.
       Drawable.__init__(self, color, fill, thickness)  # set up color, fill, thickness, etc.
@@ -3179,7 +3180,7 @@ class Arc(JPanel, Widget, Drawable):
       # i.e., the JPanel tightly encloses the rectangle.  This means the original rectangle coordinates have
       # to be mapped the internal JPanel coordinates (0,0 is at top left), and also to the JPanel's position
       # within the display (when the Rectangle object is eventually added to a display).
-       
+
       dx = abs(x2-x1)     # width
       dy = abs(y2-y1)     # height
       self.halfThick = self.thickness/2   # adjustment for drawing
@@ -3203,11 +3204,11 @@ class Arc(JPanel, Widget, Drawable):
       self.startY_JPanel = 0 + self.halfThick
       self.endX_JPanel = dx
       self.endY_JPanel = dy
-      
+
       # remember angles
       self.startAngle = startAngle
       self.arcAngle = endAngle - startAngle  # calculate arcAngle (as needed by drawArc() and fillArc()
-      
+
 
    def paint(self, graphics2DContext):
       """
@@ -3215,14 +3216,14 @@ class Arc(JPanel, Widget, Drawable):
       """
 
       # set color, rounded ends, and draw it
-      graphics2DContext.setPaint(self.color)        
+      graphics2DContext.setPaint(self.color)
       graphics2DContext.setStroke( BasicStroke(self.thickness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND) )
       graphics2DContext.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
       graphics2DContext.drawArc(self.startX_JPanel, self.startY_JPanel, self.endX_JPanel, self.endY_JPanel, self.startAngle, self.arcAngle)
       if self.fill:    # do we need to fill the arc?
          graphics2DContext.fillArc(self.startX_JPanel, self.startY_JPanel, self.endX_JPanel, self.endY_JPanel, self.startAngle, self.arcAngle)
-      
-      Toolkit.getDefaultToolkit().sync()  # sync graphics for animation 
+
+      Toolkit.getDefaultToolkit().sync()  # sync graphics for animation
 
 
 # Polygon
@@ -3240,7 +3241,7 @@ class Polygon(JPanel, Widget, Drawable):
       """
       Create a new polygon
        """
-     
+
       JPanel.__init__(self)
       Widget.__init__(self)                 # set up listeners, etc.
       Drawable.__init__(self, color, fill, thickness)  # set up color, fill, thickness, etc.
@@ -3249,7 +3250,7 @@ class Polygon(JPanel, Widget, Drawable):
       # i.e., the JPanel tightly encloses the polygon.  This means the original polygon coordinates have
       # to be mapped the internal JPanel coordinates (0,0 is at top left), and also to the JPanel's position
       # within the display (when the polygon object is eventually added to a display).
-       
+
       dx = max(xPoints)-min(xPoints)     # width
       dy = max(yPoints)-min(yPoints)     # height
       self.halfThick = self.thickness/2   # adjustment for drawing
@@ -3272,28 +3273,28 @@ class Polygon(JPanel, Widget, Drawable):
       # adjust points for thickness and positioning within panel
       self.xPoints = [x + self.halfThick - minX for x in xPoints]
       self.yPoints = [y + self.halfThick - minY for y in yPoints]
-            
+
       # convert to Java arrays (needed by drawPolygon() and fillPolygon() functions below)
       self.xPoints = array(self.xPoints, 'i')
       self.yPoints = array(self.yPoints, 'i')
-      
+
    def paint(self, graphics2DContext):
       """
       Paint me on the display
       """
 
       # set color, rounded ends, and draw it
-      graphics2DContext.setPaint(self.color)        
+      graphics2DContext.setPaint(self.color)
       graphics2DContext.setStroke( BasicStroke(self.thickness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND) )
       graphics2DContext.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
       graphics2DContext.drawPolygon(self.xPoints, self.yPoints, len(self.xPoints))
       if self.fill:    # do we need to fill the rectangle?
          graphics2DContext.fillPolygon(self.xPoints, self.yPoints, len(self.xPoints))
-      
-      Toolkit.getDefaultToolkit().sync()  # sync graphics for animation 
+
+      Toolkit.getDefaultToolkit().sync()  # sync graphics for animation
 
 
-                       
+
 
 ###### Unit Tests ###################################
 
@@ -3304,43 +3305,43 @@ if __name__ == "__main__":
 ### FIRST DISPLAY TEST ###
 
    # create display
-   display1 = Display("First Display", 600, 400, 0, 0)     
-   display1.show()     
-   
+   display1 = Display("First Display", 600, 400, 0, 0)
+   display1.show()
+
    display1.setToolTipText("I am a display")  # add tooltip
-    
-   # a circle       
+
+   # a circle
    circle1 = Circle(150, 150, 5)
    display1.place(circle1)
-   
+
    # a line
    line1 = Line(100, 50, 300, 400)
    display1.place(line1)
-    
+
    # more circles
    circle2 = Circle(0, 0, 100)
    display1.place(circle2)
    circle3 = Circle(100, 100, 100)
-   display1.place(circle3)  
-    
-   # a circle       
+   display1.place(circle3)
+
+   # a circle
    circle4 = Circle(0, 0, 5)
    display1.place(circle4, 0, 0)
-   
-   # another line             
-   line2 = Line(0, 0, 300, 400)   
-   display1.place(line2)       
-    
+
+   # another line
+   line2 = Line(0, 0, 300, 400)
+   display1.place(line2)
+
    # a point
    point1 = Point(200, 200)
    display1.place(point1)
-      
+
    # a rectangle
    rectangle1 = Rectangle(0, 0, 300, 250)
    display1.place(rectangle1)
    rectangle1.setColor(Color.ORANGE)
-   #rectangle1.setColor(Color.BLACK) 
-   
+   #rectangle1.setColor(Color.BLACK)
+
    # a few icons (with resizing)
    icon1 = Icon("musicalNote.jpg", width=50)
    display1.place(icon1, 0, 0)
@@ -3350,17 +3351,17 @@ if __name__ == "__main__":
    display1.place(icon3, 100, 100)
    icon4 = Icon("musicalNote.jpg")
    display1.place(icon4, 0, 0)
-   
+
    # add a few tooltips
-   # NOTE - tooltips work best with rectangular objects (since the 
+   # NOTE - tooltips work best with rectangular objects (since the
    # tootltip is associated with the bounding box (this can look really confusing
    # on a line, or circle)
    icon4.setToolTipText("I am a note")     # add tooltip
-   
+
    # Test Label
    label1 = Label("hi!                                     ")
    display1.place(label1, 300, 300)
-   
+
    # display keyboard listener
    def echo(key):
       label1.setText("key = " + str(key) + ", char = '" + chr(key) + "'")
@@ -3371,88 +3372,88 @@ if __name__ == "__main__":
    display1.onKeyDown( echo ) # echo keystrokes typed
    display1.onKeyUp( echo ) # echo keystrokes typed
 #   display1.onKeyType( echo ) # echo keystrokes typed
-   
+
    # callback to remove last image from display,
    # when mouse is pressed
    def removeImage(x, y):
       display1.remove(icon4)
 
    # register callback
-   display1.onMouseClick( removeImage )  # remove last image when mouse clicked   
-   
-   
+   display1.onMouseClick( removeImage )  # remove last image when mouse clicked
+
+
 ### SECOND DISPLAY TEST ###
 
    from music import *
-   
+
    # create display
-   display2 = Display("Second Display - GUI Widgets", 600, 400, 50, 50)     
-   display2.show()     
-   
+   display2 = Display("Second Display - GUI Widgets", 600, 400, 50, 50)
+   display2.show()
+
    # Test Label
    l1 = Label("hi!                ")
    display2.place(l1, 520, 40)
-   
+
    l1.setSize(40, 80)   # resize label  (*** setSize should call repaint, etc.)
    display2.place(l1, 520, 40)
-   
+
    # define a function to handle display keyboard press/release events
    def echo1(key):
       """Display keyboard press/release events on label l1."""
       l1.setText("key =" + str(key))
 
-   # when a key is typed on display2, call the above function to update label l1       
+   # when a key is typed on display2, call the above function to update label l1
    display2.onKeyDown( echo1 ) # echo keys pressed
    #display2.onKeyUp( echo1 ) # echo keys released
 
-   # also when a mouse action occurs, call the above function to update label l1       
+   # also when a mouse action occurs, call the above function to update label l1
    # with the mouse coordinates
    def printMouseCoordinates(x, y):
       l1.setText( "(" + str(x) + ", " + str(y) + ")" )
-      
+
    display2.onMouseClick( printMouseCoordinates )
    display2.onMouseDrag( printMouseCoordinates )
    display2.onMouseMove( printMouseCoordinates )
-   
+
    # Now, let's create two buttons, one that starts a note, another that ends it
-   
-   # To operate, each button requires a function that performs what 
+
+   # To operate, each button requires a function that performs what
    # the button does when pressed.  When defining the buttons, we
    # associate them with the proper function.
-   
+
    def startA4():
       Play.noteOn(A4)
-      
+
    def endA4():
       Play.noteOff(A4)
-      
+
    button1 = Button("Start note", startA4)
    button2 = Button("End note", endA4)
-   
+
    # now, place them on the display, so they can be used
    display2.place(button1, 30, 40)
    display2.place(button2, 140, 40)
-   
-   
+
+
    # create a slider and label pair (label displays slider's value)
    l2 = Label("slider =        ")
    display2.place(l2, 40, 150)
-   
+
    def updateLabel( value ):
       l2.setText( "slider = " + str(value) )
-      
+
    #Slider(orientation, lower, upper, start, eventHandler)
    s2 = Slider( eventHandler = updateLabel )
    display2.place(s2, 40, 100)
-   
-   
+
+
    # DropDownList test
    l3 = Label("selected item =                ")
    display2.place(l3, 250, 150)
-   
+
    def updateLabel3( value ):
       l3.setText( "selected item = " + value )
-   
+
    ddl = DropDownList(["", "first", "second", "third"], updateLabel3 )
    #ddl.addItemList( ["", "first", "second", "third"] )
    display2.place(ddl, 250, 100)
@@ -3460,29 +3461,29 @@ if __name__ == "__main__":
    # TextField test
    l4 = Label("text field =                                   ")
    display2.place(l4, 20, 350)
-   
+
    def updateLabel4( value ):
       l4.setText( "text field = " + value )
       tf.setText("")   # clear the text field (a bit awkward - but necessary)
-   
+
    # TextField(columns, text, eventHanlder)
    tf = TextField("type and hit <ENTER> ", 18, updateLabel4 )
    display2.place(tf, 20, 300)
-   
+
    # or, we could leave the textField without an event handler, and instead
    # define a button, which, when pressed (i.e., its event handler) grabs
    # the textField's text and does whatever needs to be done with it.
 
    # TextArea test
-   
+
    # TextArea(rows, columns, text)
    ta = TextArea("", 7, 15)
    display2.place(ta, 400, 250)
-   
+
    # add a couple of menus
    m = Menu("Test")
 
-   def oneFunction():    # callback function for item one 
+   def oneFunction():    # callback function for item one
      l3.setText("one")
 
    def twoFunction():    # callback function for item two
@@ -3500,33 +3501,33 @@ if __name__ == "__main__":
    # create a submenu...
    m1 = Menu("submenu")
    m1.addItemList(["one", "two", "three"], [oneFunction, twoFunction, threeFunction])
-   
+
    m.addSubMenu(m1)  # and add it to the menu
-   
+
    display2.addMenu(m)  # add the menu to the display
 
 
 ### THIRD DISPLAY TEST ###
 
    from music import *
-   
+
    # create display
-   display3 = Display("Third Display - Music", 600, 400, 100, 100)     
-   display3.show()     
-   
+   display3 = Display("Third Display - Music", 600, 400, 100, 100)
+   display3.show()
+
    def playMidiNote1():
       Play.midi( Note(A4, QN) )
-      
+
    def playMidiNote2():
       Play.midi( Note(C5, QN) )
 
    button1 = Button("Start A4", playMidiNote1)
    button2 = Button("Start C5", playMidiNote2)
-   
+
    # now, place them on the display, so they can be used
    display3.place(button1, 30, 40)
    display3.place(button2, 30, 70)
-   
+
    # also test two checkboxes
    def playMidiNote3(checkboxState):
       if checkboxState:    # is the checkbox set?
@@ -3546,61 +3547,61 @@ if __name__ == "__main__":
    # now, place them on the display, so they can be used
    display3.place(checkbox1, 30, 140)
    display3.place(checkbox2, 30, 160)
- 
-   
+
+
 ### FOURTH DISPLAY TEST ###
 
    # create display
-   display4 = Display("Fourth Display - Graphics objects", 600, 400, 150, 150)     
-   display4.show()     
-   
+   display4 = Display("Fourth Display - Graphics objects", 600, 400, 150, 150)
+   display4.show()
+
    # Line tests
 #   line1 = Line(100, 150, 200, 300)  # x1 < x2 and y1 < y2   (orientation 3-6 o'clock)
-#   display4.add(line1) 
+#   display4.add(line1)
 #   line1 = Line(200, 150, 100, 300)  # x1 > x2 and y1 < y2   (orientation 6-9 o'clock)
-#   display4.add(line1)             
+#   display4.add(line1)
 #   line1 = Line(150, 300, 250, 150)  # x1 < x2 and y1 > y2   (orientation 12-3 o'clock)
-#   display4.add(line1)             
+#   display4.add(line1)
 #   line1 = Line(250, 300, 150, 150)  # x1 > x2 and y1 > y2   (orientation 9-12 o'clock)
-#   display4.add(line1) 
+#   display4.add(line1)
 
-   #  more convenient   
+   #  more convenient
    display4.drawLine(100, 150, 200, 300)  # x1 < x2 and y1 < y2   (orientation 3-6 o'clock)
    display4.drawLine(200, 150, 100, 300)  # x1 > x2 and y1 < y2   (orientation 6-9 o'clock)
    display4.drawLine(150, 300, 250, 150)  # x1 < x2 and y1 > y2   (orientation 12-3 o'clock)
    display4.drawLine(250, 300, 150, 150)  # x1 > x2 and y1 > y2   (orientation 9-12 o'clock)
-   
+
    # pairs of lines (RED with thickness 10, and BLACK with thickness 1 superimposed)
    # various orientations
 #   l1 = Line(50, 50, 100, 100, Color.RED, 10)
-#   display4.add(l1)                          
-#   l1 = Line(50, 50, 100, 100, Color.BLACK)  
-#   display4.add(l1)                        
+#   display4.add(l1)
+#   l1 = Line(50, 50, 100, 100, Color.BLACK)
+#   display4.add(l1)
 #   l1 = Line(50, 150, 150, 150, Color.RED, 10)
-#   display4.add(l1)                           
-#   l1 = Line(50, 150, 150, 150, Color.BLACK)  
-#   display4.add(l1)                         
-#   l1 = Line(50, 200, 50, 300, Color.BLACK) 
-#   display4.add(l1)                        
+#   display4.add(l1)
+#   l1 = Line(50, 150, 150, 150, Color.BLACK)
+#   display4.add(l1)
+#   l1 = Line(50, 200, 50, 300, Color.BLACK)
+#   display4.add(l1)
 #   l1 = Line(50, 200, 50, 300, Color.RED, 10)
-#   display4.add(l1)                          
-#   l1 = Line(50, 200, 50, 300, Color.BLACK)  
-#   display4.add(l1)          
-#   l1 = Line(80, 300, 200, 200, Color.RED, 10)   
-#   display4.add(l1)                           
-#   l1 = Line(80, 300, 200, 200, Color.BLACK)  
-#   display4.add(l1)      
+#   display4.add(l1)
+#   l1 = Line(50, 200, 50, 300, Color.BLACK)
+#   display4.add(l1)
+#   l1 = Line(80, 300, 200, 200, Color.RED, 10)
+#   display4.add(l1)
+#   l1 = Line(80, 300, 200, 200, Color.BLACK)
+#   display4.add(l1)
 
-   # more convenient way   
+   # more convenient way
    display4.drawLine(50, 50, 100, 100, Color.RED, 10)
-   display4.drawLine(50, 50, 100, 100, Color.BLACK)  
+   display4.drawLine(50, 50, 100, 100, Color.BLACK)
    display4.drawLine(50, 150, 150, 150, Color.RED, 10)
-   display4.drawLine(50, 150, 150, 150, Color.BLACK)  
-   display4.drawLine(50, 200, 50, 300, Color.BLACK) 
+   display4.drawLine(50, 150, 150, 150, Color.BLACK)
+   display4.drawLine(50, 200, 50, 300, Color.BLACK)
    display4.drawLine(50, 200, 50, 300, Color.RED, 10)
-   display4.drawLine(50, 200, 50, 300, Color.BLACK)  
-   display4.drawLine(80, 300, 200, 200, Color.RED, 10)   
-   display4.drawLine(80, 300, 200, 200, Color.BLACK)  
+   display4.drawLine(50, 200, 50, 300, Color.BLACK)
+   display4.drawLine(80, 300, 200, 200, Color.RED, 10)
+   display4.drawLine(80, 300, 200, 200, Color.BLACK)
 
    # Circle tests
 #   c1 = Circle(150, 150, 20, Color.RED, False, 15)
@@ -3608,139 +3609,139 @@ if __name__ == "__main__":
 #   c1 = Circle(150, 150, 20)
 #   display4.add(c1)
 
-   # more convenient way   
+   # more convenient way
    display4.drawCircle(150, 150, 20, Color.RED, False, 15)
    display4.drawCircle(150, 150, 20)
-   
+
    # Point tests
 #   p1 = Point(250, 250, Color.ORANGE, 5)
 #   display4.add(p1)
-#   p1 = Point(250, 250) 
+#   p1 = Point(250, 250)
 #   display4.add(p1)
 
-   # more convenient way   
+   # more convenient way
    display4.drawPoint(250, 250, Color.ORANGE, 5)
-   display4.drawPoint(250, 250) 
-   
+   display4.drawPoint(250, 250)
+
    # Rectangle tests
 #   rec1 = Rectangle(50, 50, 150, 100, Color.ORANGE, False, 15)
-#   display4.add(rec1)                                         
-#   rec1 = Rectangle(50, 50, 150, 100)                         
-#   display4.add(rec1)                
+#   display4.add(rec1)
+#   rec1 = Rectangle(50, 50, 150, 100)
+#   display4.add(rec1)
 
-   # more convenient way   
+   # more convenient way
    display4.drawRectangle(50, 50, 150, 100, Color.ORANGE, False, 15)
-   display4.drawRectangle(50, 50, 150, 100)                         
-                  
+   display4.drawRectangle(50, 50, 150, 100)
+
    # Oval tests
 #   o1 = Oval(300, 50, 400, 100, Color.ORANGE, False, 15)
-#   display4.add(o1)                                         
-#   o1 = Oval(300, 50, 400, 100)                         
-#   display4.add(o1)                
+#   display4.add(o1)
+#   o1 = Oval(300, 50, 400, 100)
+#   display4.add(o1)
 
-   # more convenient way   
+   # more convenient way
    display4.drawOval(300, 50, 400, 100, Color.ORANGE, False, 15)
-   display4.drawOval(300, 50, 400, 100)                         
+   display4.drawOval(300, 50, 400, 100)
 
    # Polygon tests
-#   p = Polygon([312, 366, 510, 443], [244, 210, 312, 346], Color.ORANGE, False, 15) 
+#   p = Polygon([312, 366, 510, 443], [244, 210, 312, 346], Color.ORANGE, False, 15)
 #   display4.add(p)
-#   p = Polygon([312, 366, 510, 443], [244, 210, 312, 346])                         
+#   p = Polygon([312, 366, 510, 443], [244, 210, 312, 346])
 #   display4.add(p)
-    
-   # more convenient way   
-   display4.drawPolygon([312, 366, 510, 443], [244, 210, 312, 346], Color.ORANGE, False, 15) 
-   display4.drawPolygon([312, 366, 510, 443], [244, 210, 312, 346])                         
-   
+
+   # more convenient way
+   display4.drawPolygon([312, 366, 510, 443], [244, 210, 312, 346], Color.ORANGE, False, 15)
+   display4.drawPolygon([312, 366, 510, 443], [244, 210, 312, 346])
+
    # drawLabel test (notice how the draw function also returns the drawn object - we used it below)
-   label = display4.drawLabel("hi", 100, 100, Color.RED, Font("Serif", Font.ITALIC, 40))     
-   
+   label = display4.drawLabel("hi", 100, 100, Color.RED, Font("Serif", Font.ITALIC, 40))
+
    from random import randint
-   
+
    class RandomMover():
-   
+
       def __init__(self, object, delay):
-      
+
          self.object = object              # object to move
-         
+
          timer = Timer(delay, self.move)   # timer to schedule movement
          timer.start()                     # start movement!
-         
+
       def move(self):
          """Called by timer to move self.object."""
-      
+
          # ask the object's display to move the item by a small random displacement
          display = self.object.display    # get the object's display
          x, y = self.object.position      # get object's current x, y coordinates
-         
+
          # get new x, y coordinates (random displacement)
          x = x + randint(0, 10)
          y = y + randint(0, 10)
-         
+
          # make sure we stay within display area
          x = x % display.getWidth()
          y = y % display.getHeight()
-         
+
          display.move( self.object, x, y )  # and move it
-         
+
    m = RandomMover( label, 100 )  # move label randomly every 100 milliseconds
 
 
 ### FIFTH DISPLAY TEST ###
 
-   from random import *         
+   from random import *
 
    # create display (actually, a small superset of display)
-   
+
    class GameEngine(Display):
       """Build a game engine based on a display, and consisting of a timer and interacting objects."""
-      
+
       def __init__(self, title = "", width = 600, height = 400, frameRate=30):
-      
+
          Display.__init__(self, title, width, height)
-         
+
          self.objects = []      # keep track of game objects (to be updated)
-    
+
          # create timer
          delay = 1000 / frameRate                 # convert from frame rate to delay between each update (in milliseconds)
          self.timer = Timer(delay, self.update)   # timer to schedule movement
 
       def start(self):
-         """Starts animation."""         
+         """Starts animation."""
          self.timer.start()   # start movement!
 
       def stop(self):
          """Stops animation."""
          self.timer.stop()   # stop movement!
-         
+
       def add(self, object):
          """Adds another object to the game."""
-         
+
          self.objects.append( object )  # let's remember it
          Display.add(self, object)      # also add it to the display
 
       def update(self):
          """Updates objects."""
-         
+
          # check for collisions (and let colliding objects know)
          for i in range( len(self.objects) ):
-         
+
             # check if this object is colliding with any of the remaining objects
             this = self.objects[i]
             remaining = self.objects[i+1:]
             for other in remaining:
-            
+
                if this.intersects(other):  # found collision?
-               
+
                   # let objects know they have collided, in case they needs to do something (e.g., explode)
-                  this.collide( other )   
+                  this.collide( other )
                   #other.collide( this )    # since this generates a sound, let's call only one of them
-                  
+
                   # swap velocities between the two objects
                   # NOTE:  This could be more involved to take mass into account, e.g.,
                   #        see http://processing.org/learning/topics/circlecollision.html
                   this.velocity, other.velocity = other.velocity, this.velocity
-                  
+
                   # and update positions, until they are not overlapping anymore (to NOT get stuck!)
                   # NOTE:  Every now and then, this can cause some weird motion artifacts, but it's a simple
                   #        way to avoid object clumping (i.e., objects getting stuck inside one-another, caused
@@ -3749,20 +3750,20 @@ if __name__ == "__main__":
                      this.update()
                      other.update()
                   # now, we have handled the collision between these two objecs (by moving them apart)
-             
+
          # ask objects to update their actions
          for object in self.objects:
             object.update()
-  
-  
+
+
    # create ball (a superset of Circle)
    class Ball(Circle):
       """Creates a ball based on a circle."""
-   
+
       def __init__(self, x, y, radius, color, initVelocityX=1.0, initVelocityY=1.0):
          """Initialize ball using initial velocity (x, y)."""
 
-         # initialize superclass (i.e., create circle)      
+         # initialize superclass (i.e., create circle)
          Circle.__init__(self, x, y, radius, color, True)   # ball is a filled, red circle
 
          # set ball attributes
@@ -3770,10 +3771,10 @@ if __name__ == "__main__":
          self.velocity = [initVelocityX, initVelocityY]  # velocity [x, y]
          self.gravity = 0.28                             # acceleration due to gravity
          self.friction = 0.9                             # slow-down factor as a result of bouncing off the display border - has to be <= 1.0 - (should we call this "lubricity"?)
-         
+
          # set what to do when we are clicked by the mouse
          self.onMouseClick( self.clicked )
-         
+
          # sound effects
          self.blopSound = AudioSample("Blop-Mark_DiAngelo-SoundBible.com-79054334.wav")
          self.ricochetSound = AudioSample("Ricochet Of A Bullet-SoundBible.com-377161548.wav")
@@ -3782,58 +3783,58 @@ if __name__ == "__main__":
          """Called when we collide with another.  For now, just plays sound."""
 
          self.blopSound.play()   # play sound effect
-      
+
       def update(self):
          """Move ball one step (determined by velocity and dt)."""
-      
+
          try:
             self.display   # check if we have been added to a display
          except:
             raise RuntimeError("Ball.move(): Undefined display... You need to add ball to a display first.")
-            
+
          x, y = self.getPosition()      # get ball's current x, y coordinates
-         
-         # stay within display borders 
+
+         # stay within display borders
          if x > self.display.getWidth() - self.radius:  # hit right wall of display?
             x = self.display.getWidth() - self.radius            # place ball at edge (in case we surpassed it - to NOT get stuck!)
             self.velocity[0] = -self.velocity[0] * self.friction # and bounce (invert x velocity component), slowing down a bit
 
          if x < 0 + self.radius:   # hit left wall of display?
-            x = 0 + self.radius                                  # place ball at edge (in case we surpassed it - to NOT get stuck!)         
+            x = 0 + self.radius                                  # place ball at edge (in case we surpassed it - to NOT get stuck!)
             self.velocity[0] = -self.velocity[0] * self.friction # and bounce (invert x velocity component), slowing down a bit
 
-         if y > self.display.getHeight() - self.radius:  # hit bottom wall of display?       
+         if y > self.display.getHeight() - self.radius:  # hit bottom wall of display?
             y = self.display.getHeight() - self.radius           # place ball at edge (in case we surpassed it - to NOT get stuck!)
             self.velocity[1] = -self.velocity[1] * self.friction # and bounce! (invert y velocity component), slowing down a bit
-                                       
+
          if y < 0 + self.radius:   # hit top wall of display?
-            y = 0 + self.radius                                  # place ball at edge (in case we surpassed it - to NOT get stuck!)         
+            y = 0 + self.radius                                  # place ball at edge (in case we surpassed it - to NOT get stuck!)
             self.velocity[1] = -self.velocity[1] * self.friction # and bounce! (invert y velocity component), slowing down a bit
-                              
+
          # adjust velocity based on acceleration due to gravity
          self.velocity[1] = self.velocity[1] + self.gravity   # applies only to y component
 
          # get new x, y coordinates (add displacement due to velocity)
          x = int(x + self.velocity[0])
          y = int(y + self.velocity[1])
-         
+
          self.setPosition(x, y)  # and move to new position
 
       def clicked(self, x, y):
-         """Executed when the ball is clicked with the mouse (x, y are the mouse coordinates).  
+         """Executed when the ball is clicked with the mouse (x, y are the mouse coordinates).
             For now, we make the ball (randomly) jump in the air, and play sound."""
-            
+
          # NOTE:  This uses magic numbers - not good.  Perhaps use self.initialVelocity here?
-         
+
          self.velocity[0] += randint(-10, 10)      # new x velocity (random displacement)
          self.velocity[1] = self.velocity[1] - 10  # new y velocity - jump in the air! (0 is at top of display)
- 
+
          self.ricochetSound.play()    # play sound effect
 
 
    # initialize the game engine (display) - parameters are title, width. height frameRate (frames/sec)
    g = GameEngine("Fifth Display - Animation - Bouncing Balls with Sound (Shoot them too!)", 800, 600, 30)
-    
+
    numBalls = 3  # how many balls to include in the simulation
 
    # create many balls
@@ -3842,14 +3843,14 @@ if __name__ == "__main__":
       b = Ball( randint(0, g.getWidth()),  # initial x position (anywhere on display)
                 randint(0, g.getHeight()), # initial y position (anywhere on display)
                 randint(10, 70),           # random radius (ranges from 40 to 70 pixels)
-                Color( randint(0, 255), randint(0, 255), randint(0, 255) ), # random color 
+                Color( randint(0, 255), randint(0, 255), randint(0, 255) ), # random color
                 randint(-10, 10),          # initial x velocity (anywhere from -10 to 10 pixels/frame)
                 randint(-10, 10) )         # initial y velocity (anywhere from -10 to 10 pixels/frame)
-      
-      # and add it to the engine          
+
+      # and add it to the engine
       g.add( b )
    # now all the balls have been created
-   
+
    # so, start the engine!
    g.start()
 
@@ -3857,12 +3858,12 @@ if __name__ == "__main__":
 ### SIXTH DISPLAY TEST ###
 
    # create display
-   display6 = Display("Sixth Display - Arc objects", 800, 800, 150, 150)     
-   display6.show() 
-   
+   display6 = Display("Sixth Display - Arc objects", 800, 800, 150, 150)
+   display6.show()
+
    # draw some arcs
-   display6.drawArc(400, 250, 500, 350, 240, 60) 
-   display6.drawArc(200, 250, 300, 350, 180, 0)  
-   display6.drawArc(5, 250, 105, 350, 90, 270) 
-   display6.drawArc(5, 450, 105, 550, 90, -90) 
+   display6.drawArc(400, 250, 500, 350, 240, 60)
+   display6.drawArc(200, 250, 300, 350, 180, 0)
+   display6.drawArc(5, 250, 105, 350, 90, 270)
+   display6.drawArc(5, 450, 105, 550, 90, -90)
    display6.drawArc(200, 450, 300, 550, 240, -60)
