@@ -28,10 +28,10 @@
 #
 # REVISIONS:
 #
-# 4.3   28-Aug-2016 (bm)  Added Play.audio(), Play.audioNote(), Play.audioOn(), Play.audioOff(), Play.allAudioNotesOff() to 
+# 4.3   28-Aug-2016 (bm)  Added Play.audio(), Play.audioNote(), Play.audioOn(), Play.audioOff(), Play.allAudioNotesOff() to
 #                   play musical material via AudioSamples.  These functions parallel the corresponding Play.note(), etc. functions.
 #                   The only difference is that audio samples are provided to be used in place of MIDI channels to render the music.
-#                   Also fixed bug with rendering panning information in notes in Play.midi() and Play.audio().  
+#                   Also fixed bug with rendering panning information in notes in Play.midi() and Play.audio().
 #                   Also, if panning information is not provided in Play.noteOn(), Play.audioOn(), etc., the global Play.setPanning()
 #                   info is now used.
 #
@@ -41,23 +41,23 @@
 #                   (a) Playback now uses length of a note (vs. its duration) to determine how long it sounds (as it should).
 #                   (b) Chord durations were calculated improperly for some chord notes, due to a note sorting error.  This has been fixed by
 #                   sorting noteList in Play.midi() by start time, then duration, then pitch then etc.
-#                   (c) Fixed race condition which caused some notes from not turning off.  The dictionary used to hold instances of overlapping 
-#                   notes was changed to a list.  Now, for every note to play, a tuple of pitch and channel is added to by frequencyOn() and 
+#                   (c) Fixed race condition which caused some notes from not turning off.  The dictionary used to hold instances of overlapping
+#                   notes was changed to a list.  Now, for every note to play, a tuple of pitch and channel is added to by frequencyOn() and
 #                   removed from the list by frequencyOff(), respectively. (Race condition is still present, but due to rewritten logic, it
 #                   does not cause any trouble anymore.  All concurrent notes are turned off when they should.)
 #
-# 4.0   14-May-2016 (bm and mm)  Added microtonal capabilities.  Now, we can create and play notes using frequencies (float, in Hz), 
-#                   instead of pitch (0-127).  Updated new Play.midi() function to handle microtones / frequencies (by using pitchbend).  
+# 4.0   14-May-2016 (bm and mm)  Added microtonal capabilities.  Now, we can create and play notes using frequencies (float, in Hz),
+#                   instead of pitch (0-127).  Updated new Play.midi() function to handle microtones / frequencies (by using pitchbend).
 #                   Only one frequency per channel can be played accurately (since there is only one pitchbend per channel).  Regular notes
-#                   can play concurrently as usual (i.e., for chords).  However, for concurrent microtones on a given channel, 
+#                   can play concurrently as usual (i.e., for chords).  However, for concurrent microtones on a given channel,
 #				unless they have same pitchbend, only the last microtone will be rendered accurately (all others will be affected by the
 #				latest pichbend - the one used to render the last microtone - again, only one pitchbend is available per channel).
-#                   To render concurrent microtones, they have to be spread across different channels.  That's the only way to render 
+#                   To render concurrent microtones, they have to be spread across different channels.  That's the only way to render
 #                   microtonal chords using MIDI (i.e., we are pushing MIDI as far as it goes here).
 #                   Also, updated Play.noteOn/Off(), and Play.frequencyOn/Off() accordingly, and added a few more error checks/warnings.
 #                   Additionally, now only the last note-off event for a given note-channel is executed, thus allowing overlapping notes with
 #                   same pitch (e.g., overlapping A4 notes) to render more accurately.
-#				Finally, Play.setPitchBend() changes the global pitch bend, so if a certain frequency is played, it will be 
+#				Finally, Play.setPitchBend() changes the global pitch bend, so if a certain frequency is played, it will be
 #				pitchbended if pitch bend is NOT zero. This is similar to playing any note with pitch bend set to anything other
 #				than zero.
 #
@@ -83,7 +83,7 @@
 #                   (e.g., Little Endian), which appeared in some Windows boxes.  Also, fixed problem of Java imports
 #                   overridding Python's enumerate() function.
 #
-# 3.3   06-May-2015 (cb)  Added LiveSample(), which implements live recording of audio, and offers 
+# 3.3   06-May-2015 (cb)  Added LiveSample(), which implements live recording of audio, and offers
 #                   an API similar to AudioSample.  Nice!
 #
 # 3.2   22-Feb-2015 (bm)  Added Mod.elongate() to fix a problem with jMusic's Mod.elongate (it messes up the
@@ -116,7 +116,7 @@
 #                   to hide it, since Play.stop() is now the right way to stop Play generated music from
 #                   sounding.
 #
-# 2.5   27-May-2014 (bm) Added stopMidiSynths() - a function to stop all Play.midi music right away - this 
+# 2.5   27-May-2014 (bm) Added stopMidiSynths() - a function to stop all Play.midi music right away - this
 #                   was needed for JEM. Also,Play.midi() returns the MIDI synthesizer used, so
 #                   m = Play.midi(), followed by, m.stop(), will stop that synthesizer.
 #
@@ -126,44 +126,44 @@
 #                   added Envelope class and updated AudioSample to work with it.
 #
 # 2.2   21-Nov-2013 Added a Play.note(pitch, start, duration, velocity=100, channel=0) function,
-#                   which plays a note with given 'start' time (in milliseconds from now), 
+#                   which plays a note with given 'start' time (in milliseconds from now),
 #                   'duration' (in milliseconds from 'start' time), with given 'velocity' on 'channel'.
 #                   This allows scheduling of future note events, and thus should facilitate
 #                   playing score-based or event-based musical material.
 #
-# 2.1   14-Mar-2013 Two classes - AudioSample and MidiSequence.  
+# 2.1   14-Mar-2013 Two classes - AudioSample and MidiSequence.
 #
-#                   AudioSample is instantiated with a string - the filename of an audio file (.wav or .aiff).  
+#                   AudioSample is instantiated with a string - the filename of an audio file (.wav or .aiff).
 #                   It supports the following functions: play(), loop(), loop(numOfTimes), stop(), pause(), resume(),
-#                   setPitch( e.g., A4 ), getPitch(), getDefaultPitch(), 
-#                   setFrequency( e.g., 440.0 ), getFrequency(), 
+#                   setPitch( e.g., A4 ), getPitch(), getDefaultPitch(),
+#                   setFrequency( e.g., 440.0 ), getFrequency(),
 #                   setVolume( 0-127 ), getVolume().
 #
-#                   MidiSequence is instantiated with either a string - the filename of a MIDI file (.mid), or 
+#                   MidiSequence is instantiated with either a string - the filename of a MIDI file (.mid), or
 #                   music library material (Score, Part, Phrase, or Note).
-#                   It supports the following functions: play(), loop(), stop(), pause(), resume(), 
-#                   setPitch( e.g., A4 ), getPitch(), getDefaultPitch(), 
-#                   setTempo( e.g., 80.1 ), getTempo(), getDefaultTempo(), 
+#                   It supports the following functions: play(), loop(), stop(), pause(), resume(),
+#                   setPitch( e.g., A4 ), getPitch(), getDefaultPitch(),
+#                   setTempo( e.g., 80.1 ), getTempo(), getDefaultTempo(),
 #                   setVolume( 0-127 ), getVolume().
 #
 #                   For more information on function parameters, see the class definition.
 #
 # 2.0  17-Feb-2012  Added jSyn synthesizer functionality.  We now have an AudioSample class for loading audio
 #                   files (WAV or AIF), which can be played, looped, paused, resumed, and stopped.
-#                   Also, each sound has a MIDI pitch associated with it (default is A4), so we 
-#                   can play different pitches with it (through pitch shifting). 
+#                   Also, each sound has a MIDI pitch associated with it (default is A4), so we
+#                   can play different pitches with it (through pitch shifting).
 #                   Finally, we improved code organization overall.
 #
 # 1.91 13-Feb-2013  Modified mapScale() to add an argument for the key of the scale (default is C).
-# 
-# 1.9  10-Feb-2013  Removed Read.image() and Write.image() - no content coupling with 
+#
+# 1.9  10-Feb-2013  Removed Read.image() and Write.image() - no content coupling with
 #                   image library anymore.
 # 1.81 03-Feb-2013  Now mapScale() returns an int (since it intended to be used as
 #                   a pitch value).  If we return a float, it may be confused as
 #                   a note frequency (by the Note() constructor) - that would not be good.
 #
 # 1.8  01-Jan-2013  Redefine Jython input() function to fix problem with jython 2.5.3
-#                   (see 
+#                   (see
 # 1.7  30-Dec-2012  Added missing MIDI instrument constants
 # 1.6  26-Nov-2012  Added Play.frequencyOn/Off(), and Play.set/getPitchBend() functions.
 # 1.52 04-Nov-2012  Divided complicated mapValue() to simpler mapValue() and mapScale() functions.
@@ -181,7 +181,7 @@ enumerate_preserve = enumerate
 
 
 # import jMusic constants and utilities
-from jm.JMC import *     
+from jm.JMC import *
 from jm.util import *
 
 from jm.music.tools import *
@@ -223,89 +223,89 @@ def input(prompt):
 
 ######################################################################################
 # redefine scales as Jython lists (as opposed to Java arrays - for cosmetic purposes)
-AEOLIAN_SCALE        = list(AEOLIAN_SCALE) 
-BLUES_SCALE          = list(BLUES_SCALE) 
-CHROMATIC_SCALE      = list(CHROMATIC_SCALE) 
+AEOLIAN_SCALE        = list(AEOLIAN_SCALE)
+BLUES_SCALE          = list(BLUES_SCALE)
+CHROMATIC_SCALE      = list(CHROMATIC_SCALE)
 DIATONIC_MINOR_SCALE = list(DIATONIC_MINOR_SCALE)
-DORIAN_SCALE         = list(DORIAN_SCALE) 
-HARMONIC_MINOR_SCALE = list(HARMONIC_MINOR_SCALE) 
-LYDIAN_SCALE         = list(LYDIAN_SCALE) 
-MAJOR_SCALE          = list(MAJOR_SCALE) 
-MELODIC_MINOR_SCALE  = list(MELODIC_MINOR_SCALE) 
-MINOR_SCALE          = list(MINOR_SCALE) 
-MIXOLYDIAN_SCALE     = list(MIXOLYDIAN_SCALE) 
-NATURAL_MINOR_SCALE  = list(NATURAL_MINOR_SCALE) 
-PENTATONIC_SCALE     = list(PENTATONIC_SCALE) 
+DORIAN_SCALE         = list(DORIAN_SCALE)
+HARMONIC_MINOR_SCALE = list(HARMONIC_MINOR_SCALE)
+LYDIAN_SCALE         = list(LYDIAN_SCALE)
+MAJOR_SCALE          = list(MAJOR_SCALE)
+MELODIC_MINOR_SCALE  = list(MELODIC_MINOR_SCALE)
+MINOR_SCALE          = list(MINOR_SCALE)
+MIXOLYDIAN_SCALE     = list(MIXOLYDIAN_SCALE)
+NATURAL_MINOR_SCALE  = list(NATURAL_MINOR_SCALE)
+PENTATONIC_SCALE     = list(PENTATONIC_SCALE)
 
 
 ######################################################################################
 # define text labels for MIDI instruments (index in list is same as MIDI instrument number)
 MIDI_INSTRUMENTS = [ # Piano Family
-                     "Acoustic Grand Piano", "Bright Acoustic Piano", "Electric Grand Piano",    
-                    "Honky-tonk Piano", "Electric Piano 1 (Rhodes)", "Electric Piano 2 (DX)", 
-                    "Harpsichord", "Clavinet", 
-                    
+                     "Acoustic Grand Piano", "Bright Acoustic Piano", "Electric Grand Piano",
+                    "Honky-tonk Piano", "Electric Piano 1 (Rhodes)", "Electric Piano 2 (DX)",
+                    "Harpsichord", "Clavinet",
+
                     # Chromatic Percussion Family
-                    "Celesta", "Glockenspiel", "Music Box", "Vibraphone", "Marimba",            
+                    "Celesta", "Glockenspiel", "Music Box", "Vibraphone", "Marimba",
                     "Xylophone", "Tubular Bells", "Dulcimer",
-                    
+
                     # Organ Family
-                    "Drawbar Organ", "Percussive Organ", "Rock Organ", "Church Organ",          
-                    "Reed Organ", "Accordion", "Harmonica", "Tango Accordion", 
-                    
+                    "Drawbar Organ", "Percussive Organ", "Rock Organ", "Church Organ",
+                    "Reed Organ", "Accordion", "Harmonica", "Tango Accordion",
+
                     # Guitar Family
-                    "Acoustic Guitar (nylon)", "Acoustic Guitar (steel)", "Electric Guitar (jazz)", 
-                    "Electric Guitar (clean)", "Electric Guitar (muted)", "Overdriven Guitar", 
+                    "Acoustic Guitar (nylon)", "Acoustic Guitar (steel)", "Electric Guitar (jazz)",
+                    "Electric Guitar (clean)", "Electric Guitar (muted)", "Overdriven Guitar",
                     "Distortion Guitar", "Guitar harmonics",
-                    
+
                     # Bass Family
                     "Acoustic Bass", "Electric Bass (finger)", "Electric Bass (pick)", "Fretless Bass",
-                    "Slap Bass 1", "Slap Bass 2", "Synth Bass 1", "Synth Bass 2", 
-                    
+                    "Slap Bass 1", "Slap Bass 2", "Synth Bass 1", "Synth Bass 2",
+
                     # Strings and Timpani Family
                     "Violin", "Viola", "Cello", "Contrabass", "Tremolo Strings", "Pizzicato Strings",
-                    "Orchestral Harp", "Timpani", 
-                    
+                    "Orchestral Harp", "Timpani",
+
                     # Ensemble Family
-                    "String Ensemble 1", "String Ensemble 2", "Synth Strings 1", "Synth Strings 2", 
-                    "Choir Aahs", "Voice Oohs", "Synth Voice", "Orchestra Hit", 
-                    
+                    "String Ensemble 1", "String Ensemble 2", "Synth Strings 1", "Synth Strings 2",
+                    "Choir Aahs", "Voice Oohs", "Synth Voice", "Orchestra Hit",
+
                     # Brass Family
-                    "Trumpet", "Trombone", "Tuba", "Muted Trumpet", "French Horn", 
+                    "Trumpet", "Trombone", "Tuba", "Muted Trumpet", "French Horn",
                     "Brass Section", "SynthBrass 1", "SynthBrass 2",
-                    
+
                     # Reed Family
-                    "Soprano Sax", "Alto Sax", "Tenor Sax", "Baritone Sax", "Oboe", "English Horn", 
-                    "Bassoon", "Clarinet", 
-                    
+                    "Soprano Sax", "Alto Sax", "Tenor Sax", "Baritone Sax", "Oboe", "English Horn",
+                    "Bassoon", "Clarinet",
+
                     # Pipe Family
-                    "Piccolo", "Flute", "Recorder", "Pan Flute", "Blown Bottle", "Shakuhachi", 
-                    "Whistle", "Ocarina", 
-                    
+                    "Piccolo", "Flute", "Recorder", "Pan Flute", "Blown Bottle", "Shakuhachi",
+                    "Whistle", "Ocarina",
+
                     # Synth Lead Family
-                    "Lead 1 (square)", "Lead 2 (sawtooth)", "Lead 3 (calliope)",  "Lead 4 (chiff)", 
-                    "Lead 5 (charang)", "Lead 6 (voice)", "Lead 7 (fifths)", "Lead 8 (bass + lead)", 
-                    
+                    "Lead 1 (square)", "Lead 2 (sawtooth)", "Lead 3 (calliope)",  "Lead 4 (chiff)",
+                    "Lead 5 (charang)", "Lead 6 (voice)", "Lead 7 (fifths)", "Lead 8 (bass + lead)",
+
                     # Synth Pad Family
-                    "Pad 1 (new age)", "Pad 2 (warm)", "Pad 3 (polysynth)", "Pad 4 (choir)", 
+                    "Pad 1 (new age)", "Pad 2 (warm)", "Pad 3 (polysynth)", "Pad 4 (choir)",
                     "Pad 5 (bowed)", "Pad 6 (metallic)", "Pad 7 (halo)", "Pad 8 (sweep)",
-                    
+
                     # Synth Effects Family
-                    "FX 1 (rain)", "FX 2 (soundtrack)", "FX 3 (crystal)", "FX 4 (atmosphere)", 
+                    "FX 1 (rain)", "FX 2 (soundtrack)", "FX 3 (crystal)", "FX 4 (atmosphere)",
                     "FX 5 (brightness)", "FX 6 (goblins)", "FX 7 (echoes)", "FX 8 (sci-fi)",
-                    
+
                     # Ethnic Family
                     "Sitar",  "Banjo", "Shamisen", "Koto", "Kalimba", "Bag pipe", "Fiddle", "Shanai",
-                    
+
                     # Percussive Family
                     "Tinkle Bell", "Agogo", "Steel Drums", "Woodblock", "Taiko Drum", "Melodic Tom",
-                    "Synth Drum", "Reverse Cymbal", 
-                    
+                    "Synth Drum", "Reverse Cymbal",
+
                     # Sound Effects Family
                     "Guitar Fret Noise", "Breath Noise", "Seashore", "Bird Tweet", "Telephone Ring",
                     "Helicopter", "Applause", "Gunshot" ]
 
-# define text labels for inverse-lookup of MIDI pitches (index in list is same as MIDI pitch number) 
+# define text labels for inverse-lookup of MIDI pitches (index in list is same as MIDI pitch number)
 # (for enharmonic notes, e.g., FS4 and GF4, uses the sharp version, e.g. FS4)
 MIDI_PITCHES = ["C_1", "CS_1", "D_1", "DS_1", "E_1", "F_1", "FS_1", "G_1", "GS_1", "A_1", "AS_1", "B_1",
                 "C0", "CS0", "D0", "DS0", "E0", "F0", "FS0", "G0", "GS0", "A0", "AS0", "B0",
@@ -367,7 +367,7 @@ CS_1 = 1
 cs_1 = 1
 C_1 = 0
 c_1 = 0
-                    
+
 ######################################################################################
 # provide additional MIDI instrument constants (missing from jMusic specification)
 EPIANO1 = 4
@@ -446,7 +446,7 @@ TELEPHONE_RING = 124
 GUNSHOT = 127
 
 # and MIDI drum and percussion abbreviations
-ABD = 35 
+ABD = 35
 BASS_DRUM = 36
 BDR = 36
 STK = 37
@@ -503,7 +503,7 @@ OTR = 81
 
 def mapValue(value, minValue, maxValue, minResultValue, maxResultValue):
    """
-   Maps value from a given source range, i.e., (minValue, maxValue), 
+   Maps value from a given source range, i.e., (minValue, maxValue),
    to a new destination range, i.e., (minResultValue, maxResultValue).
    The result will be converted to the result data type (int, or float).
    """
@@ -511,31 +511,31 @@ def mapValue(value, minValue, maxValue, minResultValue, maxResultValue):
    if value < minValue or value > maxValue:
       raise ValueError("value, " + str(value) + ", is outside the specified range, " \
                                  + str(minValue) + " to " + str(maxValue) + ".")
-                                    
-   # we are OK, so let's map   
+
+   # we are OK, so let's map
    value = float(value)  # ensure we are using float (for accuracy)
    normal = (value - minValue) / (maxValue - minValue)   # normalize source value
 
    # map to destination range
    result = normal * (maxResultValue - minResultValue) + minResultValue
-   
+
    destinationType = type(minResultValue)  # find expected result data type
    result = destinationType(result)        # and apply it
 
-   return result   
+   return result
 
 def mapScale(value, minValue, maxValue, minResultValue, maxResultValue, scale=CHROMATIC_SCALE, key=None):
    """
-   Maps value from a given source range, i.e., (minValue, maxValue), to a new destination range, i.e., 
+   Maps value from a given source range, i.e., (minValue, maxValue), to a new destination range, i.e.,
    (minResultValue, maxResultValue), using the provided scale (pitch row) and key.  The scale provides
    a sieve (a pattern) to fit the results into.  The key determines how to shift the scale pattern to
-   fit a particular key - if key is not provided, we assume it is the same as minResultValue (e.g., C4 
-   and C5 both refer to the key of C)).  
-     
+   fit a particular key - if key is not provided, we assume it is the same as minResultValue (e.g., C4
+   and C5 both refer to the key of C)).
+
    The result will be within the destination range rounded to closest pitch in the
    provided pitch row.   It always returns an int (since it is intended to be used
    as a pitch value).
-   
+
    NOTE:  We are working within a 12-step tonal system (MIDI), i.e., octave is 12 steps away,
           so pitchRow must contain offsets (from the root) between 0 and 11.
    """
@@ -543,73 +543,75 @@ def mapScale(value, minValue, maxValue, minResultValue, maxResultValue, scale=CH
    if value < minValue or value > maxValue:
       raise ValueError("value, " + str(value) + ", is outside the specified range, " \
                                  + str(minValue) + " to " + str(maxValue) + ".")
-     
+
    # check pitch row - it should contain offsets only from 0 to 11
    badOffsets = [offset for offset in scale if offset < 0 or offset > 11]
    if badOffsets != []:  # any illegal offsets?
       raise TypeError("scale, " + str(scale) + ", should contain values only from 0 to 11.")
-   
+
    # figure out key of scale
    if key == None:             # if they didn't specify a key
       key = minResultValue % 12   # assume that minResultValue the root of the scale
    else:                       # otherwise,
       key = key % 12              # ensure it is between 0 and 11 (i.e., C4 and C5 both mean C, or 0).
-   
-   # we are OK, so let's map   
+
+   # we are OK, so let's map
    value = float(value)  # ensure we are using float (for accuracy)
    normal = (value - minValue) / (maxValue - minValue)   # normalize source value
 
    # map to destination range (i.e., chromatic scale)
    # (subtracting 'key' aligns us with indices in the provided scale - we need to add it back later)
    chromaticStep = normal * (maxResultValue - minResultValue) + minResultValue - key
-   
+
    # map to provided pitchRow scale
    pitchRowStep = chromaticStep * len(scale) / 12   # note in pitch row
    scaleDegree  = int(pitchRowStep % len(scale))    # find index into pitchRow list
    register     = int(pitchRowStep / len(scale))    # find pitch register (e.g. 4th, 5th, etc.)
-   
+
    # calculate the octave (register) and add the pitch displacement from the octave.
    result = register * 12 + scale[scaleDegree]
-   
+
    # adjust for key (scale offset)
    result = result + key
-         
+
    # now, result has been sieved through the pitchSet (adjusted to fit the pitchSet)
-   
+
    #result = int(round(result))   # force an int data type
    result = int(result)   # force an int data type
 
    return result
-      
+
 def frange(start, stop, step):
    """
    A range function for floats, with variable accuracy (controlled by
    number of digits in decimal part of 'step').
    """
    import math
-   
+
    if step == 0:   # make sure we do not get into an infinite loop
      raise ValueError, "frange() step argument must not be zero"
-   
+
    result = []                         # holds resultant list
    # since Python's represetation of real numbers may not be exactly what we expect,
-   # let's round to the number of decimals provided in 'step' 
+   # let's round to the number of decimals provided in 'step'
    accuracy = len(str(step-int(step))[1:])-1  # determine number of decimals in 'step'
-   
+
    # determine which termination condition to use
-   if step > 0:    
+   if step > 0:
       done = start >= stop
    else:
       done = start <= stop
-   
+
    # generate sequence
    while not done:
       start = round(start, accuracy)  # use same number of decimals as 'step'
       result.append(start)
       start += step
       # again, determine which termination condition to use
-      if step > 0:    
+      if step > 0:
+#      if step < 0:
          done = start >= stop
+#         done = start > stop
       else:
          done = start <= stop
 
@@ -621,16 +623,16 @@ def xfrange(start, stop, step):
    number of digits in decimal part of 'step').
    """
    import math
-   
+
    if step == 0:   # make sure we do not get into an infinite loop
      raise ValueError, "frange() step argument must not be zero"
 
    # since Python's represetation of real numbers may not be exactly what we expect,
-   # let's round to the number of decimals provided in 'step' 
+   # let's round to the number of decimals provided in 'step'
    accuracy = len(str(step-int(step))[1:])-1  # determine number of decimals in 'step'
 
    # determine which termination condition to use
-   if step > 0:    
+   if step > 0:
       done = start >= stop
    else:
       done = start <= stop
@@ -641,7 +643,7 @@ def xfrange(start, stop, step):
       yield start
       start += step
       # again, determine which termination condition to use
-      if step > 0:    
+      if step > 0:
          done = start >= stop
       else:
          done = start <= stop
@@ -675,54 +677,54 @@ class Mod(jMod):
 
    def normalize(material):
       """Same as jMod.normalise()."""
-      
+
       jMod.normalise(material)
-   
+
    def invert(phrase, pitchAxis):
       """Invert phrase using pitch as the mirror (pivot) axis."""
-      
+
       # traverse list of notes, and adjust pitches accordingly
       for note in phrase.getNoteList():
-         
+
          if not note.isRest():  # modify regular notes only (i.e., do not modify rests)
-                     
+
             invertedPitch = pitchAxis + (pitchAxis - note.getPitch())  # find mirror pitch around axis (by adding difference)
-            note.setPitch( invertedPitch )                             # and update it 
-      
+            note.setPitch( invertedPitch )                             # and update it
+
       # now, all notes have been updated
-                  
+
    def mutate(phrase):
       """Same as jMod.mutate()."""
-      
+
       # adjust jMod.mutate() to use random durations from phrase notes
       durations = [note.getDuration() for note in phrase.getNoteList()]
-      
-      jMod.mutate(phrase, 1, 1, CHROMATIC_SCALE, phrase.getLowestPitch(),  
+
+      jMod.mutate(phrase, 1, 1, CHROMATIC_SCALE, phrase.getLowestPitch(),
                   phrase.getHighestPitch(), durations)
 
    def elongate(material, scaleFactor):
       """Same as jMod.elongate(). Fixing a bug."""
-      
+
       # define helper functions
       def elongateNote(note, scaleFactor):
          """Helper function to elongate a single note."""
          note.setDuration( note.getDuration() * scaleFactor)
-      
+
       def elongatePhrase(phrase, scaleFactor):
          """Helper function to elongate a single phrase."""
          for note in phrase.getNoteList():
             elongateNote(note, scaleFactor)
-      
+
       def elongatePart(part, scaleFactor):
          """Helper function to elongate a single part."""
          for phrase in part.getPhraseList():
             elongatePhrase(phrase, scaleFactor)
-      
+
       def elongateScore(score, scaleFactor):
          """Helper function to elongate a score."""
          for part in score.getPartList():
             elongatePart(part, scaleFactor)
-      
+
       # check type of material and call the appropriate function
       if type(material) == Score:
          elongateScore(material, scaleFactor)
@@ -732,34 +734,34 @@ class Mod(jMod):
          elongatePhrase(material, scaleFactor)
       elif type(material) == Note:
          elongateNote(material, scaleFactor)
-      else:   # error check    
+      else:   # error check
          raise TypeError( "Unrecognized time type " + str(type(material)) + " - expected Note, Phrase, Part, or Score." )
 
    def shift(material, time):
       """It shifts all phrases' start time by 'time' (measured in QN's, i.e., 1.0 equals QN).
-         If 'time' is positive, phrases are moved later. 
-         If 'time' is negative, phrases are moved earlier (at most, at the piece's start time, i.e., 0.0), 
+         If 'time' is positive, phrases are moved later.
+         If 'time' is negative, phrases are moved earlier (at most, at the piece's start time, i.e., 0.0),
          as negative start times make no sense.
          'Material' can be Phrase, Part, or Score (since Notes do not have a start time).
       """
-      
+
       # define helper functions
       def shiftPhrase(phrase, time):
          """Helper function to shift a single phrase."""
          newStartTime = phrase.getStartTime() + time
          newStartTime = max(0, newStartTime)          # ensure that the new start time is at most 0 (negative start times make no sense)
          phrase.setStartTime( newStartTime )
-      
+
       def shiftPart(part, time):
          """Helper function to shift a single part."""
          for phrase in part.getPhraseList():
             shiftPhrase(phrase, time)
-      
+
       def shiftScore(score, time):
          """Helper function to shift a score."""
          for part in score.getPartList():
             shiftPart(part, time)
-      
+
       # check type of time
       if not (type(time) == float or type(time) == int):
          raise TypeError( "Unrecognized time type " + str(type(time)) + " - expected int or float." )
@@ -771,7 +773,7 @@ class Mod(jMod):
          shiftPart(material, time)
       elif type(material) == Phrase or type(material) == jPhrase:
          shiftPhrase(material, time)
-      else:   # error check   
+      else:   # error check
          raise TypeError( "Unrecognized material type " + str(type(material)) + " - expected Phrase, Part, or Score." )
 
    def merge(material1, material2):
@@ -786,12 +788,12 @@ class Mod(jMod):
          """Helper function to merge two parts into one."""
          for phrase in part2.getPhraseList():
             part1.addPhrase(phrase)
-      
+
       def mergeScores(score1, score2):
          """Helper function to merge two scores into one."""
          for part in score2.getPartList():
             score1.addPart(part)
-      
+
       # check type of material and call the appropriate function
       if type(material1) == Score and type(material2) == Score:
          mergeScores(material1, material2)
@@ -800,15 +802,15 @@ class Mod(jMod):
       elif (type(material1) == Part and type(material2) == Score) or \
            (type(material1) == Score and type(material2) == Part):
          raise TypeError( "Cannot merge Score and Part - arguments must be of the same type (both Score or both Part)." )
-      else:       
+      else:
          raise TypeError( "Arguments must be both either Score or Part." )
 
- 
+
    def retrograde(material):
       """It reverses the start times of notes in 'material'.
          'Material' can be Phrase, Part, or Score.
       """
-      
+
       # define helper functions
       def getPartStartTime(part):
          """Helper function to return the start time of a part."""
@@ -835,7 +837,7 @@ class Mod(jMod):
 
          startTime = getPartStartTime(part)  # the earliest start time among all phrases
          endTime   = getPartEndTime(part)    # the latest end time among all phrases
- 
+
          # retrograde each phrase and adjust its start time accordingly
          for phrase in part.getPhraseList():
             distanceFromEnd = endTime - phrase.getEndTime()  # get this phrase's distance from end
@@ -848,7 +850,7 @@ class Mod(jMod):
 
          # now, all phrases in this part have been retrograded and their start times have been aranged
          # to mirror their original end times
-       
+
       def retrogradeScore(score):
          """Helper function to retrograde a score."""
 
@@ -865,14 +867,14 @@ class Mod(jMod):
          # retrograde each part and adjust its start time accordingly
          for part in score.getPartList():
             # get this part's distance from the score end
-            distanceFromEnd = endTime - (getPartEndTime(part) + getPartStartTime(part)) 
-            
-            # retrograde this part
-            retrogradePart(part)                              
+            distanceFromEnd = endTime - (getPartEndTime(part) + getPartStartTime(part))
 
-            # the retrograded part needs to start as far as 
+            # retrograde this part
+            retrogradePart(part)
+
+            # the retrograded part needs to start as far as
             # the orignal part's distance from the score end
-            Mod.shift(part, distanceFromEnd) 
+            Mod.shift(part, distanceFromEnd)
          # now, all parts have been retrograded and their start times have been aranged to mirror their original
          # end times
 
@@ -884,20 +886,20 @@ class Mod(jMod):
          retrogradePart(material)
       elif type(material) == Phrase or type(material) == jPhrase:
          jMod.retrograde(material)
-      else:   # error check   
+      else:   # error check
          raise TypeError( "Unrecognized material type " + str(type(material)) + " - expected Phrase, Part, or Score." )
 
 
    # make these function callable without having to instantiate this class
-   normalize = Callable(normalize)  
-   invert = Callable(invert)  
-   mutate = Callable(mutate)  
-   elongate = Callable(elongate)  
-   shift = Callable(shift)  
+   normalize = Callable(normalize)
+   invert = Callable(invert)
+   mutate = Callable(mutate)
+   elongate = Callable(elongate)
+   shift = Callable(shift)
    merge = Callable(merge)
    retrograde = Callable(retrograde)
-   
-   
+
+
 ######################################################################################
 # JEM working directory fix
 #
@@ -916,25 +918,25 @@ def fixWorkingDirForJEM( filename ):
       only if filename is NOT an absolute path (in which case the user truly knows
       where they want to store it).
    """
-   
+
    try:
 
-      JEM_getMainFilePath   # check if function JEM_getMainFilePath() is defined (this happens only inside JEM) 
-      
+      JEM_getMainFilePath   # check if function JEM_getMainFilePath() is defined (this happens only inside JEM)
+
       # get working dir, if JEM is available
       workDir = JEM_getMainFilePath()
-      
-      # two cases for filename: 
-      # 
+
+      # two cases for filename:
+      #
       # 1. a relative filepath (e.g., just a filename, or "../filename")
       # 2. an absolute filepath
-      
-      if os.path.isabs( filename ):          # if an absolute path, the user knows what they are doing 
+
+      if os.path.isabs( filename ):          # if an absolute path, the user knows what they are doing
          return filename                     # ...so, do nothing
       else:                                  # else (if a relative pathname),
          return workDir + filename           # ...fix it
-   
-   except:   
+
+   except:
       # if JEM is not available, do nothing (e.g., music.py is being run outside of JEM)
       return filename
 
@@ -953,15 +955,15 @@ class Read(jRead):
 
    def midi(score, filename):
       """Import a standard MIDI file to a jMusic score."""
-      
+
       # JEM working directory fix (see above)
       filename = fixWorkingDirForJEM( filename )   # does nothing if not in JEM
-      
-      # use fixed filename with jMusic's Read.midi() 
+
+      # use fixed filename with jMusic's Read.midi()
       jRead.midi(score, filename)
 
    # make this function callable without having to instantiate this class
-   midi = Callable(midi)  
+   midi = Callable(midi)
 
 ######################################################################################
 #### jMusic Write extensions #########################################################
@@ -969,7 +971,7 @@ class Read(jRead):
 
 from jm.util import Write as jWrite  # needed to wrap more functionality below
 
-# Create Write.image(image, "test.jpg") to write an image to file, in addition 
+# Create Write.image(image, "test.jpg") to write an image to file, in addition
 # to Write's default functionality.
 # This class is not meant to be instantiated, hence no "self" in function definitions.
 # Functions are made callable through class Callable, above.
@@ -978,18 +980,18 @@ class Write(jWrite):
 
    def midi(score, filename):
       """Save a standard MIDI file from a jMusic score."""
-      
+
       # JEM working directory fix (see above)
       filename = fixWorkingDirForJEM( filename )   # does nothing if not in JEM
-      
+
       #***
       #print "fixWorkingDirForJEM( filename ) =", filename
-      
-      # use fixed filename with jMusic's Write.midi() 
+
+      # use fixed filename with jMusic's Write.midi()
       jWrite.midi(score, filename)
 
    # make this function callable without having to instantiate this class
-   midi = Callable(midi)  
+   midi = Callable(midi)
 
 ######################################################################################
 #### jMusic Note extensions ########################################################
@@ -1002,17 +1004,17 @@ from jm.music.data import Note as jNote  # needed to wrap more functionality bel
 # (whereas duration specifies the score (or denoted) length of the note).
 class Note(jNote):
 
-   def __str__(self):    
+   def __str__(self):
       # we disrupted access to jMusic's (Java's) Note.toString() method,
       # so, let's fix it
       return self.toString()
 
-   def __repr__(self):    
+   def __repr__(self):
       # we disrupted access to jMusic's (Java's) Note.toString() method,
       # so, let's fix it
       return self.toString()
 
-   def __init__(self, value, duration, dynamic=85, pan=0.5, length=None):   
+   def __init__(self, value, duration, dynamic=85, pan=0.5, length=None):
 
       # NOTE: If value is an int, it signifies pitch; otherwise, if it is a float,
       # it signifies a frequency.
@@ -1026,9 +1028,9 @@ class Note(jNote):
         raise TypeError( "Note pitch should be an integer between 0 and 127 (it was " + str(value) + ")." )
       elif type(value) == float and not value > 0.0:
         raise TypeError( "Note frequency should be a float greater than 0.0 (it was " + str(value) + ")." )
-      elif (type(value) != int) and (type(value) != float): 
+      elif (type(value) != int) and (type(value) != float):
         raise TypeError( "Note first parameter should be a pitch (int) or a frequency (float) - it was " + str(type(value)) + "." )
-      
+
       # now, construct a jMusic Note with the proper attributes
       jNote.__init__(self, value, duration, dynamic, pan)     # construct note
       self.setLength( length )                                # and set its length
@@ -1040,10 +1042,10 @@ class Note(jNote):
 
    # also, fix set duration to also adjust length proportionally
    def setDuration(self, duration):
-   
+
       # calculate length fector from original values
       lengthFactor = self.getLength() / self.getDuration()
-      
+
       # and set new duration and length appropriately
       jNote.setDuration(self, duration )
       self.setLength(duration * lengthFactor )
@@ -1057,26 +1059,26 @@ class Note(jNote):
 
 from jm.music.data import Phrase as jPhrase  # needed to wrap more functionality below
 
-# update Phrase's addNoteList to handle chords, i.e., lists of pitches, 
+# update Phrase's addNoteList to handle chords, i.e., lists of pitches,
 # in addition to single pitches (the default functionality).
 class Phrase(jPhrase):
 
-   def __str__(self):    
+   def __str__(self):
       # we disrupted access to jMusic's (Java's) Phrase.toString() method,
       # so, let's fix it
       return self.toString()
 
-   def __repr__(self):    
+   def __repr__(self):
       # we disrupted access to jMusic's (Java's) Phrase.toString() method,
       # so, let's fix it
       return self.toString()
 
-   def addChord(self, pitches, duration, dynamic=85, panoramic=0.5, length=None):    
+   def addChord(self, pitches, duration, dynamic=85, panoramic=0.5, length=None):
       # set chord length (if needed)
       if length == None:   # not provided?
          length = duration * jNote.DEFAULT_LENGTH_MULTIPLIER  # normally, duration * 0.9
 
-      # add all notes, minus the last one, as having no duration, yet normal length 
+      # add all notes, minus the last one, as having no duration, yet normal length
       # (exploiting how Play.midi() and Write.midi() work)
       for i in range( len(pitches)-1 ):
          n = Note(pitches[i], 0.0, dynamic, panoramic, length)
@@ -1086,8 +1088,8 @@ class Phrase(jPhrase):
       n = Note(pitches[-1], duration, dynamic, panoramic, length)
       self.addNote(n)
 
-   def addNoteList(self, pitches, durations, dynamics=[], panoramics=[], lengths=[]):   
-      """Add notes to the phrase using provided lists of pitches, durations, etc. """ 
+   def addNoteList(self, pitches, durations, dynamics=[], panoramics=[], lengths=[]):
+      """Add notes to the phrase using provided lists of pitches, durations, etc. """
 
       # check if provided lists have equal lengths
       if len(pitches) != len(durations) or \
@@ -1099,17 +1101,17 @@ class Phrase(jPhrase):
       # if dynamics was not provided, construct it with max value
       if dynamics == []:
          dynamics = [85] * len(pitches)
-      
+
       # if panoramics was not provided, construct it at CENTER
       if panoramics == []:
          panoramics = [0.5] * len(pitches)
-               
+
       # if note lengths was not provided, construct it at 90% of note duration
       if lengths == []:
          lengths = [duration * jNote.DEFAULT_LENGTH_MULTIPLIER for duration in durations]
-               
+
       # traverse the pitch list and handle every item appropriately
-      for i in range( len(pitches) ):        
+      for i in range( len(pitches) ):
          if type(pitches[i]) == list:              # is it a chord?
             self.addChord(pitches[i], durations[i], dynamics[i], panoramics[i], lengths[i])  # yes, so add it
          else:                                     # else, it's a note
@@ -1125,7 +1127,7 @@ class Phrase(jPhrase):
 
 from jm.util import Play as jPlay  # needed to wrap more functionality below
 
-# Create Play.noteOn(pitch, velocity, channel) to start a MIDI note sounding,  
+# Create Play.noteOn(pitch, velocity, channel) to start a MIDI note sounding,
 #        Play.noteOff(pitch, channel) to stop the corresponding note from sounding, and
 #        Play.setInstrument(instrument, channel) to change instrument for this channel.
 #
@@ -1136,19 +1138,19 @@ from jm.util import Play as jPlay  # needed to wrap more functionality below
 from javax.sound.midi import *
 
 # NOTE: Opening the Java synthesizer below generates some low-level noise in the audio output.
-# But we need it to be open, in clase the end-user wishes to use functions like Play.noteOn(), below. 
+# But we need it to be open, in clase the end-user wishes to use functions like Play.noteOn(), below.
 # (*** Is there a way to open it just-in-time, and/or close it when not used? I cannot think of one.)
- 
+
 Java_synthesizer = MidiSystem.getSynthesizer()  # get a Java synthesizer
 Java_synthesizer.open()                         # and activate it (should we worry about close()???)
 
 # make all instruments available
-Java_synthesizer.loadAllInstruments(Java_synthesizer.getDefaultSoundbank())   
- 
-# The MIDI specification stipulates that pitch bend be a 14-bit value, where zero is 
+Java_synthesizer.loadAllInstruments(Java_synthesizer.getDefaultSoundbank())
+
+# The MIDI specification stipulates that pitch bend be a 14-bit value, where zero is
 # maximum downward bend, 16383 is maximum upward bend, and 8192 is the center (no pitch bend).
-PITCHBEND_MIN = 0 
-PITCHBEND_MAX = 16383 
+PITCHBEND_MIN = 0
+PITCHBEND_MAX = 16383
 PITCHBEND_NORMAL = 8192
 
 # initialize pitchbend across channels to 0
@@ -1159,19 +1161,19 @@ for i in range(16):
 ###############################################################################
 # freqToNote   Convert frequency to MIDI note number
 #        freqToNote(f) converts frequency to the closest MIDI note
-#        number with pitch bend value for finer control.  A4 corresponds to 
-#        the note number 69 (concert pitch is set to 440Hz by default).  
+#        number with pitch bend value for finer control.  A4 corresponds to
+#        the note number 69 (concert pitch is set to 440Hz by default).
 #        The default pitch bend range is 2 half tones above and below.
-# 
+#
 #        2005-10-13 by MARUI Atsushi
 #        See http://www.geidai.ac.jp/~marui/octave/node3.html
 #
-# For example, "sliding" from A4 (MIDI pitch 69, frequency 440 Hz) 
+# For example, "sliding" from A4 (MIDI pitch 69, frequency 440 Hz)
 #              to a bit over AS4 (MIDI pitch 70, frequency 466.1637615181 Hz).
 #
-#>>>for f in range(440, 468):                                       
+#>>>for f in range(440, 468):
 #...    print freqToNote(f)
-#... 
+#...
 #(69, 0)
 #(69, 322)
 #(69, 643)
@@ -1204,23 +1206,24 @@ for i in range(16):
 # The above overshoots AS4 (MIDI pitch 70, frequency 466.1637615181 Hz).
 # So, here is converting the exact frequency:
 #
-#>>> freqToNote(466.1637615181) 
+#>>> freqToNote(466.1637615181)
 #(70, 0)
 ###############################################################################
 
 def freqToNote(frequency):
-   """Converts frequency to the closest MIDI note number with pitch bend value 
+   """Converts frequency to the closest MIDI note number with pitch bend value
       for finer control.  A4 corresponds to the note number 69 (concert pitch
       is set to 440Hz by default).  The default pitch bend range is 4 half tones.
    """
-   
+
    from math import log
-   
+
    concertPitch = 440.0   # 440Hz
    bendRange = 4          # 4 half tones (2 below, 2 above)
-    
+
    x = log(frequency / concertPitch, 2) * 12 + 69
    note = round(x)
+   #note = x
    pitchBend = round((x - note) * 8192 / bendRange * 2)
 
    return int(note), int(pitchBend)
@@ -1230,29 +1233,29 @@ def noteToFreq(note):
    """Converts a MIDI note to the corresponding frequency.  A4 corresponds to the note number 69 (concert pitch
       is set to 440Hz by default).
    """
-   
+
    concertPitch = 440.0   # 440Hz
 
    frequency = concertPitch * 2 ** ( (note - 69) / 12.0 )
-    
+   #frequency = concertPitch * 2 ** ( (note - 70) / 12.0 )
    return frequency
 
 # def noteToFreqOld(note, pitchBend):
 #    """Converts a MIDI note and pitch bend to the corresponding frequency.  A4 corresponds to the note number 69 (concert pitch
 #       is set to 440Hz by default).  The default pitch bend range is 4 half tones.
 #    """
-   
+
 #    concertPitch = 440.0   # 440Hz
 #    bendRange = 4          # 4 half tones (2 below, 2 above)
 
 #    frequency = concertPitch * 2 ** ( (note - 69) / 12.0 + (pitchBend - 8192) / 4096*12 )  # this does NOT work yet
-    
+
 #    return frequency
-   
-    
+
+
 #########
 # NOTE:  The following code addresses Play.midi() functionality.  In order to be able to stop music
-# that is currently playing, we wrap the jMusic Play class inside a Python Play class and rebuild 
+# that is currently playing, we wrap the jMusic Play class inside a Python Play class and rebuild
 # play music functionality from basic elements.
 
 from jm.midi import MidiSynth  # needed to play and loop MIDI
@@ -1260,26 +1263,26 @@ from time import sleep         # needed to implement efficient busy-wait loops (
 from timer import *            # needed to schedule future tasks
 
 # allocate enough MidiSynths and reuse them (when available)
-__midiSynths__ = []            # holds all available jMusic MidiSynths 
-MAX_MIDI_SYNTHS = 12           # max number of concurrent MidiSynths allowed 
-                               # NOTE: This is an empirical value - not documented - may change.                               
-                               
+__midiSynths__ = []            # holds all available jMusic MidiSynths
+MAX_MIDI_SYNTHS = 12           # max number of concurrent MidiSynths allowed
+                               # NOTE: This is an empirical value - not documented - may change.
+
 def __getMidiSynth__():
    """Returns the next available MidiSynth (if any), or None."""
-         
-   # make sure all possible MidiSynths are allocated 
+
+   # make sure all possible MidiSynths are allocated
    if __midiSynths__ == []:
       for i in range(MAX_MIDI_SYNTHS):
          __midiSynths__.append( MidiSynth() )   # create a new MIDI synthesizer
    # now, all MidiSynths are allocated
-      
+
    # find an available MidiSynth to play the material (it's possible that all are allocated,
    # since this function may be called repeatedly, while other music is still sounding
    i = 0
    while i < MAX_MIDI_SYNTHS and __midiSynths__[i].isPlaying():
       i = i + 1     # check if the next MidiSynth is available
    # now, i either points to the next available MidiSynth, or MAX_MIDI_SYNTHS if none is available
-      
+
    # did we find an available MidiSynth?
    if i < MAX_MIDI_SYNTHS:
       midiSynth = __midiSynths__[i]
@@ -1294,21 +1297,21 @@ def __stopMidiSynths__():
    for midiSynth in __midiSynths__:
       if midiSynth.isPlaying():    # if playing, stop it
          midiSynth.stop()
-   
-      
+
+
 #########
 
-# Holds notes currently sounding, in order to prevent premature NOTE-OFF for overlapping notes on the same channel 
-# For every frequencyOn() we add the tuple (pitch, channel), and for every frequencyOff() we rmove the tuple.  
-# If it is the last one, we execute a NOTE-OFF (otherwise, we don't). 
-notesCurrentlyPlaying = [] 
+# Holds notes currently sounding, in order to prevent premature NOTE-OFF for overlapping notes on the same channel
+# For every frequencyOn() we add the tuple (pitch, channel), and for every frequencyOff() we rmove the tuple.
+# If it is the last one, we execute a NOTE-OFF (otherwise, we don't).
+notesCurrentlyPlaying = []
 
 class Play(jPlay):
 
    # redefine Play.midi to fix jMusic bug (see above) - now, we can play as many times as we wish.
    def midi(material):
       """Play jMusic material (Score, Part, Phrase, Note) using our own Play.note() function."""
-      
+
       # do necessary datatype wrapping (MidiSynth() expects a Score)
       if type(material) == Note:
          material = Phrase(material)
@@ -1339,10 +1342,10 @@ class Play(jPlay):
                   instrument = phrase.getInstrument()    # yes, so it takes precedence
                if phrase.getTempo() > -1:          # has the phrase tempo been set?
                   tempo = phrase.getTempo()           # yes, so update tempo
-     
+
                # time factor to convert time from jMusic Score units to milliseconds
                # (this needs to happen here every time, as we may be using the tempo from score, part, or phrase)
-               FACTOR = 1000 * 60.0 / tempo   
+               FACTOR = 1000 * 60.0 / tempo
 
                for index in range(phrase.length()):      # traverse all notes in this phrase
                   note = phrase.getNote(index)              # and extract needed note data
@@ -1352,19 +1355,19 @@ class Play(jPlay):
                   start = int(phrase.getNoteStartTime(index) * FACTOR)  # get time and convert to milliseconds
 
                   # NOTE:  Below we use note length as opposed to duration (getLength() vs. getDuration())
-                  # since note length gives us a more natural sounding note (with proper decay), whereas 
+                  # since note length gives us a more natural sounding note (with proper decay), whereas
                   # note duration captures the more formal (printed score) duration (which sounds unnatural).
                   duration = int(note.getLength() * FACTOR)             # get note length (as oppposed to duration!) and convert to milliseconds
                   velocity = note.getDynamic()
-                   
+
                   # accumulate non-REST notes
                   if (frequency != REST):
                      noteList.append((start, duration, frequency, velocity, channel, instrument, panning))   # put start time first and duration second, so we can sort easily by start time (below),
                      # and so that notes that are members of a chord as denoted by having a duration of 0 come before the note that gives the specified chord duration
-                   
+
          # sort notes by start time
          noteList.sort()
-       
+
 
          # Schedule playing all notes in noteList
          chordNotes = []      # used to process notes belonging in a chord
@@ -1377,9 +1380,9 @@ class Play(jPlay):
             # of the chord).
             if duration == 0:   # does this note belong in a chord?
                chordNotes.append([start, duration, pitch, velocity, channel, panning])  # add it to the list of chord notes
-               
+
             elif chordNotes == []:   # is this a regular, solo note (not part of a chord)?
-               
+
                # yes, so schedule it to play via a Play.note event
                Play.note(pitch, start, duration, velocity, channel, panning)
                #print "Play.note(" + str(pitch) + ", " + str(int(start * FACTOR)) + ", " + str(int(duration * FACTOR)) + ", " + str(velocity) + ", " + str(channel) + ")"
@@ -1388,7 +1391,7 @@ class Play(jPlay):
 
                # first, add this note together with this other chord notes
                chordNotes.append([start, duration, pitch, velocity, channel, panning])
-               
+
                # now, schedule all notes in the chord list using last note's duration
                for start, ignoreThisDuration, pitch, velocity, channel in chordNotes:
                   # schedule this note using chord's duration (provided by the last note in the chord)
@@ -1403,23 +1406,23 @@ class Play(jPlay):
          # JEM's stop button - this will stop all running timers (used by Play.note() to schedule playing of notes)
          #print "Play.note(" + str(pitch) + ", " + str(int(start * FACTOR)) + ", " + str(int(duration * FACTOR)) + ", " + str(velocity) + ", " + str(channel) + ")"
 
-      else:   # error check    
+      else:   # error check
          print "Play.midi(): Unrecognized type " + str(type(material)) + ", expected Note, Phrase, Part, or Score."
 
 
    # old way - should be removed in future release (together will *all* references of __midiSynths__'s)
    def midi2(material):
-      """This is the original Play.midi() - retained for backup and testing purposes.  
+      """This is the original Play.midi() - retained for backup and testing purposes.
          Play jMusic material (Score, Part, Phrase, Note) using next available MidiSynth (if any)."""
-      
+
       from jm.music.data import Phrase as jPhrase   # since we extend Phrase later
-      
+
       midiSynth = __getMidiSynth__()  # get next available MidiSynth (or None if all busy)
       #midiSynth = MidiSynth()    # create a new MIDI synthesizer
-            
+
       # did we find an available midiSynth?
       if midiSynth:
-         # play the music        
+         # play the music
          # do necessary datatype wrapping (MidiSynth() expects a Score)
          if type(material) == Note:
             material = Phrase(material)
@@ -1432,20 +1435,20 @@ class Play(jPlay):
          if type(material) == Part:     # no elif - we need to successively wrap from Note to Score
             material = Score(material)
          if type(material) == Score:
-         
+
             midiSynth.play( material )   # play it!
-         
-         else:   # error check    
+
+         else:   # error check
             print "Play.midi(): Unrecognized type" + str(type(material)) + ", expected Note, Phrase, Part, or Score."
 
-      else:   # error check    
+      else:   # error check
          print "Play.midi(): All", MAX_MIDI_SYNTHS, "MIDI synthesizers are busy - (try again later?)"
-         
-      return midiSynth  # return midiSynth playing
-   
 
-   # NOTE:  Here we connect noteOn() and frequencyOn() with noteOnPitchBend() to allow for 
-   # playing microtonal music.  Although this may seem as cyclical (i.e., that in noteOn() we 
+      return midiSynth  # return midiSynth playing
+
+
+   # NOTE:  Here we connect noteOn() and frequencyOn() with noteOnPitchBend() to allow for
+   # playing microtonal music.  Although this may seem as cyclical (i.e., that in noteOn() we
    # convert pitch to frequency, and then call frequencyOn() which convert the frequency back to pitch,
    # so that it can call noteOnPitchBend() ), this is the only way we can make everything work.
    # We are constrained by the fact that jMusic Note objects are limited in how they handle pitch and
@@ -1462,19 +1465,19 @@ class Play(jPlay):
 
       if (type(pitch) == int) and (0 <= pitch <= 127):   # a MIDI pitch?
          # yes, so convert pitch from MIDI number (int) to Hertz (float)
-         pitch = noteToFreq(pitch)       
+         pitch = noteToFreq(pitch)
 
       if type(pitch) == float:        # a pitch in Hertz?
          Play.frequencyOn(pitch, velocity, channel, panning)  # start it
-                  
-      else:         
+
+      else:
          print "Play.noteOn(): Unrecognized pitch " + str(pitch) + ", expected MIDI pitch from 0 to 127 (int), or frequency in Hz from 8.17 to 12600.0 (float)."
 
 
    def frequencyOn(frequency, velocity=100, channel=0, panning = -1):
       """Send a NOTE_ON message for this frequency (in Hz) to the Java synthesizer object.  Default panning of -1 means to
          use the default (global) panning setting of the Java synthesizer."""
-      
+
       if (type(frequency) == float) and (8.17 <= frequency <= 12600.0): # a pitch in Hertz (within MIDI pitch range 0 to 127)?
 
          pitch, bend = freqToNote( frequency )                     # convert to MIDI note and pitch bend
@@ -1484,28 +1487,28 @@ class Play(jPlay):
          noteID = (pitch, channel)              # create an ID using pitch-channel pair
          notesCurrentlyPlaying.append(noteID)   # add this note instance to list
 
-         Play.noteOnPitchBend(pitch, bend, velocity, channel, panning)      # and start it 
+         Play.noteOnPitchBend(pitch, bend, velocity, channel, panning)      # and start it
 
-      else:         
+      else:
 
          print "Play.frequencyOn(): Invalid frequency " + str(frequency) + ", expected frequency in Hz from 8.17 to 12600.0 (float)."
-      
+
    def noteOff(pitch, channel=0):
       """Send a NOTE_OFF message for this pitch to the Java synthesizer object."""
 
       if (type(pitch) == int) and (0 <= pitch <= 127):   # a MIDI pitch?
          # yes, so convert pitch from MIDI number (int) to Hertz (float)
-         pitch = noteToFreq(pitch)       
+         pitch = noteToFreq(pitch)
 
       if type(pitch) == float:        # a pitch in Hertz?
          Play.frequencyOff(pitch, channel)  # stop it
-                  
-      else:         
+
+      else:
          print "Play.noteOff(): Unrecognized pitch " + str(pitch) + ", expected MIDI pitch from 0 to 127 (int), or frequency in Hz from 8.17 to 12600.0 (float)."
 
    def frequencyOff(frequency, channel=0):
       """Send a NOTE_OFF message for this frequency (in Hz) to the Java synthesizer object."""
-      
+
       global Java_synthesizer
 
       if (type(frequency) == float) and (8.17 <= frequency <= 12600.0): # a frequency in Hertz (within MIDI pitch range 0 to 127)?
@@ -1524,7 +1527,7 @@ class Play(jPlay):
             channelHandle = Java_synthesizer.getChannels()[channel]   # get a handle to channel
             channelHandle.noteOff(pitch)                              # and turn it off
 
-      else:     # frequency was outside expected range    
+      else:     # frequency was outside expected range
 
          print "Play.frequencyOff(): Invalid frequency " + str(frequency) + ", expected frequency in Hz from 8.17 to 12600.0 (float)."
 
@@ -1542,10 +1545,10 @@ class Play(jPlay):
    def note(pitch, start, duration, velocity=100, channel=0, panning = -1):
       """Plays a note with given 'start' time (in milliseconds from now), 'duration' (in milliseconds
          from 'start' time), with given 'velocity' on 'channel'.  Default panning of -1 means to
-         use the default (global) panning setting of the Java synthesizer. """ 
-         
+         use the default (global) panning setting of the Java synthesizer. """
+
       # TODO: We should probably test for negative start times and durations.
-         
+
       # create a timer for the note-on event
       noteOn = Timer2(start, Play.noteOn, [pitch, velocity, channel, panning], False)
 
@@ -1555,22 +1558,22 @@ class Play(jPlay):
       # and activate timers (set things in motion)
       noteOn.start()
       noteOff.start()
-      
+
       # NOTE:  Upon completion of this function, the two Timer objects become unreferenced.
       #        When the timers elapse, then the two objects (in theory) should be garbage-collectable,
       #        and should be eventually cleaned up.  So, here, no effort is made in reusing timer objects, etc.
- 
+
    def frequency(frequency, start, duration, velocity=100, channel=0, panning = -1):
       """Plays a frequency with given 'start' time (in milliseconds from now), 'duration' (in milliseconds
          from 'start' time), with given 'velocity' on 'channel'.  Default panning of -1 means to
-         use the default (global) panning setting of the Java synthesizer.""" 
-         
+         use the default (global) panning setting of the Java synthesizer."""
+
       # NOTE:  We assume that the end-user will ensure that concurrent microtones end up on
       # different channels.  This is needed since MIDI has only one pitch band per channel,
       # and most microtones require their unique pitch bending.
 
       # TODO: We should probably test for negative start times and durations.
-         
+
       # create a timer for the frequency-on event
       frequencyOn = Timer2(start, Play.frequencyOn, [frequency, velocity, channel, panning], False)
 
@@ -1582,7 +1585,7 @@ class Play(jPlay):
       # and activate timers (set things in motion)
       frequencyOn.start()
       frequencyOff.start()
- 
+
       #setPitchBendNormal(channel, start+duration, True)
 
    # No (normal) pitch bend is 0, max downward bend is -8192, and max upward bend is 8191.
@@ -1591,10 +1594,10 @@ class Play(jPlay):
       """Set global pitchbend variable to be used when a note / frequency is played."""
 
       CURRENT_PITCHBEND[channel] = bend
-      
+
    def getPitchBend(channel=0):
       """returns the current pitchbend for this channel."""
-      
+
       return CURRENT_PITCHBEND[channel]
 
 
@@ -1602,17 +1605,17 @@ class Play(jPlay):
    # (Result is undefined if you exceed these values - it may wrap around or it may cap.)
 
    def noteOnPitchBend(pitch, bend = 0, velocity=100, channel=0, panning = -1):
-      """Send a NOTE_ON message for this pitch and pitch bend to the Java synthesizer object.  
+      """Send a NOTE_ON message for this pitch and pitch bend to the Java synthesizer object.
          Default panning of -1 means to use the default (global) panning setting of the Java synthesizer."""
-            
+
       global Java_synthesizer
 
       #Play.setPitchBend(bend, channel)  # remember current pitchbend for this channel
 
-      # now, really set the pitchbend on the Java synthesizer (this is the only place this is done!)      
+      # now, really set the pitchbend on the Java synthesizer (this is the only place this is done!)
       channelHandle = Java_synthesizer.getChannels()[channel]   # get a handle to channel
 
-      # NOTE: The MIDI specification states that pitch is a 14-bit value, where zero is 
+      # NOTE: The MIDI specification states that pitch is a 14-bit value, where zero is
       # maximum downward bend, 16383 is maximum upward bend, and 8192 is center - no pitch bend.
       # Here we adjust for no pitch bend (center) to be 0, max downward bend to be -8192, and
       # max upward bend to be 8191.  Also, we add the current pitchbend as set previously.
@@ -1621,7 +1624,7 @@ class Play(jPlay):
 
          channelHandle.setPitchBend( pitchbend )       # send the message
 
-      else:     # frequency was outside expected range    
+      else:     # frequency was outside expected range
 
          print "Play.noteOnPitchBend(): Invalid pitchbend " + str(pitchbend - PITCHBEND_NORMAL) + ", expected pitchbend in range -8192 to 8192."
 
@@ -1635,25 +1638,25 @@ class Play(jPlay):
    def allNotesOff():
       """It turns off all notes on all channels."""
 
-      Play.allFrequenciesOff()   
-      
+      Play.allFrequenciesOff()
+
 
    def allFrequenciesOff():
       """It turns off all notes on all channels."""
 
       global Java_synthesizer
-      
+
       for channel in range(16):  # cycle through all channels
          channelHandle = Java_synthesizer.getChannels()[channel]   # get a handle to channel
-         channelHandle.allNotesOff()                               # send the message   
+         channelHandle.allNotesOff()                               # send the message
 
          # also reset pitch bend
-         Play.setPitchBend(0, channel)      
+         Play.setPitchBend(0, channel)
 
 
    def stop():
       """It stops all Play music from sounding."""
-      
+
       # NOTE:  This could also handle Play.note() notes, which may have been
       #        scheduled to start sometime in the future.  For now, we assume that timer.py
       #        (which provides Timer objects) handles stopping of timers on its own.  If so,
@@ -1661,10 +1664,10 @@ class Play(jPlay):
       #        to have a race condition (i.e., a note that starts playing right when stop()
       #        is called, but a second call of stop() (e.g., double pressing of a stop button)
       #        will handle this, so we do not concern ourselves with it.
-      
+
       # first, stop the internal __getMidiSynth__ synthesizers
       __stopMidiSynths__()
-      
+
       # then, stop all sounding notes
       Play.allNotesOff()
       Play.allAudioNotesOff()
@@ -1675,7 +1678,7 @@ class Play(jPlay):
 
    def audio(material, listOfAudioSamples):
       """Play jMusic material using a list of audio samples as voices"""
-      
+
       # do necessary datatype wrapping (MidiSynth() expects a Score)
       if type(material) == Note:
          material = Phrase(material)
@@ -1707,10 +1710,10 @@ class Play(jPlay):
                   instrument = phrase.getInstrument()    # yes, so it takes precedence
                if phrase.getTempo() > -1:          # has the phrase tempo been set?
                   tempo = phrase.getTempo()           # yes, so update tempo
-     
+
                # time factor to convert time from jMusic Score units to milliseconds
                # (this needs to happen here every time, as we may be using the tempo from score, part, or phrase)
-               FACTOR = 1000 * 60.0 / tempo   
+               FACTOR = 1000 * 60.0 / tempo
 
                for index in range(phrase.length()):      # traverse all notes in this phrase
                   note = phrase.getNote(index)              # and extract needed note data
@@ -1720,31 +1723,31 @@ class Play(jPlay):
                   start = int(phrase.getNoteStartTime(index) * FACTOR)  # get time and convert to milliseconds
 
                   # NOTE:  Below we use note length as opposed to duration (getLength() vs. getDuration())
-                  # since note length gives us a more natural sounding note (with proper decay), whereas 
+                  # since note length gives us a more natural sounding note (with proper decay), whereas
                   # note duration captures the more formal (printed score) duration (which sounds unnatural).
                   duration = int(note.getLength() * FACTOR)             # get note length (as oppposed to duration!) and convert to milliseconds
                   velocity = note.getDynamic()
-                   
+
                   # accumulate non-REST notes
                   if (frequency != REST):
                      noteList.append((start, duration, frequency, velocity, channel, instrument, panning))   # put start time first and duration second, so we can sort easily by start time (below),
                      # and so that notes that are members of a chord as denoted by having a duration of 0 come before the note that gives the specified chord duration
-                   
+
          # sort notes by start time
          noteList.sort()
-       
+
          for start, duration, pitch, velocity, channel, instrument, panning in noteList:
 
 
             # this function only supprts a regular, solo note (not part of a chord)
-               
+
                Play.audioNote(pitch, start, duration, listOfAudioSamples[channel], velocity, panning)
 
          # now, all notes have been scheduled for future playing - scheduled notes can always be stopped using
          # JEM's stop button - this will stop all running timers (used by Play.note() to schedule playing of notes)
          #print "Play.note(" + str(pitch) + ", " + str(int(start * FACTOR)) + ", " + str(int(duration * FACTOR)) + ", " + str(velocity) + ", " + str(channel) + ")"
 
-      else:   # error check    
+      else:   # error check
          print "Play.audio(): Unrecognized type " + str(type(material)) + ", expected Note, Phrase, Part, or Score."
 
    def audioNote(pitch, start, duration, audioSample, velocity = 127, panning = -1):
@@ -1774,7 +1777,7 @@ class Play(jPlay):
 
       audioSample.setFrequency(pitch)                # set the sample to the specified frequency
       audioSample.setVolume(velocity)                # and specified volume
-      
+
       audioSample.play()                             # and play the pitch!
 
    def audioOff(pitch, audioSample):
@@ -1789,33 +1792,33 @@ class Play(jPlay):
       # NOTE:  We are probably overreaching here... as this will stop *all* AudioSamples from playing.
       # This is a quick way to stop music played via Play.audio().
       __stopActiveAudioSamples__()
-      
+
       # NOTE: In the future, we may also want to handle scheduled notes through Play.audio().  This could be done
       # by creating a list of AudioSamples and Timers created via audioNote() and looping through them to stop them here.
 
 
    def setInstrument(instrument, channel=0):
       """Send a patch change message for this channel to the Java synthesizer object."""
-      
+
       global Java_synthesizer
-      
+
       channelHandle = Java_synthesizer.getChannels()[channel]   # get a handle to channel
       channelHandle.programChange(channel, instrument)          # send the message
 
    def getInstrument(channel=0):
       """Gets the current instrument for this channel of the Java synthesizer object."""
-      
+
       global Java_synthesizer
-      
+
       channelHandle = Java_synthesizer.getChannels()[channel]   # get a handle to channel
       instrument = channelHandle.getProgram()                   # get the instrument
       return instrument
 
    def setVolume(volume, channel=0):
       """Sets the current coarse volume for this channel to the Java synthesizer object."""
-      
+
       global Java_synthesizer
-      
+
       channelHandle = Java_synthesizer.getChannels()[channel]   # get a handle to channel
       channelHandle.controlChange(7, volume)                    # send the message
 
@@ -1823,15 +1826,15 @@ class Play(jPlay):
       """Gets the current coarse volume for this channel of the Java synthesizer object."""
 
       global Java_synthesizer
-      
+
       channelHandle = Java_synthesizer.getChannels()[channel]   # get a handle to channel
       return channelHandle.getController(7)                     # obtain the current value for volume controller
 
    def setPanning(position, channel=0):
       """Sets the current panning setting for this channel to the Java synthesizer object."""
-      
+
       global Java_synthesizer
-      
+
       channelHandle = Java_synthesizer.getChannels()[channel]   # get a handle to channel
       channelHandle.controlChange(10, position)                 # send the message
 
@@ -1839,34 +1842,34 @@ class Play(jPlay):
       """Gets the current panning setting for this channel of the Java synthesizer object."""
 
       global Java_synthesizer
-      
+
       channelHandle = Java_synthesizer.getChannels()[channel]   # get a handle to channel
       return channelHandle.getController(10)                # obtain the current value for panning controller
-      
+
 
    ########################################################################
    # make these functions callable without having to instantiate this class
-   midi = Callable(midi)  
-   midi2 = Callable(midi2)  
-   noteOn = Callable(noteOn)  
-   noteOnPitchBend = Callable(noteOnPitchBend)  
-   noteOff = Callable(noteOff)  
-   note = Callable(note)   
+   midi = Callable(midi)
+   midi2 = Callable(midi2)
+   noteOn = Callable(noteOn)
+   noteOnPitchBend = Callable(noteOnPitchBend)
+   noteOff = Callable(noteOff)
+   note = Callable(note)
    frequency = Callable(frequency)
-   #microtonal = Callable(microtonal)  
-   #noteOffPitchBend = Callable(noteOffPitchBend)  
-   allNotesOff = Callable(allNotesOff)  
-   frequencyOn = Callable(frequencyOn)  
-   frequencyOff = Callable(frequencyOff)  
-   allFrequenciesOff = Callable(allFrequenciesOff)  
-   stop = Callable(stop)  
-   setInstrument = Callable(setInstrument)  
+   #microtonal = Callable(microtonal)
+   #noteOffPitchBend = Callable(noteOffPitchBend)
+   allNotesOff = Callable(allNotesOff)
+   frequencyOn = Callable(frequencyOn)
+   frequencyOff = Callable(frequencyOff)
+   allFrequenciesOff = Callable(allFrequenciesOff)
+   stop = Callable(stop)
+   setInstrument = Callable(setInstrument)
    getInstrument = Callable(getInstrument)
    setVolume = Callable(setVolume)
    getVolume = Callable(getVolume)
    setPanning = Callable(setPanning)
    getPanning = Callable(getPanning)
-   setPitchBend = Callable(setPitchBend)  
+   setPitchBend = Callable(setPitchBend)
    getPitchBend = Callable(getPitchBend)
    #setPitchBendNormal = Callable(setPitchBendNormal)
    audioNote = Callable(audioNote)
@@ -1877,7 +1880,7 @@ class Play(jPlay):
 
 
 ######################################################################################
-# If running inside JEM, register function that stops music from playing, when the 
+# If running inside JEM, register function that stops music from playing, when the
 # Stop button is pressed inside JEM.
 ######################################################################################
 
@@ -1886,7 +1889,7 @@ try:
     # if we are inside JEM, registerStopFunction() will be available
     registerStopFunction(Play.stop)   # tell JEM which function to call when the Stop button is pressed
 
-except:  # otherwise (if we get an error), we are NOT inside JEM 
+except:  # otherwise (if we get an error), we are NOT inside JEM
 
     pass    # so, do nothing.
 
@@ -1908,10 +1911,10 @@ class jSyn_AudioEngine():
       We modularize the synth and its operations in a class for convenience.
    """
    instance = None      # only one instance allowed (no need for more)
-   
+
 
    def __init__(self):
-   
+
       # import jSyn stuff here, so as to not polute the global namespace
       from com.jsyn import JSyn
       from com.jsyn.data import FloatSample
@@ -1919,10 +1922,10 @@ class jSyn_AudioEngine():
       from com.jsyn.util import SampleLoader
 
       if jSyn_AudioEngine.instance == None:  # first time?
-      
-         self.synth = JSyn.createSynthesizer()   # create synthesizer         
-         jSyn_AudioEngine.instance = self        # remember the only allowable instance         
-         
+
+         self.synth = JSyn.createSynthesizer()   # create synthesizer
+         jSyn_AudioEngine.instance = self        # remember the only allowable instance
+
          self.samples = []                       # holds audio samples connected to synthesizer
 
       else:                                  # an instance already exists
@@ -1934,25 +1937,25 @@ class jSyn_AudioEngine():
       self.synth.start()
       for sample in self.samples:   # and all the sample lineOut units
          sample.lineOut.start()
-  
+
    def stop(self):
       """Stops the synthesizer."""
-      
-      self.synth.stop()             # stop the synth      
+
+      self.synth.stop()             # stop the synth
       for sample in self.samples:   # and all the sample lineOut units
          sample.lineOut.stop()
 
 # *** This should probably be happening inside AudioSample() - much cleaner.
    def add(self, sample):
       """Connects an audio sample to the jSyn lineOut unit."""
-      
+
       self.synth.add( sample.player )   # add the sample's player to the synth
       self.synth.add( sample.amplitudeSmoother )  # add the sample's amplitude linearRamp to the synth
       self.synth.add( sample.panLeft )  # add the sample's left pan control to the synth
       self.synth.add( sample.panRight ) # add the sample's right pan control to the synth
       self.synth.add( sample.lineOut )  # add the sample's output mixer to the synth
       self.samples.append( sample )     # remember this sample
-   
+
 # *** NOTE:  This synthesizer should be started only when an audio file (AudioSample) is created.
 #            Perhaps do the same with the Java synthesizer above?  Is that synthesizer needed?
 
@@ -1974,13 +1977,13 @@ class AudioSample():
    Encapsulates a sound object created from an external audio file, which can be played once,
    looped, paused, resumed, and stopped.  Also, each sound has a MIDI pitch associated with it
    (default is A4), so we can play different pitches with it (through pitch shifting).
-   Finally, we can set/get its volume (0-127), panning (0-127), pitch (0-127), and frequency (in Hz).      
+   Finally, we can set/get its volume (0-127), panning (0-127), pitch (0-127), and frequency (in Hz).
    Ideally, an audio object will be created with a specific pitch in mind.
    Supported data formats are WAV or AIF files (16, 24 and 32 bit PCM, and 32-bit float).
    """
-   
+
    def __init__(self, filename, referencePitch=A4, volume=127):
-   
+
       # import jSyn stuff here, so as to not polute the global namespace
       from com.jsyn import JSyn
       from com.jsyn.data import FloatSample
@@ -1990,21 +1993,21 @@ class AudioSample():
       # ensure the file exists (jSyn will NOT complain on its own)
       if not os.path.isfile(filename):
          raise ValueError("File '" + str(filename) + "' does not exist.")
-         
-      # file exists, so continue   
+
+      # file exists, so continue
       self.filename = filename
-            
+
       # remember is sample is paused or not - needed for function isPaused()
       self.hasPaused = False
 
       # load and create the audio sample
       SampleLoader.setJavaSoundPreferred( False )  # use internal jSyn sound processes
-      datafile = File(self.filename)               # get sound file 
-      self.sample = SampleLoader.loadFloatSample( datafile )  # load it as a a jSyn sample     
+      datafile = File(self.filename)               # get sound file
+      self.sample = SampleLoader.loadFloatSample( datafile )  # load it as a a jSyn sample
       self.channels = self.sample.getChannelsPerFrame()       # get number of channels in sample
 
       # create lineOut unit (it mixes output to computer's audio (DAC) card)
-      self.lineOut = LineOut()    
+      self.lineOut = LineOut()
 
       # create panning control (we simulate this using two pan controls, one for the left channel and
       # another for the right channel) - to pan we adjust their respective pan
@@ -2020,14 +2023,14 @@ class AudioSample():
       if self.channels == 1:    # mono audio?
          self.player = VariableRateMonoReader()                  # create mono sample player
 
-         self.player.output.connect( 0, self.panLeft.input, 0)   # connect single channel to pan control 
-         self.player.output.connect( 0, self.panRight.input, 0) 
+         self.player.output.connect( 0, self.panLeft.input, 0)   # connect single channel to pan control
+         self.player.output.connect( 0, self.panRight.input, 0)
 
       elif self.channels == 2:  # stereo audio?
          self.player = VariableRateStereoReader()                # create stereo sample player
 
-         self.player.output.connect( 0, self.panLeft.input, 0)   # connect both channels to pan control 
-         self.player.output.connect( 1, self.panRight.input, 0) 
+         self.player.output.connect( 0, self.panLeft.input, 0)   # connect both channels to pan control
+         self.player.output.connect( 1, self.panRight.input, 0)
 
       else:
          raise TypeError( "Can only play mono or stereo samples." )
@@ -2038,8 +2041,8 @@ class AudioSample():
       if (type(referencePitch) == int) and (0 <= referencePitch <= 127):    # is reference pitch in MIDI (an int)?
          self.referencePitch     = referencePitch                               # remember reference pitch
          self.referenceFrequency = self.__convertPitchToFrequency__(referencePitch) # and corresponding reference frequency
-         self.pitch              = self.referencePitch                          # initialize playback pitch (may be different from reference pitch) 
-         self.frequency          = self.referenceFrequency                      # and corresponding playback frequency    
+         self.pitch              = self.referencePitch                          # initialize playback pitch (may be different from reference pitch)
+         self.frequency          = self.referenceFrequency                      # and corresponding playback frequency
       elif type(referencePitch) == float:                                   # if reference pitch a frequency (a float, in Hz)?
          self.referenceFrequency = referencePitch                               # remember reference frequency
          self.referencePitch     = self.__convertFrequencyToPitch__(referencePitch) # convert reference frequency to corresponding MIDI pitch
@@ -2051,36 +2054,36 @@ class AudioSample():
          print "Panning (" + str(panning) + ") should range from 0 to 127."
 
       # now, connect pan control to mixer
-      self.panLeft.output.connect( 0, self.lineOut.input, 0 ) 
-      self.panRight.output.connect( 1, self.lineOut.input, 1 ) 
+      self.panLeft.output.connect( 0, self.lineOut.input, 0 )
+      self.panRight.output.connect( 1, self.lineOut.input, 1 )
 
       # now, that panning is set up, initialize it to center
       self.panning = 63                # ranges from 0 (left) to 127 (right) - 63 is center
       self.setPanning( self.panning )  # and initialize
-       
+
       # smooth out (linearly ramp) changes in player amplitude (without this, we get clicks)
       self.amplitudeSmoother = LinearRamp()
       self.amplitudeSmoother.output.connect( self.player.amplitude )   # connect to player's amplitude
       self.amplitudeSmoother.input.setup( 0.0, 0.5, 1.0 )              # set minimum, current, and maximum settings for control
       self.amplitudeSmoother.time.set( 0.0002 )                        # and how many seconds to take for smoothing amplitude changes
-             
+
       # play at original pitch
-      self.player.rate.set( self.sample.getFrameRate() )  
+      self.player.rate.set( self.sample.getFrameRate() )
 
       self.volume = volume           # holds current volume (0 - 127)
-      self.setVolume( self.volume )  # set the desired volume      
+      self.setVolume( self.volume )  # set the desired volume
 
       # NOTE:  Adding to global jSyn synthesizer
       jSyn.add(self)   # connect sample unit to the jSyn synthesizer
-     
+
       # remember that this AudioSample has been created and is active (so that it can be stopped by JEM, if desired)
       __ActiveAudioSamples__.append(self)
-      
-      
+
+
    ### functions to control playback and looping ######################
    def play(self, start=0, size=-1):
       """
-      Play the sample once from the millisecond 'start' until the millisecond 'start'+'size' 
+      Play the sample once from the millisecond 'start' until the millisecond 'start'+'size'
       (size == -1 means to the end). If 'start' and 'size' are omitted, play the complete sample.
       """
       # for faster response, we restart playing (as opposed to queue at the end)
@@ -2088,48 +2091,48 @@ class AudioSample():
          self.stop()            # yes, so stop it
 
       self.loop(1, start, size)
-      
+
 
    def loop(self, times = -1, start=0, size=-1):
       """
-      Repeat the sample indefinitely (times = -1), or the specified number of times 
+      Repeat the sample indefinitely (times = -1), or the specified number of times
       from millisecond 'start' until millisecond 'start'+'size' (size == -1 means to the end).
       If 'start' and 'size' are omitted, repeat the complete sample.
       """
-    
+
       startFrames = self.__msToFrames__(start)
       sizeFrames = self.__msToFrames__(size)
 
       self.lineOut.start()   # should this be here?
-      
+
       if size == -1:   # to the end?
          sizeFrames = self.sample.getNumFrames() - startFrames  # calculate number of frames to the end
 
       if times == -1:   # loop forever?
          self.player.dataQueue.queueLoop( self.sample, startFrames, sizeFrames )
-         
+
       else:             # loop specified number of times
          self.player.dataQueue.queueLoop( self.sample, startFrames, sizeFrames, times-1 )
-         
+
    def stop(self):
       """
       Stop the sample play.
       """
-      self.player.dataQueue.clear()   
+      self.player.dataQueue.clear()
       self.hasPaused = False          # reset
-      
+
    def isPlaying(self):
       """
       Returns True if the sample is still playing.
       """
-      return self.player.dataQueue.hasMore()   
-      
+      return self.player.dataQueue.hasMore()
+
    def isPaused(self):
       """
       Returns True if the sample is paused.
       """
-      return self.hasPaused   
-      
+      return self.hasPaused
+
    def pause(self):
       """
       Pause playing recorded sample.
@@ -2140,7 +2143,7 @@ class AudioSample():
       else:
          self.lineOut.stop()    # pause playing
          self.hasPaused = True  # remember sample is paused
-      
+
    def resume(self):
       """
       Resume Playing the sample from the paused position
@@ -2148,28 +2151,28 @@ class AudioSample():
 
       if not self.hasPaused:
          print "Sample is already playing!"
-      
-      else:    
+
+      else:
          self.lineOut.start()    # resume playing
          self.hasPaused = False  # remember the sample is not paused
-  
+
    def setFrequency(self, freq):
       """
       Set sample's playback frequency.
       """
       rateChangeFactor = float(freq) / self.frequency      # calculate change on playback rate
-      
+
       self.frequency = freq                                # remember new frequency
       self.pitch = self.__convertFrequencyToPitch__(freq)  # and corresponding pitch
 
       self.__setPlaybackRate__(self.__getPlaybackRate__() * rateChangeFactor)   # and set new playback rate
-      
+
    def getFrequency(self):
       """
       Return sample's playback frequency.
       """
       return self.frequency
-   
+
    def setPitch(self, pitch):
       """
       Set sample playback pitch.
@@ -2177,44 +2180,44 @@ class AudioSample():
 
       self.pitch = pitch                                         # remember new playback pitch
       self.setFrequency(self.__convertPitchToFrequency__(pitch)) # update playback frequency (this changes the playback rate)
-        
+
    def getPitch(self):
       """
       Return sample's current pitch (it may be different from the default pitch).
       """
       return self.pitch
-   
+
    def getReferencePitch(self):
       """
       Return sample's reference pitch.
       """
       return self.referencePitch
-   
+
    def getReferenceFrequency(self):
       """
       Return sample's reference pitch.
       """
       return self.referenceFrequency
-   
+
    def setPanning(self, panning):
       """
       Set panning of sample (panning ranges from 0 - 127).
       """
       if panning < 0 or panning > 127:
          print "Panning (" + str(panning) + ") should range from 0 to 127."
-      else: 
-         self.panning = panning                               # remember it                              
+      else:
+         self.panning = panning                               # remember it
          panValue = mapValue(self.panning, 0, 127, -1.0, 1.0) # map panning from 0,127 to -1.0,1.0
-      
+
          self.panLeft.pan.set(panValue)                       # and set it
          self.panRight.pan.set(panValue)
-      
+
    def getPanning(self):
       """
       Return sample's current panning (panning ranges from 0 - 127).
       """
       return self.panning
-   
+
    def setVolume(self, volume):
       """
       Set sample's volume (volume ranges from 0 - 127).
@@ -2225,14 +2228,14 @@ class AudioSample():
          self.volume = volume                            # remember new volume
          amplitude = mapValue(self.volume,0,127,0.0,1.0) # map volume to amplitude
          self.amplitudeSmoother.input.set( amplitude )   # and set it
-     
+
    def getVolume(self):
       """
       Return sample's current volume (volume ranges from 0 - 127).
       """
       return self.volume
-      
-      
+
+
    ### low-level functions related to FrameRate and PlaybackRate  ######################
    def getFrameRate(self):
       """
@@ -2245,20 +2248,20 @@ class AudioSample():
       Set the sample's playback rate (e.g., 44100.0 Hz).
       """
       self.player.rate.set( newRate )
-         
+
    def __getPlaybackRate__(self):
       """
       Return the sample's playback rate (e.g., 44100.0 Hz).
       """
       return self.player.rate.get()
-         
+
    def __msToFrames__(self, milliseconds):
       """
       Converts milliseconds to frames based on the frame rate of the sample
       """
       return int(self.getFrameRate() * (milliseconds / 1000.0))
-      
-      
+
+
    ### helper functions for various conversions  ######################
 
    # Calculate frequency in Hertz based on MIDI pitch. Middle C is 60.0. You
@@ -2278,7 +2281,7 @@ class AudioSample():
       concertA = 440.0
       return log(freq / concertA, 2.0) * 12.0 + 69
 
-   # following conversions between frequencies and semitones based on code 
+   # following conversions between frequencies and semitones based on code
    # by J.R. de Pijper, IPO, Eindhoven
    # see http://users.utu.fi/jyrtuoma/speech/semitone.html
    def __getSemitonesBetweenFrequencies__(self, freq1, freq2):
@@ -2316,7 +2319,7 @@ def __stopActiveAudioSamples__():
       del a
 
    # also empty list, so things can be garbage collected
-   __ActiveAudioSamples__ = []   # remove access to deleted items   
+   __ActiveAudioSamples__ = []   # remove access to deleted items
 
 # now, register function with JEM (if possible)
 try:
@@ -2324,13 +2327,13 @@ try:
     # if we are inside JEM, registerStopFunction() will be available
     registerStopFunction(__stopActiveAudioSamples__)   # tell JEM which function to call when the Stop button is pressed
 
-except:  # otherwise (if we get an error), we are NOT inside JEM 
+except:  # otherwise (if we get an error), we are NOT inside JEM
 
     pass    # so, do nothing.
 
 
 
-   
+
 
 # used to keep track which MidiSequence objects are active, so we can stop them when
 # JEM's Stop button is pressed
@@ -2342,11 +2345,11 @@ class MidiSequence():
    """Encapsulates a midi sequence object created from the provided material, which is either a string
       - the filename of a MIDI file (.mid), or music library object (Score, Part, Phrase, or Note).
       The midi sequence has a default MIDI pitch (e.g., A4) and volume.  The sequence can be played once, looped,
-      and stopped.  Also, we may change its pitch, tempo, and volume.  These changes happen immediately.  
+      and stopped.  Also, we may change its pitch, tempo, and volume.  These changes happen immediately.
    """
-   
+
    def __init__(self, material, pitch=A4, volume=127):
-   
+
       # determine what type of material we have
       if type(material) == type(""):   # a string?
 
@@ -2355,8 +2358,8 @@ class MidiSequence():
          # load and create the MIDI sample
          self.score = Score()                    # create an empty score
          Read.midi(self.score, self.filename)    # load the external MIDI file
-         
-      else:  # determine what type of material we have 
+
+      else:  # determine what type of material we have
 
          # and do necessary datatype wrapping (MidiSynth() expects a Score)
          if type(material) == Note:
@@ -2367,49 +2370,49 @@ class MidiSequence():
             material = Part(material)
          if type(material) == Part:     # no elif - we need to successively wrap from Note to Score
             material = Score(material)
-         
+
          if type(material) == Score:
-         
+
             self.score = material     # and remember it
-            
-         else:   # error check    
+
+         else:   # error check
             raise TypeError("Midi() - Unrecognized type", type(material), "- expected filename (string), Note, Phrase, Part, or Score.")
 
       # now, self.score contains a Score object
-      
+
       # create Midi sequencer to playback this sample
       self.midiSynth = self.__initMidiSynth__()
-      
+
       # get access to the MidiSynth's internal components (neededd for some of our operations)
       self.sequencer = self.midiSynth.getSequencer()
       self.synthesizer = self.midiSynth.getSynthesizer()
-      
+
       # set tempo factor
-      self.tempoFactor = 1.0   # scales whatever tempo is set for the sequence (1.0 means no change) 
+      self.tempoFactor = 1.0   # scales whatever tempo is set for the sequence (1.0 means no change)
 
       self.defaultTempo = self.score.getTempo()   # remember default tempo
       self.playbackTempo = self.defaultTempo      # set playback tempo to default tempo
 
-      # set volume 
+      # set volume
       self.volume = volume           # holds volume (0-127)
-      #self.setVolume( self.volume )  # set desired volume     
-      
+      #self.setVolume( self.volume )  # set desired volume
+
       # set MIDI score's default pitch
       self.pitch = pitch                         # remember provided pitch
 
       # remember that this MidiSequence has been created and is active (so that it can be stopped by JEM, if desired)
       __ActiveMidiSequences__.append(self)
-      
+
 
    def __initMidiSynth__(self):
       """Creates and initializes a MidiSynth object."""
-      
+
       # NOTE: Since we need access to the "guts" of the MidiSynth object, it is important to initialize it.
       #       This happens automatically the first time we play something through it, so let's play an empty score.
       midiSynth = MidiSynth()   # create it
-      midiSynth.play( Score() ) # and initialize it      
+      midiSynth.play( Score() ) # and initialize it
       return midiSynth
-   
+
 
    def play(self):
       """Play the MIDI score."""
@@ -2417,19 +2420,19 @@ class MidiSequence():
       # make sure only one play is active at a time
       if self.midiSynth.isPlaying():     # is another play is on?
          self.stop()                        # yes, so stop it
-         
+
       #self.sequencer.setLoopCount(0)     # set to no repetition (needed, in case we are called after loop())
       self.midiSynth.setCycle(False)     # turn off looping (just in case)
-      self.midiSynth.play( self.score )  # play it!     
-      
+      self.midiSynth.play( self.score )  # play it!
+
    def loop(self):
       """Repeat the score indefinitely."""
-      
+
       # make sure only one play is active at a time
       if self.midiSynth.isPlaying():     # is another play is on?
          self.stop()                        # yes, so stop it
-         
-      # Due to an apparent Java Sequencer bug in setting tempo, we can only loop indefinitely (not a specified 
+
+      # Due to an apparent Java Sequencer bug in setting tempo, we can only loop indefinitely (not a specified
       # number of times).  Looping a specified number of times causes the second iteration to playback at 120 BPM.
       #self.sequencer.setLoopCount(times)  # set the number of times to repeat the sequence
       self.midiSynth.setCycle(True)
@@ -2439,12 +2442,12 @@ class MidiSequence():
       """
       Returns True if the sequence is still playing.
       """
-      return self.midiSynth.isPlaying()   
-      
+      return self.midiSynth.isPlaying()
+
    def stop(self):
       """Stop the MIDI score play."""
 
-      self.midiSynth.stop()   
+      self.midiSynth.stop()
 
    def pause(self):
       """Pause the MIDI sequence play."""
@@ -2457,21 +2460,21 @@ class MidiSequence():
       self.__setTempoFactor__(1.0) # reset playback to original tempo (i.e., resume)
 
    # low-level helper function
-   def __setTempoFactor__(self, factor = 1.0):   
+   def __setTempoFactor__(self, factor = 1.0):
       """
       Set MIDI sequence's tempo factor (1.0 means default, i.e., no change).
       """
       self.sequencer.setTempoFactor( factor )
-      
+
 
    def setPitch(self, pitch):
       """Set the MidiSequence's playback pitch (by transposing the MIDI material)."""
-      
-      semitones = pitch - self.pitch          # get the pitch change in semitones       
+
+      semitones = pitch - self.pitch          # get the pitch change in semitones
       Mod.transpose( self.score, semitones )  # update score pitch appropriately
-      
+
       # do some low-level work inside MidiSynth
-      updatedSequence = self.midiSynth.scoreToSeq( self.score )  # get new Midi sequence from updated score            
+      updatedSequence = self.midiSynth.scoreToSeq( self.score )  # get new Midi sequence from updated score
       self.positionInMicroseconds = self.sequencer.getMicrosecondPosition()  # remember where to resume
       self.sequencer.setSequence(updatedSequence)                # update the sequence - this restarts playing...
       self.sequencer.setMicrosecondPosition( self.positionInMicroseconds )   # ...so reset playing to where we left off
@@ -2482,20 +2485,20 @@ class MidiSequence():
 
    def getPitch(self):
       """Returns the MIDI score's pitch."""
-      
+
       return self.pitch
 
    def getDefaultPitch(self):
       """Return the MidiSequence's default pitch."""
 
       return self.defaultPitch
-     
+
 
    def setTempo(self, beatsPerMinute):
       """
       Set MIDI sequence's playback tempo.
       """
-      # Due to an apparent Java Sequencer bug in setting tempo, when looping a specified number of times causes 
+      # Due to an apparent Java Sequencer bug in setting tempo, when looping a specified number of times causes
       # all but the first iteration to playback at 120 BPM, regardless of what the current tempo may be.
       # Unable to solve the problem in the general case, below is an attempt to fix it for some cases (e.g.,
       # for looping continuously, but not for looping a specified number of times).
@@ -2504,7 +2507,7 @@ class MidiSequence():
       self.midiSynth.setTempo( beatsPerMinute )         # and set it again (this seems redundant, but see above)
       self.score.setTempo( beatsPerMinute )             # and set it again (this seems redundant, but see above)
 
-   def getTempo(self):   
+   def getTempo(self):
       """
       Return MIDI sequence's playback tempo.
       """
@@ -2515,14 +2518,14 @@ class MidiSequence():
       Return MIDI sequence's default tempo (in beats per minute).
       """
       return self.defaultTempo
-   
+
 
    def setVolume(self, volume):
       """Sets the volume for the MidiSequence (volume ranges from 0 - 127)."""
-      
+
       self.volume = volume    # remember new volume
 
-      # NOTE:  Setting volume through a MidiSynth is problematic.  
+      # NOTE:  Setting volume through a MidiSynth is problematic.
       #        Here we use a solution by Howard Amos (posted 8/16/2012) in
       #        http://www.coderanch.com/t/272584/java/java/MIDI-volume-control-difficulties
       volumeMessage = ShortMessage()    # create a MIDI message
@@ -2553,12 +2556,12 @@ def __stopActiveMidiSequences__():
    for m in __ActiveMidiSequences__:
       m.stop()    # no need to check if they are playing - just do it (it's fine)
 
-   # then, delete them 
+   # then, delete them
    for m in __ActiveMidiSequences__:
       del m
 
    # also empty list, so things can be garbage collected
-   __ActiveMidiSequences__ = []   # remove access to deleted items   
+   __ActiveMidiSequences__ = []   # remove access to deleted items
 
 # now, register function with JEM (if possible)
 try:
@@ -2566,7 +2569,7 @@ try:
     # if we are inside JEM, registerStopFunction() will be available
     registerStopFunction(__stopActiveMidiSequences__)   # tell JEM which function to call when the Stop button is pressed
 
-except:  # otherwise (if we get an error), we are NOT inside JEM 
+except:  # otherwise (if we get an error), we are NOT inside JEM
 
     pass    # so, do nothing.
 
@@ -2580,16 +2583,16 @@ __ActiveMetronomes__ = []     # holds active MidiSequence objects
 
 from timer import Timer
 #from gui import Display     # for Metronome tick visualization
-      
+
 class Metronome():
    """Creates a metronome object used in scheduling and synchronizing function call (intended for starting blocks of musical
       material together, but could be really used for anything (e.g., GUI animzation).  This is based on the Timer class,
-      but is higher-level, based on tempo (e.g., 60 BPM), and time signatures (e.g., 4/4).  
+      but is higher-level, based on tempo (e.g., 60 BPM), and time signatures (e.g., 4/4).
    """
 
    #def __init__(self, tempo=60, timeSignature=[4, 4], displaySize=50, displayTickColor=Color.RED):
    def __init__(self, tempo=60, timeSignature=[4, 4]):
-      
+
       # remember title, tempo and time signature
       self.tempo = tempo
       self.timeSignature = timeSignature  # a list (first item is numerator, second is denominator)
@@ -2613,19 +2616,19 @@ class Metronome():
 #      self.displayTickColor = displayTickColor               # color used for ticking
 #      self.displayOriginalColor = self.display.getColor()    # color to reset ticking
 #      self.flickerTimer = Timer2(100, self.display.setColor, [self.displayOriginalColor])   # create timer to reset display color (it ends fliker)
-#      self.add( self.__updateDisplay__, [], 0, True, 1)      # schedule display flickering on every beat (starts flicker)      
+#      self.add( self.__updateDisplay__, [], 0, True, 1)      # schedule display flickering on every beat (starts flicker)
 
       # set up metronome visualization / sonification
       self.currentBeat   = 1       # holds current beat relative to provided time signature (1 means first beat)
       self.visualize     = False   # True means print out current beat on console; False do not print
       self.sonify        = False   # True means sound each tick; False do not
-      self.sonifyPitch   = HI_MID_TOM   # which pitch to play whe ticking 
+      self.sonifyPitch   = HI_MID_TOM   # which pitch to play whe ticking
       self.sonifyChannel = 9       # which channel to use (9 is for percussion)
       self.sonifyVolume  = 127     # how loud is strong beat (secondary beats will at 70%)
 
       # remember that this MidiSequence has been created and is active (so that it can be stopped by JEM, if desired)
       __ActiveMetronomes__.append(self)
-      
+
 
    def add(self, function, parameters=[], desiredBeat=0, repeatFlag=False):
       """It schedules the provided function to be called by the metronome (passing the provided parameters to it) on the
@@ -2636,10 +2639,10 @@ class Metronome():
       self.parameters.append( parameters )
       self.desiredBeats.append( desiredBeat )
       self.repeatFlags.append( repeatFlag )
-      
+
       # calculate beat countdown
-      beatCountdown = self.__calculateBeatCountdown__( desiredBeat )              
-         
+      beatCountdown = self.__calculateBeatCountdown__( desiredBeat )
+
       # store beat countdown for this function
       self.beatCountdowns.append( beatCountdown )
 
@@ -2650,25 +2653,25 @@ class Metronome():
          an error.
       """
       index = self.functions.index( function )   # find index of leftmost occurrence
-      self.functions.pop( index )                # and remove it and all info 
-      self.parameters.pop( index ) 
-      self.desiredBeats.pop( index ) 
-      self.repeatFlags.pop( index ) 
+      self.functions.pop( index )                # and remove it and all info
+      self.parameters.pop( index )
+      self.desiredBeats.pop( index )
+      self.repeatFlags.pop( index )
       self.beatCountdowns.pop( index )
 
    def removeAll(self):
       """It removes all provided functions to be called by the metronome."""
 
       # reinitialize all function related information
-      self.functions        = []    
-      self.parameters       = []  
-      self.desiredBeats     = []   
-      self.repeatFlags      = []  
-      self.beatCountdowns   = []   
+      self.functions        = []
+      self.parameters       = []
+      self.desiredBeats     = []
+      self.repeatFlags      = []
+      self.beatCountdowns   = []
 
    def setTempo(self, tempo):
       """It sets the metronome's tempo."""
-      
+
       self.tempo = tempo        # remember new tempo
 
       # and set it
@@ -2680,12 +2683,12 @@ class Metronome():
       return self.tempo
 
    def setTimeSignature(self, timeSignature):
-      """It sets the metronome's time signature."""      
+      """It sets the metronome's time signature."""
       self.timeSignature = timeSignature        # remember new time signature
       self.currentBeat = 0                      # reinitialize current beat relative to provided time signature (1 means first beat)
 
    def getTimeSignature(self):
-      """It returns the metronome's time signature."""      
+      """It returns the metronome's time signature."""
       return self.timeSignature
 
    def start(self):
@@ -2700,14 +2703,14 @@ class Metronome():
 
 #   def __updateDisplay__(self):
 #      """It temporarily flickers the metronome's visualization display to indicate a 'tick'."""
-#      
+#
 #      # change color to indicate a tick
-#      self.display.setColor( self.displayTickColor )  
+#      self.display.setColor( self.displayTickColor )
 #
 #      # reset display back to original color after a small delay
-#      #flikcerTimer = Timer2(250, self.display.setColor, [self.displayOriginalColor]) 
+#      #flikcerTimer = Timer2(250, self.display.setColor, [self.displayOriginalColor])
 #      #flikcerTimer.start()    # after completion, this timer will eventually be garbage collected (no need to reuse)
-#      self.flickerTimer.start() 
+#      self.flickerTimer.start()
 
 #   def __advanceCurrentBeat__(self):
 #      """It advances the current metronome beat."""
@@ -2726,7 +2729,7 @@ class Metronome():
 
    def __callFunctions__(self):
       """Calls all functions we are asked to synchronize."""
-      
+
       # do visualization / sonification tasks (if any)
       if self.visualize:   # do we need to print out current beat?
          print self.currentBeat
@@ -2738,19 +2741,19 @@ class Metronome():
             Play.note(self.sonifyPitch, 0, 200, int(self.sonifyVolume * 0.7), self.sonifyChannel)   # softer
 
       #***
-      #print "self.desiredBeats, self.beatCountdowns = ", 
-      #print self.desiredBeats, self.beatCountdowns  
+      #print "self.desiredBeats, self.beatCountdowns = ",
+      #print self.desiredBeats, self.beatCountdowns
 
       # NOTE:  The following uses several for loops so that all functions are given quick service.
       #        Once they've been called, we can loop again to do necessary book-keeping...
-      
+
       # first, iterate to call all functions with their (provided) parameters
       nonRepeatedFunctions = []   # holds indices of functions to be called only once (so we can remove them later)
       for i in range( len(self.functions) ):
-      
+
         # see if current function needs to be called right away
         if self.beatCountdowns[i] == 0:
-           
+
            # yes, so call this function!!!
            self.functions[i]( *(self.parameters[i]) )   # strange syntax, but does the trick...
 
@@ -2760,18 +2763,18 @@ class Metronome():
               nonRepeatedFunctions.append( i )   # mark it for deletion (so it is not called again)
 
       # now, all functions who needed to be called have been called
-      
+
       # next, iterate to remove any functions that were meant to be called once
       for i in nonRepeatedFunctions:
-         self.functions.pop( i )   
-         self.parameters.pop( i ) 
-         self.desiredBeats.pop( i ) 
-         self.repeatFlags.pop( i ) 
+         self.functions.pop( i )
+         self.parameters.pop( i )
+         self.desiredBeats.pop( i )
+         self.repeatFlags.pop( i )
          self.beatCountdowns.pop( i )
-      
+
 
       ###########################################################################################
-      # NOTE:  This belongs exactly here (before updating countdown timers below)      
+      # NOTE:  This belongs exactly here (before updating countdown timers below)
 
       # advance to next beat (in anticipation...)
       self.currentBeat = (self.currentBeat % self.timeSignature[0]) + 1  # wrap around as needed
@@ -2780,14 +2783,14 @@ class Metronome():
 
       # finally, iterate to update countdown timers for all remaining functions
       for i in range( len(self.functions) ):
-           
+
         # if this function was just called
         if self.beatCountdowns[i] == 0:
-        
+
            # reinitialize its beat countdown counter, i.e., reschedule it for its next call
-              
+
            # calculate beat countdown
-           self.beatCountdowns[i] = self.__calculateBeatCountdown__( self.desiredBeats[i] )              
+           self.beatCountdowns[i] = self.__calculateBeatCountdown__( self.desiredBeats[i] )
 
         else:   # it's not time to call this function, so update its information
 
@@ -2795,21 +2798,21 @@ class Metronome():
            self.beatCountdowns[i] = self.beatCountdowns[i] - 1     # we are now one tick closer to calling it
 
       # now, all functions who needed to be called have been called, and all beat countdowns
-      # have been updated. 
+      # have been updated.
 
 
    def __calculateBeatCountdown__(self, desiredBeat):
-      """Calculates the beat countdown given the desired beat."""         
-   
+      """Calculates the beat countdown given the desired beat."""
+
 #      if desiredBeat == 0:  # do they want now (regardess of current beat)?
-#         beatCountdown = 0     # give them now               
+#         beatCountdown = 0     # give them now
 #      elif desiredBeat >= self.currentBeat:  # otherwise, is desired beat now or in the future?
 #         beatCountdown = desiredBeat - self.currentBeat  # calculate remaining beats until then
 #      else:  # desired beat has passed in the time signature, so we need to pick it up in the next measure
 #         beatCountdown = (desiredBeat + self.timeSignature[0]) - self.currentBeat
-   
+
       if desiredBeat == 0:  # do they want now (regardess of current beat)?
-         beatCountdown = 0     # give them now               
+         beatCountdown = 0     # give them now
       elif self.currentBeat <= desiredBeat <= self.timeSignature[0]:  # otherwise, is desired beat the remaining measure?
          beatCountdown = desiredBeat - self.currentBeat                            # calculate remaining beats until then
       elif 1 <= desiredBeat < self.currentBeat:                       # otherwise, is desired beat passed in this measure?
@@ -2818,7 +2821,7 @@ class Metronome():
          beatCountdown = desiredBeat - self.currentBeat + self.timeSignature[0]    # calculate remaining beats until then
       else:  # we cannot handle negative beats
          raise ValueError("Cannot handle negative beats, " + str(desiredBeat) + ".")
-    
+
       # ***
       #print "beatCountdown =", beatCountdown
       return beatCountdown
@@ -2837,7 +2840,7 @@ class Metronome():
    def soundOn(self, pitch=ACOUSTIC_BASS_DRUM, volume=127, channel=9):
       """It turns the metronome sound on."""
       self.sonify = True
-      self.sonifyPitch   = pitch   # which pitch to play whe ticking 
+      self.sonifyPitch   = pitch   # which pitch to play whe ticking
       self.sonifyChannel = channel # which channel to use (9 is for percussion)
       self.sonifyVolume  = volume  # how loud is strong beat (secondary beats will at 70%)
 
@@ -2846,7 +2849,7 @@ class Metronome():
       self.sonify = False
 
 
-   
+
 
 #
 #####################################################################################
@@ -2863,12 +2866,12 @@ def __stopActiveMetronomes__():
    for m in __ActiveMetronomes__:
       m.stop()    # no need to check if they are playing - just do it (it's fine)
 
-   # then, delete them 
+   # then, delete them
    for m in __ActiveMetronomes__:
       del m
 
    # also empty list, so things can be garbage collected
-   __ActiveMetronomes__ = []   # remove access to deleted items   
+   __ActiveMetronomes__ = []   # remove access to deleted items
 
 # now, register function with JEM (if possible)
 try:
@@ -2876,10 +2879,10 @@ try:
     # if we are inside JEM, registerStopFunction() will be available
     registerStopFunction(__stopActiveMetronomes__)   # tell JEM which function to call when the Stop button is pressed
 
-except:  # otherwise (if we get an error), we are NOT inside JEM 
+except:  # otherwise (if we get an error), we are NOT inside JEM
 
     pass    # so, do nothing.
- 
+
 
 
 
@@ -2887,189 +2890,189 @@ except:  # otherwise (if we get an error), we are NOT inside JEM
 ##### Sound Synthesizer class ######################################
 
 class SoundSynth():
-   """Encapsulates a hybrid synthesizer which can be instantiated with a combination of 
+   """Encapsulates a hybrid synthesizer which can be instantiated with a combination of
       MIDI/MidiSequence/AudioSample instruments.  For now, we limit this to 16 instruments,
       to agree with the number of different channels that can be specified in music library Part
       objects.  We provide the following operations: noteOn(), noteOff(), allNotesOff(), and
-      midi() - the latter as in Play.midi().  
-      Note pitches can be specified by float numbers (so, for MIDI instruments, we utilize pitch bend).  
-      Although we can play multiple MIDI notes per channel, if non-integer (i.e., 69.3) MIDI pitches are used, 
-      the associated pitch bend applies to all other notes sounding on this channel at the time - hence 
+      midi() - the latter as in Play.midi().
+      Note pitches can be specified by float numbers (so, for MIDI instruments, we utilize pitch bend).
+      Although we can play multiple MIDI notes per channel, if non-integer (i.e., 69.3) MIDI pitches are used,
+      the associated pitch bend applies to all other notes sounding on this channel at the time - hence
       the suggested limitation of one note per channel.
       If MIDI pitches are all integers (e.g., 69.0), several notes on the same channel can be
       rendered (correctly).
-      
+
       The provided instruments list may consist of integers (i.e., MIDI instruments), music library
       objects (Note, Phrase, Part, or Score), and strings (assumed to be WAV or AIF files).
    """
-   
+
    def __init__(self, sounds, volume=127):
-   
+
       self.sounds = sounds
       self.masterVolume = volume              # holds current volume (0 - 127)
-      
-      self.instruments = []                   # holds the instruments associated with each sound 
+
+      self.instruments = []                   # holds the instruments associated with each sound
 
       # create all the instruments by creating Midi sequences, and audio samples
       for sound in self.sounds:
 
          # detrmine what type of sound we are dealing with, and instantiate appropriate classes (if needed)
          if isinstance(sound, int) and (0 <= sound <= 127):  # a MIDI instrument constant (0-127)?
-         
+
             self.instruments.append( sound )                    # store the MIDI constant verbatim
-         
+
          elif isinstance(sound, Note) or isinstance(sound, Phrase) or isinstance(sound, jPhrase) or isinstance(sound, Part) or isinstance(sound, Score):
-         
+
             self.instruments.append( MidiSequence(sound) )      # build and store a MidiSequence
-            
+
          elif isinstance(sound, str):    # an audio sample?
-         
+
             self.instruments.append( AudioSample(sound) )       # build and store and AudioSample
-            
+
          else:
             raise TypeError("SoundSynth() - Unrecognized sound type", type(sound), "- expected integer (0-127), filename (string), Note, Phrase, Part, or Score.")
 
       # now, self.instruments contains the various sound instruments (MIDI instrument numbers (0-127), MIDI sequences, or audio samples)
-      
+
       # **** here
-                  
+
       self.freeMidiChannels = range(16)    # holds all MIDI channels (banks) available to play a note
       self.busyMidiChannels = {}           # holds all MIDI channels (banks) playing a note (indexed by the note itself)
 
-      
+
    def noteOn(self, pitch, instrument=0, volume=127):
       """Start playing this pitch on the corresponding instrument (if pitch is float we use pitch bend)."""
-      
-      #if 
-      
+
+      #if
+
       if len( self.freeBanks ) > 0:   # are there any available banks to play this note?
 
          # get next available AudioSample
          audioSample = self.freeBanks.pop()    # remove one from the list of available ones
-         
+
          # add it to the collection of busy banks - indexed by pitch being played
-         # (since there may be more than one concurrent note with the same pitch, we 
+         # (since there may be more than one concurrent note with the same pitch, we
          # store a list of audioSamples per pitch)
-         self.busyBanks[pitch] = self.busyBanks.get(pitch, []) + [audioSample]  # and append it 
-      
+         self.busyBanks[pitch] = self.busyBanks.get(pitch, []) + [audioSample]  # and append it
+
          # NOTE:  We could have indexed self.busyBanks with (pitch, volume) to be able to
-         # find the exact audio sample playing this pitch at a given volume, in case of more 
+         # find the exact audio sample playing this pitch at a given volume, in case of more
          # than one audio samples playing the same note - but the chances of this ever happening
          # are so small, that, for simplicity, we ignore this possibility (for now).
-      
+
          # start note
-         audioSample.setPitch( pitch )   # set the pitch for this audio sample, 
+         audioSample.setPitch( pitch )   # set the pitch for this audio sample,
          audioSample.setVolume( volume ) # also set its volume, and
          audioSample.loop()              # start playing this note
-      
+
       else:                             # all banks are busy, so let them know
 
          print "AudioInstrument.noteOn(" + str(pitch) + "): too many notes sounding."
 
-            
+
    def noteOff(self, pitch):
       """Stop playing this pitch.  If pitch is not sounding, a warning is output."""
-      
+
       try:     # see if this note is sounding
-      
+
          audioSample = self.busyBanks[pitch].pop()  # get AudioSample playing this pitch (if any)
          audioSample.stop()                         # stop the note
          self.freeBanks.append( audioSample )       # put it back in the available banks
-      
+
       except:  # this note was not sounding
 
          print "AudioInstrument.noteOff(" + str(pitch) + "): this pitch is not sounding."
 
    def allNotesOff(self):
       """It turns off all notes on all banks."""
-      
+
       # turn off all sounding banks and return them to the free list
       for bankList in self.busyBanks.values():  # iterate through list of lists
          for audioSample in bankList:              # iterate through this list
             audioSample.stop()                        # stop this note
             self.freeBanks.append( audioSample )      # put it back in the available banks
 
-     
-         
+
+
 
 ##### AudioInstrument class ######################################
 
 class AudioInstrument():
-   """Encapsulates an instrument based on an audio sample, which may be used to play up to 16 
-      overlapping, continuous notes, via operations noteOn(), noteOff(), allNotesOff(), 
-      frequencyOn(), frequencyOff(), and allFrequenciesOff().  
-      
-      The instrument has a default MIDI pitch associated with it (if not specified, it is A4), 
+   """Encapsulates an instrument based on an audio sample, which may be used to play up to 16
+      overlapping, continuous notes, via operations noteOn(), noteOff(), allNotesOff(),
+      frequencyOn(), frequencyOff(), and allFrequenciesOff().
+
+      The instrument has a default MIDI pitch associated with it (if not specified, it is A4),
       so we can play different pitches with it (through pitch shifting).
-      
+
       The maxBanks parameter determines how many parallel (overlapping) notes this instrument
       can play.
-      
+
       Supported data formats are WAV or AIF files (16, 24 and 32 bit PCM, and 32-bit float).
    """
-   
+
    def __init__(self, filename, pitch=A4, volume=127, maxBanks=16):
-   
+
       self.filename = filename
       self.defaultPitch = pitch  # the default pitch of the audio file (sample)
       self.pitch = pitch         # holds playback pitch (may be different from default pitch)
       self.volume = volume       # holds current volume (0 - 127)
-      
+
       self.maxBanks = maxBanks   # number of concurrrent notes supported
 
       # create all the banks by loading the audio samples
       self.freeBanks = []    # holds all AudioSamples (banks) available to play a note
-      for i in range( self.maxBanks ): 
-         self.freeBanks.append( AudioSample(filename, pitch, volume) ) 
+      for i in range( self.maxBanks ):
+         self.freeBanks.append( AudioSample(filename, pitch, volume) )
       # now, all AudioSamples (banks) have been created
 
       self.busyBanks = {}    # holds all AudioSamples (banks) playing a note (indexed by the note itself)
 
-      
+
    def noteOn(self, pitch, volume=50):
       """Start playing this pitch on the next available AudioInstrument bank."""
-      
+
       if len( self.freeBanks ) > 0:   # are there any available banks to play this note?
 
          # get next available AudioSample
          audioSample = self.freeBanks.pop()    # remove one from the list of available ones
-         
+
          # add it to the collection of busy banks - indexed by pitch being played
-         # (since there may be more than one concurrent note with the same pitch, we 
+         # (since there may be more than one concurrent note with the same pitch, we
          # store a list of audioSamples per pitch)
-         self.busyBanks[pitch] = self.busyBanks.get(pitch, []) + [audioSample]  # and append it 
-      
+         self.busyBanks[pitch] = self.busyBanks.get(pitch, []) + [audioSample]  # and append it
+
          # NOTE:  We could have indexed self.busyBanks with (pitch, volume) to be able to
-         # find the exact audio sample playing this pitch at a given volume, in case of more 
+         # find the exact audio sample playing this pitch at a given volume, in case of more
          # than one audio samples playing the same note - but the chances of this ever happening
          # are so small, that, for simplicity, we ignore this possibility (for now).
-      
+
          # start note
-         audioSample.setPitch( pitch )   # set the pitch for this audio sample, 
+         audioSample.setPitch( pitch )   # set the pitch for this audio sample,
          audioSample.setVolume( volume ) # also set its volume, and
          audioSample.loop()              # start playing this note
-      
+
       else:                             # all banks are busy, so let them know
 
          print "AudioInstrument.noteOn(" + str(pitch) + "): too many notes sounding."
 
-            
+
    def noteOff(self, pitch):
       """Stop playing this pitch.  If pitch is not sounding, a warning is output."""
-      
+
       try:     # see if this note is sounding
-      
+
          audioSample = self.busyBanks[pitch].pop()  # get AudioSample playing this pitch (if any)
          audioSample.stop()                         # stop the note
          self.freeBanks.append( audioSample )       # put it back in the available banks
-      
+
       except:  # this note was not sounding
 
          print "AudioInstrument.noteOff(" + str(pitch) + "): this pitch is not sounding."
 
    def allNotesOff(self):
       """It turns off all notes on all banks."""
-      
+
       # turn off all sounding banks and return them to the free list
       for bankList in self.busyBanks.values():  # iterate through list of lists
          for audioSample in bankList:              # iterate through this list
@@ -3081,40 +3084,40 @@ class AudioInstrument():
 
    def frequencyOn(self, frequency, volume=50):
       """Start playing this frequency on the next available AudioInstrument bank."""
-      
+
       if len( self.freeBanks ) > 0:   # are there any available banks to play this note?
 
          # get next available AudioSample
          audioSample = self.freeBanks.pop()    # remove one from the list of available ones
-         
+
          # add it to the collection of busy banks - indexed by frequency being played
-         # (since there may be more than one concurrent note with the same frequency, we 
+         # (since there may be more than one concurrent note with the same frequency, we
          # store a list of audioSamples per pitch)
-         self.busyBanks[frequency] = self.busyBanks.get(frequency, []) + [audioSample]  # and append it 
-      
+         self.busyBanks[frequency] = self.busyBanks.get(frequency, []) + [audioSample]  # and append it
+
          # NOTE:  We could have indexed self.busyBanks with (frequency, volume) to be able to
-         # find the exact audio sample playing this frequency at a given volume, in case of more 
+         # find the exact audio sample playing this frequency at a given volume, in case of more
          # than one audio samples playing the same note - but the chances of this ever happening
          # are so small, that, for simplicity, we ignore this possibility (for now).
-      
+
          # start note
-         audioSample.setFrequency( frequency )   # set the frequency for this audio sample, 
+         audioSample.setFrequency( frequency )   # set the frequency for this audio sample,
          audioSample.setVolume( volume )         # also set its volume, and
          audioSample.loop()                      # start playing this note
-      
+
       else:                             # all banks are busy, so let them know
 
          print "AudioInstrument.frequencyOn(" + str(frequency) + "): too many notes sounding."
-      
+
    def frequencyOff(self, frequency):
       """Stop playing this frequency.  If frequency is not sounding, a warning is output."""
-      
+
       try:     # see if this note is sounding
-      
+
          audioSample = self.busyBanks[frequency].pop()  # get AudioSample playing this frequency (if any)
          audioSample.stop()                             # stop the note
          self.freeBanks.append( audioSample )          # put it back in the available banks
-      
+
       except:  # this note was not sounding
 
          print "AudioInstrument.frequencyOff(" + str(frequency) + "): this pitch is not sounding."
@@ -3122,10 +3125,10 @@ class AudioInstrument():
    def allFrequenciesOff(self):
       """It turns off all notes on all channels."""
 
-      self.allNotesOff()   
-  
+      self.allNotesOff()
 
-   
+
+
 ######################################################################################
 # synthesized jMusic instruments (also see http://jmusic.ci.qut.edu.au/Instruments.html)
 
