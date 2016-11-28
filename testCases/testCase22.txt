@@ -1,7 +1,0 @@
-22
-Get if the timer repeats or not
-timer Timer2
-getRepeat
-True
-testequals
-True

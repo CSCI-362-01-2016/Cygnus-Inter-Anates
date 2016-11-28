@@ -1,7 +1,0 @@
-07
-Create range of floats
-music
-frange
-.02, -.1, -.02
-testequals
-[0.02, 0.0, -0.02, -0.04, -0.06, -0.08]
