@@ -1,0 +1,7 @@
+02
+calculate the frequency value of a given midi pitch
+music
+noteToFreq
+72
+testalmostequals, 2
+523.25

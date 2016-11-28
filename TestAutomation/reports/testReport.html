@@ -1,0 +1,335 @@
+
+        <html>
+            <head>
+                <title>Test Results</title>
+                <link rel="stylesheet" href="styles.css"/>
+            </head>
+            <body>
+                <table>
+                    <tr>
+                        <th>Number</th>
+                        <th>Description</th>
+                        <th>Module</th>
+                        <th>Function</th>
+                        <th>Type</th>
+                        <th>Inputs</th>
+                        <th>Expected</th>
+                        <th>Actual</th>
+                    </tr>
+                    
+        <tr>
+            <td>00</td>
+            <td>calculate the frequency value of a given midi pitch</td>
+            <td>music</td>
+            <td>noteToFreq</td>
+            <td>testalmostequals</td>
+            <td>[69]</td>
+            <td>440.0</td>
+            <td>440.0</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>01</td>
+            <td>calculate the frequency value of a given midi pitch</td>
+            <td>music</td>
+            <td>noteToFreq</td>
+            <td>testalmostequals</td>
+            <td>[48]</td>
+            <td>130.81</td>
+            <td>130.81278265</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>02</td>
+            <td>calculate the frequency value of a given midi pitch</td>
+            <td>music</td>
+            <td>noteToFreq</td>
+            <td>testalmostequals</td>
+            <td>[72]</td>
+            <td>523.25</td>
+            <td>523.251130601</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>03</td>
+            <td>calculate the frequency value of a given midi pitch</td>
+            <td>music</td>
+            <td>noteToFreq</td>
+            <td>testalmostequals</td>
+            <td>[1]</td>
+            <td>8.66</td>
+            <td>8.66195721803</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>04</td>
+            <td>calculate the frequency value of a given midi pitch</td>
+            <td>music</td>
+            <td>noteToFreq</td>
+            <td>testalmostequals</td>
+            <td>[127]</td>
+            <td>12543.85</td>
+            <td>12543.8539514</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>05</td>
+            <td>Create range of floats</td>
+            <td>music</td>
+            <td>frange</td>
+            <td>testequals</td>
+            <td>[1.0, 5.0, 0.5]</td>
+            <td>[1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5]</td>
+            <td>[1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5]</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>06</td>
+            <td>Create range of floats</td>
+            <td>music</td>
+            <td>frange</td>
+            <td>testequals</td>
+            <td>[0.0, 44.0, 11.0]</td>
+            <td>[0.0, 11.0, 22.0, 33.0]</td>
+            <td>[0.0, 11.0, 22.0, 33.0]</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>07</td>
+            <td>Create range of floats</td>
+            <td>music</td>
+            <td>frange</td>
+            <td>testequals</td>
+            <td>[0.02, -0.1, -0.02]</td>
+            <td>[0.02, 0.0, -0.02, -0.04, -0.06, -0.08]</td>
+            <td>[0.02, 0.0, -0.02, -0.04, -0.06, -0.08]</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>08</td>
+            <td>Create range of floats</td>
+            <td>music</td>
+            <td>frange</td>
+            <td>testequals</td>
+            <td>[0.0, 44.1, 11.0]</td>
+            <td>[0.0, 11.0, 22.0, 33.0, 44.0]</td>
+            <td>[0.0, 11.0, 22.0, 33.0, 44.0]</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>09</td>
+            <td>Create range of floats</td>
+            <td>music</td>
+            <td>frange</td>
+            <td>testequals</td>
+            <td>[44.1, 0.1, -11.0]</td>
+            <td>[44.1, 33.1, 22.1, 11.1]</td>
+            <td>[44.1, 33.1, 22.1, 11.1]</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>10</td>
+            <td>Create range of floats</td>
+            <td>music</td>
+            <td>frange</td>
+            <td>testequals</td>
+            <td>[44.1, 0.1, 0.0]</td>
+            <td><type 'exceptions.ValueError'></td>
+            <td><type 'exceptions.ValueError'></td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>11</td>
+            <td>calculate the color gradient given two colors and a step</td>
+            <td>gui</td>
+            <td>colorGradient</td>
+            <td>testequals</td>
+            <td>[[255, 0, 0], [0, 0, 255], 3]</td>
+            <td>[[255, 0, 0], [170, 0, 85], [85, 0, 170]]</td>
+            <td>[[255, 0, 0], [170, 0, 85], [85, 0, 170]]</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>12</td>
+            <td>calculate the color gradient given two colors and a step</td>
+            <td>gui</td>
+            <td>colorGradient</td>
+            <td>testequals</td>
+            <td>[[100, 100, 0], [100, 100, 0], 3]</td>
+            <td>[[100, 100, 0], [100, 100, 0], [100, 100, 0]]</td>
+            <td>[[100, 100, 0], [100, 100, 0], [100, 100, 0]]</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>13</td>
+            <td>calculate the color gradient given two colors and a step</td>
+            <td>gui</td>
+            <td>colorGradient</td>
+            <td>testequals</td>
+            <td>[[0, 0, 0], [255, 255, 255], 1]</td>
+            <td>[[0, 0, 0]]</td>
+            <td>[[0, 0, 0]]</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>14</td>
+            <td>calculate the color gradient given two colors and a step</td>
+            <td>gui</td>
+            <td>colorGradient</td>
+            <td>testequals</td>
+            <td>[[255, 255, 255], [0, 2, 0], 3]</td>
+            <td>[[255, 255, 255], [170, 170, 170], [85, 86, 85]]</td>
+            <td>[[255, 255, 255], [170, 170, 170], [85, 86, 85]]</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>15</td>
+            <td>calculate the color gradient given two colors and a step</td>
+            <td>gui</td>
+            <td>colorGradient</td>
+            <td>testequals</td>
+            <td>[[0, 0, 0], [255, 255, 255], 2]</td>
+            <td>[[0, 0, 0], [127, 127, 127]]</td>
+            <td>[[0, 0, 0], [127, 127, 127]]</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>16</td>
+            <td>calculate the midi pitch of a given frequency value</td>
+            <td>music</td>
+            <td>freqToNote</td>
+            <td>testequals</td>
+            <td>[466.1637615181]</td>
+            <td>(70, 0)</td>
+            <td>(70, 0)</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>17</td>
+            <td>calculate the midi pitch of a given frequency value</td>
+            <td>music</td>
+            <td>freqToNote</td>
+            <td>testequals</td>
+            <td>[451.0]</td>
+            <td>(69, 1751)</td>
+            <td>(69, 1751)</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>18</td>
+            <td>calculate the midi pitch of a given frequency value</td>
+            <td>music</td>
+            <td>freqToNote</td>
+            <td>testequals</td>
+            <td>[77.22]</td>
+            <td>(39, -514)</td>
+            <td>(39, -514)</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>19</td>
+            <td>calculate the midi pitch of a given frequency value</td>
+            <td>music</td>
+            <td>freqToNote</td>
+            <td>testequals</td>
+            <td>[2003.9]</td>
+            <td>(95, 1011)</td>
+            <td>(95, 1011)</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>20</td>
+            <td>calculate the midi pitch of a given frequency value</td>
+            <td>music</td>
+            <td>freqToNote</td>
+            <td>testequals</td>
+            <td>[440.0]</td>
+            <td>(69, 0)</td>
+            <td>(69, 0)</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>21</td>
+            <td>Get if the timer repeats or not</td>
+            <td>timer Timer2</td>
+            <td>getRepeat</td>
+            <td>testequals</td>
+            <td>[False]</td>
+            <td>False</td>
+            <td>False</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>22</td>
+            <td>Get if the timer repeats or not</td>
+            <td>timer Timer2</td>
+            <td>getRepeat</td>
+            <td>testequals</td>
+            <td>[True]</td>
+            <td>True</td>
+            <td>True</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>23</td>
+            <td>Get if the delay time interval (in milliseconds)</td>
+            <td>timer Timer2</td>
+            <td>getDelay</td>
+            <td>testequals</td>
+            <td>[0]</td>
+            <td>0</td>
+            <td>0</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>24</td>
+            <td>Get if the delay time interval (in milliseconds)</td>
+            <td>timer Timer2</td>
+            <td>getDelay</td>
+            <td>testequals</td>
+            <td>[10000000000L]</td>
+            <td>10000000000</td>
+            <td>10000000000</td>
+            <td class="success">success</td>
+        </tr>
+        
+        <tr>
+            <td>25</td>
+            <td>Get if the delay time interval (in milliseconds)</td>
+            <td>timer Timer2</td>
+            <td>getDelay</td>
+            <td>testequals</td>
+            <td>[1000]</td>
+            <td>1000</td>
+            <td>1000</td>
+            <td class="success">success</td>
+        </tr>
+        
+                </table>
+            </body>
+        </html>
+        

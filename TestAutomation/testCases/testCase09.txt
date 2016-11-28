@@ -1,0 +1,7 @@
+09
+Create range of floats
+music
+frange
+44.1, 0.1, -11.0
+testequals
+[44.1,33.1,22.1,11.1]

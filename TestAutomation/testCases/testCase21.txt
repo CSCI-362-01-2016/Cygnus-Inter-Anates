@@ -1,0 +1,7 @@
+21
+Get if the timer repeats or not
+timer Timer2
+getRepeat
+False
+testequals
+False

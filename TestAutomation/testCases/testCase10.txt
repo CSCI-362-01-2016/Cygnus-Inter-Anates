@@ -1,0 +1,7 @@
+10
+Create range of floats
+music
+frange
+44.1, 0.1, 0.0
+testequals
+ValueError
