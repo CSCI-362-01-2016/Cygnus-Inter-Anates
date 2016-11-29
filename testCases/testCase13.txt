@@ -1,7 +1,0 @@
-13
-calculate the color gradient given two colors and a step
-gui
-colorGradient
-[0,0,0], [255,255,255], 1
-testequals
-[[0,0,0]]

@@ -1,7 +1,0 @@
-01
-calculate the frequency value of a given midi pitch
-music
-noteToFreq
-48
-testalmostequals, 2
-130.81
