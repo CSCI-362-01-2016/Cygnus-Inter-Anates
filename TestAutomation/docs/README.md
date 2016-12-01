@@ -87,14 +87,18 @@ The format "testCase_\<class name>_\<function name>.py" is used to name driver m
 
 ##Walk through of automation
 
-###SetupTests
+Once all of your test cases are created, you can run the test automation framework with the ./scripts/runAllTests.sh script. All of the test cases are automatically generated from the test case text files listed in the ./testCases directory. It then iterates through the tests, running each one and then opening a browser with an HTML page of the results.
+
+###How it works
+
+####SetupTests
 
 The first thing that happens when the automation framework is run, is SetupTests is initialized. This initialization includes parsing the testCase text files in the ./testCases directory. SetupTests has a run method which begins by creating a Python TestSuite object. Then it takes the data previously parsed from ./testCases, creates an instance of JythonMusicTestCase for each, and passes them all into the TestSuite object. After the TestSuite is populated, SetupTests creates a CustomResults object and calls TestSuite.run(CustomResults). This runs the automation. Finally SetupTests opens the browser with an HTML page of the results.
 
-###JythonMusicTestCase
+####JythonMusicTestCase
 
 An instance of JythonMusicTestCase is created for each of the text files in the ./testCases directory. JythonMusicTestCase is a child of Python's TestCase class. It contains the logic for any method that is scoped to a module, however it needs class specific drivers in order to test methods within classes. As with any of Python's TestClass objects, JythonMusicTestCase can be run independently of a suite by simply calling JythonMusicTestCase.run(TestResults). You could even input your own implementation of the TestResults object: JythonMusicTestCase.run(MyTestResults).
 
-###CustomResults
+####CustomResults
 
 CustomResults contains all of the logic for creating an HTML document from the test results. Throughout the lifecycle of TestSuite's run method, CustomResults appends the results of each of the JythonMusicTestCases. After the suite is finished SetupTests calls CustomResult's getHTMLReport method which uses Python templating to write to an HTML document in ./reports/testReport.html.
