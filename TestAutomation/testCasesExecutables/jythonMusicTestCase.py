@@ -134,14 +134,14 @@ class JythonMusicTestCase(unittest.TestCase):
             try:
                 self.actualResults = getattr(getattr(self, self.testModule), self.testFunction)(*self.inputs)
             except Exception, e:
-                self.actualResults = type(e)
+                self.actualResults = type(e).__name__
         else:
             self.executableName = "testCase_" + str(testClass) + "_" + str(testFunction)
             setattr(self, self.executableName, __import__(self.executableName))
             try:
                 self.actualResults = getattr(self, self.executableName).test(*self.inputs)
             except Exception, e:
-                self.actualResults = type(e)
+                self.actualResults = type(e).__name__
 
     def importModules(self):
         sys.path.append(os.path.join(os.path.dirname(__file__), "../project/src"))

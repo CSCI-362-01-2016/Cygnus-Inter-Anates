@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd TestAutomation/scripts/
+cd scripts/
 
 sh jython.sh runTests.py
 
