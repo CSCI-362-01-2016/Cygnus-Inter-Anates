@@ -1,5 +1,6 @@
 import os, sys
 import unittest
+import exceptions
 sys.path.append(os.path.join(os.path.dirname(__file__), "../testCasesExecutables/"))
 import jythonMusicTestCase
 
@@ -39,6 +40,12 @@ def parse():
         #Evaluate output, keep the same if it is a string
         try:
             testOutput = eval(fileContents[i][6])
+            print str(testOutput)
+            try:
+                if isinstance(testOutput(), Exception):
+                    testOutput = testOutput.__name__
+            except:
+                testOutput = testOutput
         except:
             testOutput = fileContents[i][6]
         fileContents[i][6] = testOutput
